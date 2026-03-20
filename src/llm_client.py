@@ -25,7 +25,6 @@ def _get_client() -> Any:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key or api_key == "your_gemini_api_key_here":
         raise ValueError(
-            "GEMINI_API_KEY is not configured. Add your real API key to the .env file."
         )
 
     try:
