@@ -16,6 +16,11 @@ DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
 DEFAULT_TIMEOUT_SECONDS = 20
 
 
+def refresh_llm_environment() -> None:
+    """Reload environment variables so interactive CLI changes to .env take effect."""
+    load_dotenv(override=True)
+
+
 class LLMUnavailableError(RuntimeError):
     """Raised when a requested provider cannot be used."""
 

@@ -1,0 +1,559 @@
+{
+  "user_profile": {
+    "name": "Lee",
+    "target_role": "Data Analyst",
+    "skills": [
+      "Python",
+      "SQL",
+      "Analytics",
+      "Machine Learning"
+    ],
+    "interests": [],
+    "years_experience": 0.0,
+    "preferred_regions": [
+      "US",
+      "Canada"
+    ],
+    "needs_visa_sponsorship": true,
+    "has_work_authorization": false,
+    "open_to_remote": true,
+    "constraints": [
+      "Needs sponsorship",
+      "Wants growth-oriented industry"
+    ],
+    "experience_highlights": [
+      "Built SQL dashboards for business reviews",
+      "Shipped a forecasting model for demand planning",
+      "Partnered with stakeholders on analytics roadmaps"
+    ],
+    "internship_experiences": [
+      {
+        "company": "Arizona List Organization",
+        "title": "Data Analyst Intern",
+        "industry": "Political Data / Nonprofit Analytics",
+        "summary": "Improved voter outreach data quality and built KPI reporting to support campaign decision-making.",
+        "skills_used": [
+          "SQL",
+          "Python",
+          "Data Cleaning",
+          "KPI Reporting",
+          "Data Validation"
+        ],
+        "impact_points": [
+          "Improved voter outreach data quality and built KPI reporting to support campaign decision-making.",
+          "Cleaned and standardized weekly voter-contact data to improve data integrity and reporting accuracy.",
+          "Built reusable SQL query templates and KPI dashboards for leadership reporting.",
+          "Delivered structured insights to support outreach strategy and campaign operations decisions."
+        ]
+      },
+      {
+        "company": "University of Arizona - Lung Cancer Research Institute",
+        "title": "Student Researcher",
+        "industry": "Healthcare / Biomedical Data Science",
+        "summary": "Developed reproducible data analysis workflows to identify effective cancer cell reversal patterns.",
+        "skills_used": [
+          "Python",
+          "Clustering",
+          "Data Visualization",
+          "Outlier Detection",
+          "Statistical Analysis"
+        ],
+        "impact_points": [
+          "Developed reproducible data analysis workflows to identify effective cancer cell reversal patterns.",
+          "Built end-to-end analysis pipeline (cleaning, clustering, visualization) for multi-dataset research.",
+          "Applied K-means clustering to identify stable vs. significant biological response patterns.",
+          "Improved classification efficiency by 10% through optimized workflow design."
+        ]
+      },
+      {
+        "company": "USHER Technologies Inc.",
+        "title": "Data Analyst Intern",
+        "industry": "AI / Infrastructure / Disaster Analytics",
+        "summary": "Developed predictive models for earthquake damage assessment using sensor data.",
+        "skills_used": [
+          "Machine Learning",
+          "Python",
+          "Time Series",
+          "Data Validation"
+        ],
+        "impact_points": [
+          "Developed predictive models for earthquake damage assessment using sensor data.",
+          "Built ML model to predict post-earthquake sensor readings and detect anomalies.",
+          "Reduced manual inspection workload by 15% through automated damage assessment.",
+          "Validated model predictions against real-world inspection data for reliability."
+        ]
+      }
+    ],
+    "target_companies": []
+  },
+  "job_description": "",
+  "policy_result": {
+    "visa_risk": "high",
+    "mobility_strategy": "Prioritize regions and employers with stronger sponsorship patterns, global mobility, or remote-compatible operating models.",
+    "recommended_regions": [
+      "Canada",
+      "Remote"
+    ],
+    "priority_policy_themes": [
+      "National AI investment and enterprise AI adoption",
+      "Enterprise software productivity and decision intelligence"
+    ],
+    "constraints": [
+      "Needs employer visa sponsorship",
+      "Needs sponsorship",
+      "Remote-friendly teams expand the opportunity set",
+      "Wants growth-oriented industry"
+    ],
+    "opportunity_signals": [
+      "Policy tailwinds suggest prioritizing industries connected to: National AI investment and enterprise AI adoption.",
+      "Recommended regions to investigate first: Canada, Remote.",
+      "Use macro tailwinds to narrow industries before narrowing roles or specific employers."
+    ],
+    "explanation": null
+  },
+  "industry_result": {
+    "ranked_industries": [
+      {
+        "name": "Healthcare AI",
+        "score": 7.15,
+        "recommendation": "build bridge role path",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "key_skills": [
+          "analytics",
+          "healthcare",
+          "machine learning",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Healthcare digitization budgets",
+          "AI-enabled clinical workflow adoption",
+          "Data infrastructure modernization"
+        ],
+        "company_strategy_hint": "Clinical AI platform companies",
+        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
+        "sample_companies": [
+          "Tempus",
+          "Abridge",
+          "Flatiron Health"
+        ]
+      },
+      {
+        "name": "Enterprise SaaS",
+        "score": 6.8,
+        "recommendation": "build bridge role path",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "key_skills": [
+          "analytics",
+          "dashboarding",
+          "experimentation",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Enterprise productivity demand",
+          "AI copilots and workflow automation",
+          "Decision intelligence in software platforms"
+        ],
+        "company_strategy_hint": "Product-led SaaS platforms",
+        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
+        "sample_companies": [
+          "Datadog",
+          "HubSpot",
+          "Notion"
+        ]
+      },
+      {
+        "name": "Fintech",
+        "score": 6.55,
+        "recommendation": "build bridge role path",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "key_skills": [
+          "analytics",
+          "experimentation",
+          "python",
+          "risk",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Digital financial operations",
+          "Risk automation and trust infrastructure",
+          "Product analytics and growth efficiency"
+        ],
+        "company_strategy_hint": "Payments and infrastructure platforms",
+        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
+        "sample_companies": [
+          "Stripe",
+          "Plaid",
+          "Ramp"
+        ]
+      },
+      {
+        "name": "Climate and Energy Tech",
+        "score": 6.35,
+        "recommendation": "monitor as secondary option",
+        "why_now": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles. Policy alignment comes from Energy transition and grid modernization, Industrial efficiency and optimization.",
+        "key_skills": [
+          "analytics",
+          "forecasting",
+          "optimization",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Energy transition and grid modernization",
+          "Industrial efficiency and optimization",
+          "Public-private climate investment"
+        ],
+        "company_strategy_hint": "Grid and energy analytics companies",
+        "market_stage": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles.",
+        "sample_companies": [
+          "Aurora Solar",
+          "AutoGrid",
+          "Stem"
+        ]
+      },
+      {
+        "name": "Semiconductors and Advanced Manufacturing",
+        "score": 4.8,
+        "recommendation": "monitor as secondary option",
+        "why_now": "Industrial policy and compute demand are strengthening the full semiconductor value chain. Policy alignment comes from CHIPS-style industrial policy, Supply-chain resilience.",
+        "key_skills": [
+          "automation",
+          "forecasting",
+          "python",
+          "quality",
+          "statistics"
+        ],
+        "policy_alignment": [
+          "CHIPS-style industrial policy",
+          "Supply-chain resilience",
+          "Factory automation and yield optimization"
+        ],
+        "company_strategy_hint": "Chip design and platform companies",
+        "market_stage": "Industrial policy and compute demand are strengthening the full semiconductor value chain.",
+        "sample_companies": [
+          "NVIDIA",
+          "ASML",
+          "Applied Materials"
+        ]
+      }
+    ],
+    "top_industries": [
+      {
+        "name": "Healthcare AI",
+        "score": 7.15,
+        "recommendation": "build bridge role path",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "key_skills": [
+          "analytics",
+          "healthcare",
+          "machine learning",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Healthcare digitization budgets",
+          "AI-enabled clinical workflow adoption",
+          "Data infrastructure modernization"
+        ],
+        "company_strategy_hint": "Clinical AI platform companies",
+        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
+        "sample_companies": [
+          "Tempus",
+          "Abridge",
+          "Flatiron Health"
+        ]
+      },
+      {
+        "name": "Enterprise SaaS",
+        "score": 6.8,
+        "recommendation": "build bridge role path",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "key_skills": [
+          "analytics",
+          "dashboarding",
+          "experimentation",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Enterprise productivity demand",
+          "AI copilots and workflow automation",
+          "Decision intelligence in software platforms"
+        ],
+        "company_strategy_hint": "Product-led SaaS platforms",
+        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
+        "sample_companies": [
+          "Datadog",
+          "HubSpot",
+          "Notion"
+        ]
+      },
+      {
+        "name": "Fintech",
+        "score": 6.55,
+        "recommendation": "build bridge role path",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "key_skills": [
+          "analytics",
+          "experimentation",
+          "python",
+          "risk",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Digital financial operations",
+          "Risk automation and trust infrastructure",
+          "Product analytics and growth efficiency"
+        ],
+        "company_strategy_hint": "Payments and infrastructure platforms",
+        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
+        "sample_companies": [
+          "Stripe",
+          "Plaid",
+          "Ramp"
+        ]
+      }
+    ],
+    "selection_logic": [
+      "Industry is selected before role so the user can ride stronger policy and market tailwinds.",
+      "Scoring combines macro attractiveness, current skill fit, entry friendliness, and visa friction.",
+      "Top industries should feed company strategy before final role positioning."
+    ],
+    "explanation": null
+  },
+  "company_result": {
+    "target_company_types": [
+      "AI-native workflow software companies",
+      "Finance operations automation companies",
+      "Healthcare analytics and data infrastructure vendors",
+      "Payments and financial infrastructure platforms",
+      "Product-led SaaS platforms",
+      "Workflow-embedded healthcare AI platforms"
+    ],
+    "company_selection_rules": [
+      "Prioritize companies where data work influences revenue, product adoption, or operational efficiency.",
+      "Prefer teams where analytics sits close to decision-makers rather than isolated reporting functions.",
+      "Use industry tailwinds to narrow company types before narrowing exact job titles.",
+      "Favor companies with clear analyst-to-strategic-role progression and measurable first-project scope.",
+      "Add screening for international hiring maturity, remote flexibility, and globally distributed teams."
+    ],
+    "industry_analysis": [
+      "Healthcare AI rewards companies that connect model performance to clinical workflow adoption.",
+      "Data access, regulatory trust, and integration depth are stronger moats than generic model novelty.",
+      "Enterprise SaaS gives broad access to product, revenue, and usage data with relatively clear experimentation loops.",
+      "AI-native workflow software creates strong openings for analytics-driven product strategy roles.",
+      "Fintech companies create strong data roles where analytics links directly to growth, fraud, and retention.",
+      "The highest leverage teams sit close to risk, monetization, and operational automation."
+    ],
+    "market_analysis": [
+      "Hospitals and providers buy cautiously, so workflow ROI and trust are critical.",
+      "Platform businesses that embed into existing systems often scale better than point tools.",
+      "B2B buyers now expect AI augmentation and measurable productivity gains.",
+      "Companies with product-led data loops often develop stronger analyst and data scientist scope.",
+      "Efficiency-focused buyers reward products that reduce manual operations and trust failures.",
+      "Infrastructure and B2B fintech often provide clearer data ownership than consumer-only products."
+    ],
+    "value_chain_analysis": [
+      "High-value positions sit near clinical data infrastructure, documentation workflows, and decision support.",
+      "The best operating leverage comes from turning fragmented healthcare processes into repeatable data products.",
+      "The most strategic teams sit between product usage, monetization, and go-to-market efficiency.",
+      "Observability, collaboration, and workflow software each create strong instrumentation surfaces.",
+      "Payments rails, underwriting, and finance automation are strong analytics-heavy layers.",
+      "Companies with both product telemetry and transaction data tend to create richer role scope."
+    ],
+    "competitor_map": [
+      "Clinical AI platforms: Tempus, Abridge, Suki",
+      "Data and oncology infrastructure: Flatiron Health, Guardant Health",
+      "Observability and infrastructure: Datadog, New Relic",
+      "Collaboration and workflow: Notion, Asana, Airtable",
+      "Payments infrastructure: Stripe, Adyen, Checkout.com",
+      "Finance operations: Ramp, Brex, Airbase"
+    ],
+    "shortlisted_companies": [
+      {
+        "industry": "Healthcare AI",
+        "name": "Tempus",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "stage": "Growth-stage/public",
+        "focus": "Precision medicine and clinical data products",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption."
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Abridge",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "stage": "Growth-stage",
+        "focus": "Clinical documentation and workflow AI",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption."
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "Datadog",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Public",
+        "focus": "Instrumentation-heavy SaaS with strong product analytics",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation."
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "HubSpot",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Public",
+        "focus": "Growth, lifecycle, and customer platform analytics",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation."
+      },
+      {
+        "industry": "Fintech",
+        "name": "Stripe",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Mature/private",
+        "focus": "Payments infrastructure and product analytics",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure."
+      },
+      {
+        "industry": "Fintech",
+        "name": "Ramp",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Growth-stage",
+        "focus": "Finance automation and spend intelligence",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure."
+      }
+    ],
+    "why_these_companies": [
+      "Tempus fits because it sits inside Healthcare AI tailwinds and gives exposure to precision medicine and clinical data products.",
+      "Abridge fits because it sits inside Healthcare AI tailwinds and gives exposure to clinical documentation and workflow ai.",
+      "Datadog fits because it sits inside Enterprise SaaS tailwinds and gives exposure to instrumentation-heavy saas with strong product analytics.",
+      "HubSpot fits because it sits inside Enterprise SaaS tailwinds and gives exposure to growth, lifecycle, and customer platform analytics.",
+      "Stripe fits because it sits inside Fintech tailwinds and gives exposure to payments infrastructure and product analytics.",
+      "Ramp fits because it sits inside Fintech tailwinds and gives exposure to finance automation and spend intelligence."
+    ],
+    "explanation": null
+  },
+  "role_result": {
+    "recommended_paths": [
+      {
+        "industry": "Healthcare AI",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "role_title": "Data Analyst",
+        "path_type": "bridge",
+        "focus_areas": [
+          "analytics",
+          "healthcare",
+          "machine learning"
+        ],
+        "why_fit": [
+          "Industry selected first because Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+          "Company strategy points toward workflow-embedded healthcare ai platforms rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
+        ],
+        "success_metrics": [
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
+        ],
+        "example_companies": [
+          "Tempus",
+          "Abridge"
+        ]
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "company_type": "AI-native workflow software companies",
+        "role_title": "Data Analyst",
+        "path_type": "bridge",
+        "focus_areas": [
+          "analytics",
+          "dashboarding",
+          "experimentation"
+        ],
+        "why_fit": [
+          "Industry selected first because AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+          "Company strategy points toward ai-native workflow software companies rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
+        ],
+        "success_metrics": [
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
+        ],
+        "example_companies": [
+          "Datadog",
+          "HubSpot"
+        ]
+      },
+      {
+        "industry": "Fintech",
+        "company_type": "Payments and financial infrastructure platforms",
+        "role_title": "Business Intelligence Analyst",
+        "path_type": "bridge",
+        "focus_areas": [
+          "analytics",
+          "experimentation",
+          "python"
+        ],
+        "why_fit": [
+          "Industry selected first because The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+          "Company strategy points toward payments and financial infrastructure platforms rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
+        ],
+        "success_metrics": [
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
+        ],
+        "example_companies": [
+          "Stripe",
+          "Ramp"
+        ]
+      }
+    ],
+    "decision_principles": [
+      "Role path comes after industry and company strategy so the title reflects the market context.",
+      "Bridge roles are valid when they improve industry entry speed and future option value.",
+      "Choose roles where the first year can produce visible business impact, not just technical exposure."
+    ],
+    "explanation": null
+  },
+  "job_targeting_result": null,
+  "growth_result": {
+    "first_month_plan": [
+      "Map the operating context of Healthcare AI and learn its core metrics.",
+      "Build stakeholder understanding around precision medicine and clinical data products.",
+      "Ship one small but visible analysis, dashboard, or workflow improvement that proves execution speed.",
+      "Translate job requirements into a 30-day proof-of-value checklist."
+    ],
+    "month_2_3_plan": [
+      "Own a recurring analysis or decision-support workflow instead of one-off reporting.",
+      "Develop domain fluency so recommendations reflect industry economics, not just data outputs.",
+      "Turn one technical capability into a reusable artifact such as a dashboard, model, template, or playbook.",
+      "Strengthen cross-functional trust by connecting analysis to a business decision or operational win."
+    ],
+    "one_year_plan": [
+      "Become the go-to operator for data analyst problems.",
+      "Build a portfolio of impact stories that compound into promotion or stronger external positioning.",
+      "Expand from execution into prioritization by influencing what should be measured, automated, or changed.",
+      "Create option value for the next move across stronger roles, better companies, or deeper domain specialization."
+    ],
+    "daily_skill_accumulation": [
+      "Spend 30-45 minutes strengthening one role-critical skill with a concrete artifact every day.",
+      "Maintain a running evidence log of business impact, stakeholder wins, and domain insights.",
+      "Read one company, industry, or market note daily to stay macro-aware instead of tool-focused.",
+      "Refine one resume or narrative bullet each week using fresh evidence from projects."
+    ],
+    "value_creation_plan": [
+      "Target value creation where Healthcare AI has active tailwinds.",
+      "Focus on problems close to precision medicine and clinical data products.",
+      "Prefer work that reduces decision latency, improves forecast quality, or creates reusable operational leverage.",
+      "Document outcomes in a way that can later power interviews, resumes, and promotion cases."
+    ],
+    "cover_letter_growth_narrative": [
+      "I am targeting Healthcare AI because the macro and policy context supports durable demand.",
+      "I am especially interested in Tempus because they sit close to strategic operating problems.",
+      "My role path centers on becoming a high-leverage Data Analyst who can translate analysis into decisions.",
+      "I want my first year to compound into both immediate contribution and long-term industry positioning."
+    ],
+    "explanation": null
+  }
+}
