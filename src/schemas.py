@@ -37,6 +37,51 @@ def _as_float(value: Any) -> float:
 
 
 @dataclass(slots=True)
+class InternshipExperience:
+    company: str = ""
+    title: str = ""
+    industry: str = ""
+    summary: str = ""
+    skills_used: list[str] = field(default_factory=list)
+    impact_points: list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_value(cls, data: Any) -> "InternshipExperience":
+        if isinstance(data, cls):
+            return data
+        if isinstance(data, str):
+            text = data.strip()
+            return cls(summary=text, impact_points=[text] if text else [])
+        if isinstance(data, dict):
+            summary = str(data.get("summary", "")).strip()
+            impact_points = _as_list(data.get("impact_points"))
+            if summary and summary not in impact_points:
+                impact_points = [summary, *impact_points]
+            return cls(
+                company=str(data.get("company", "")).strip(),
+                title=str(data.get("title", "")).strip(),
+                industry=str(data.get("industry", "")).strip(),
+                summary=summary,
+                skills_used=_as_list(data.get("skills_used")),
+                impact_points=impact_points,
+            )
+        text = str(data).strip()
+        return cls(summary=text, impact_points=[text] if text else [])
+
+
+def _as_internships(value: Any) -> list[InternshipExperience]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        items = value
+    elif isinstance(value, tuple):
+        items = list(value)
+    else:
+        items = [value]
+    return [InternshipExperience.from_value(item) for item in items]
+
+
+@dataclass(slots=True)
 class UserProfile:
     name: str = ""
     target_role: str = ""
@@ -49,7 +94,23 @@ class UserProfile:
     open_to_remote: bool = False
     constraints: list[str] = field(default_factory=list)
     experience_highlights: list[str] = field(default_factory=list)
+    internship_experiences: list[InternshipExperience] = field(default_factory=list)
     target_companies: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.name = str(self.name).strip()
+        self.target_role = str(self.target_role).strip()
+        self.skills = _as_list(self.skills)
+        self.interests = _as_list(self.interests)
+        self.years_experience = _as_float(self.years_experience)
+        self.preferred_regions = _as_list(self.preferred_regions)
+        self.needs_visa_sponsorship = _as_bool(self.needs_visa_sponsorship)
+        self.has_work_authorization = _as_bool(self.has_work_authorization)
+        self.open_to_remote = _as_bool(self.open_to_remote)
+        self.constraints = _as_list(self.constraints)
+        self.experience_highlights = _as_list(self.experience_highlights)
+        self.internship_experiences = _as_internships(self.internship_experiences)
+        self.target_companies = _as_list(self.target_companies)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "UserProfile":
@@ -65,6 +126,7 @@ class UserProfile:
             open_to_remote=_as_bool(data.get("open_to_remote")),
             constraints=_as_list(data.get("constraints")),
             experience_highlights=_as_list(data.get("experience_highlights")),
+            internship_experiences=_as_internships(data.get("internship_experiences")),
             target_companies=_as_list(data.get("target_companies")),
         )
 

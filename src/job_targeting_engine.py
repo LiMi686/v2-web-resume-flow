@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import re
 from typing import Any
 
 try:
     from .schemas import (
         CompanyStrategyResult,
+        InternshipExperience,
         JobTargetingResult,
         RequirementMatch,
         RolePathResult,
@@ -17,6 +17,7 @@ try:
 except ImportError:
     from schemas import (
         CompanyStrategyResult,
+        InternshipExperience,
         JobTargetingResult,
         RequirementMatch,
         RolePathResult,
@@ -75,6 +76,8 @@ def _build_evidence(
     for highlight in profile.experience_highlights:
         if requirement_lower in highlight.lower():
             evidence.append(f"Experience highlight: {highlight}")
+    for internship in profile.internship_experiences:
+        evidence.extend(_build_internship_evidence(requirement_lower, internship))
 
     lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
     if lead_path and requirement in lead_path.focus_areas:
@@ -91,6 +94,33 @@ def _build_evidence(
         if item not in deduped:
             deduped.append(item)
     return deduped
+
+
+def _build_internship_evidence(
+    requirement_lower: str,
+    internship: InternshipExperience,
+) -> list[str]:
+    evidence: list[str] = []
+    internship_label = "Internship"
+    if internship.company and internship.title:
+        internship_label = f"Internship at {internship.company} as {internship.title}"
+    elif internship.company:
+        internship_label = f"Internship at {internship.company}"
+    elif internship.title:
+        internship_label = f"Internship as {internship.title}"
+
+    for skill in internship.skills_used:
+        skill_lower = skill.lower()
+        if requirement_lower in skill_lower or skill_lower in requirement_lower:
+            evidence.append(f"{internship_label}: used {skill}")
+
+    internship_texts = [internship.summary, *internship.impact_points]
+    for text in internship_texts:
+        cleaned = text.strip()
+        if cleaned and requirement_lower in cleaned.lower():
+            evidence.append(f"{internship_label}: {cleaned}")
+
+    return evidence
 
 
 def run_job_targeting(
@@ -133,7 +163,8 @@ def run_job_targeting(
     experience_alignment = [
         f"Target role path is {lead_path.role_title} in {lead_path.industry}." if lead_path else "Role path has not been selected.",
         f"Company strategy centers on {lead_company.company_type.lower()}." if lead_company else "No company strategy shortlist available.",
-        f"User brings {profile.years_experience:g} years of experience plus skills in {', '.join(profile.skills[:4]) or 'foundational analytics'}."
+        f"User brings {profile.years_experience:g} years of experience plus skills in {', '.join(profile.skills[:4]) or 'foundational analytics'}.",
+        f"Internship evidence available from {len(profile.internship_experiences)} role(s)." if profile.internship_experiences else "No structured internship evidence added yet.",
     ]
 
     matched_count = sum(match.matched for match in requirement_matches)
@@ -157,11 +188,13 @@ def run_job_targeting(
         f"Rewrite the summary to target {job_title} instead of a generic analytics profile.",
         "Add bullets that quantify business impact, stakeholder influence, and decision support.",
         "Mirror the JD's top requirements in project descriptions and ordering.",
+        "Turn internship outcomes into evidence bullets when they directly match the JD requirements.",
     ]
     cover_letter_inputs = [
         f"Explain why {lead_path.industry} is the strategic industry choice for you." if lead_path else "Explain why this market matters to you.",
         f"Show why {lead_company.name} is an attractive operating context." if lead_company else "Show why this employer context matters.",
         "Connect previous work to the exact business outcomes the JD seems to value.",
+        "Reference internship work when it proves domain fit or early execution ability.",
     ]
 
     return JobTargetingResult(

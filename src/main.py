@@ -15,12 +15,12 @@ except ImportError:
 def main() -> None:
     """Run a sample profile through the end-to-end strategy pipeline."""
     user_profile = UserProfile(
-        name="Alex",
+        name="Lee",
         target_role="Data Scientist",
         skills=["Python", "SQL", "Analytics", "Machine Learning"],
         interests=["Healthcare", "Climate", "AI Products"],
         years_experience=2,
-        preferred_regions=["US", "Canada", "UK"],
+        preferred_regions=["US", "Canada"],
         needs_visa_sponsorship=True,
         has_work_authorization=False,
         open_to_remote=True,
@@ -29,6 +29,20 @@ def main() -> None:
             "Built SQL dashboards for business reviews",
             "Shipped a forecasting model for demand planning",
             "Partnered with stakeholders on analytics roadmaps",
+        ],
+        internship_experiences=[
+            {
+                "company": "CareOps Analytics",
+                "title": "Data Analyst Intern",
+                "industry": "Healthcare AI",
+                "summary": "Supported healthcare operations analytics and automated weekly reporting for leadership.",
+                "skills_used": ["SQL", "Python", "Dashboarding", "Stakeholder Communication"],
+                "impact_points": [
+                    "Built SQL pipelines and dashboards for clinical operations reviews.",
+                    "Presented analysis to cross-functional stakeholders and translated findings into action items.",
+                    "Improved reporting turnaround time through lightweight automation.",
+                ],
+            }
         ],
     )
 
