@@ -1,75 +1,95 @@
-"""Policy analysis stage for the career pipeline."""
+"""Policy and region stage for the career strategy pipeline."""
 
 from __future__ import annotations
 
-from typing import Any
-
 try:
-    from .llm_client import generate_text
+    from .llm_client import generate_optional_text
+    from .schemas import PolicyResult, UserProfile, ensure_user_profile
 except ImportError:
-    from llm_client import generate_text
+    from llm_client import generate_optional_text
+    from schemas import PolicyResult, UserProfile, ensure_user_profile
 
 
-def _as_list(value: Any) -> list[str]:
-    if value is None:
-        return []
-    if isinstance(value, list):
-        return [str(item).strip() for item in value if str(item).strip()]
-    if isinstance(value, str):
-        return [item.strip() for item in value.split(",") if item.strip()]
-    return [str(value).strip()]
+def _collect_policy_themes(user_profile: UserProfile) -> list[str]:
+    combined_text = " ".join(
+        user_profile.skills + user_profile.interests + [user_profile.target_role]
+    ).lower()
+
+    themes: list[str] = []
+    if any(keyword in combined_text for keyword in {"ai", "machine learning", "ml", "llm"}):
+        themes.append("National AI investment and enterprise AI adoption")
+    if any(keyword in combined_text for keyword in {"health", "healthcare", "biotech"}):
+        themes.append("Healthcare digitization and AI-enabled clinical workflows")
+    if any(keyword in combined_text for keyword in {"energy", "climate", "sustainability"}):
+        themes.append("Energy transition, grid modernization, and industrial efficiency")
+    if any(keyword in combined_text for keyword in {"semiconductor", "chip", "manufacturing", "hardware"}):
+        themes.append("Advanced manufacturing and semiconductor supply-chain incentives")
+    if any(keyword in combined_text for keyword in {"analytics", "product", "saas", "experimentation"}):
+        themes.append("Enterprise software productivity and decision intelligence")
+
+    if not themes:
+        themes.append("Broad digital transformation and analytics modernization")
+    return themes
 
 
-def _safe_generate_text(prompt: str) -> str | None:
-    try:
-        return generate_text(prompt)
-    except Exception:
-        return None
+def run_policy_analysis(user_profile: UserProfile | dict[str, object]) -> PolicyResult:
+    """Summarize region and policy constraints before industry selection."""
+    profile = ensure_user_profile(user_profile)
+    recommended_regions = profile.preferred_regions[:] or ["US", "Canada", "UK"]
+    constraints = profile.constraints[:]
 
-
-def run_policy_analysis(user_profile: dict[str, Any]) -> dict[str, Any]:
-    """Return lightweight policy guidance based on user constraints."""
-    preferences = _as_list(user_profile.get("preferred_regions"))
-    constraints = _as_list(user_profile.get("constraints"))
-    visa_required = bool(user_profile.get("needs_visa_sponsorship"))
-    has_work_auth = bool(user_profile.get("has_work_authorization"))
-    open_to_remote = bool(user_profile.get("open_to_remote"))
-
-    if has_work_auth:
+    if profile.has_work_authorization:
         visa_risk = "low"
-    elif visa_required:
+        mobility_strategy = "Can target local hiring markets first, then add selective global opportunities."
+    elif profile.needs_visa_sponsorship:
         visa_risk = "high"
+        mobility_strategy = (
+            "Prioritize regions and employers with stronger sponsorship patterns, global mobility, "
+            "or remote-compatible operating models."
+        )
         constraints.append("Needs employer visa sponsorship")
     else:
         visa_risk = "medium"
+        mobility_strategy = "Can pursue multiple regions, but should validate work authorization early."
 
-    if open_to_remote:
-        constraints.append("Remote-friendly roles can widen options")
+    if profile.open_to_remote:
+        constraints.append("Remote-friendly teams expand the opportunity set")
+        if "Remote" not in recommended_regions:
+            recommended_regions.append("Remote")
 
-    recommended_regions = preferences[:] if preferences else ["US", "Canada", "UK"]
-    if visa_required and not has_work_auth:
+    if profile.needs_visa_sponsorship and not profile.has_work_authorization:
         recommended_regions = [
             region
             for region in recommended_regions
             if region in {"Canada", "UK", "Germany", "Singapore", "Remote"}
-        ] or ["Canada", "UK", "Germany", "Remote"]
+        ] or ["Canada", "UK", "Germany", "Singapore", "Remote"]
+
+    priority_policy_themes = _collect_policy_themes(profile)
+    opportunity_signals = [
+        f"Policy tailwinds suggest prioritizing industries connected to: {priority_policy_themes[0]}.",
+        f"Recommended regions to investigate first: {', '.join(recommended_regions)}.",
+        "Use macro tailwinds to narrow industries before narrowing roles or specific employers.",
+    ]
 
     explanation_prompt = f"""
-You are helping an AI job search assistant summarize policy implications.
+You are summarizing policy and region implications for a layered career strategy system.
 
 User profile:
-{user_profile}
+{profile.to_dict()}
 
-Return a concise explanation covering:
-1. visa or mobility risk
-2. practical constraints
-3. recommended regions to prioritize
+Return 3-4 concise sentences that explain:
+1. mobility or visa risk
+2. which regions to prioritize
+3. which policy themes create opportunity
 """
-    raw_text = _safe_generate_text(explanation_prompt)
+    explanation = generate_optional_text(explanation_prompt)
 
-    return {
-        "visa_risk": visa_risk,
-        "constraints": sorted(set(constraints)),
-        "recommended_regions": recommended_regions,
-        "raw_text": raw_text,
-    }
+    return PolicyResult(
+        visa_risk=visa_risk,
+        mobility_strategy=mobility_strategy,
+        recommended_regions=recommended_regions,
+        priority_policy_themes=priority_policy_themes,
+        constraints=sorted(set(constraints)),
+        opportunity_signals=opportunity_signals,
+        explanation=explanation,
+    )

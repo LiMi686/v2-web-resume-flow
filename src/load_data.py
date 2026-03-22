@@ -1,10 +1,16 @@
+"""Helpers for loading lightweight project datasets."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
 import pandas as pd
 
-def load_policy_sources(path="Data/policy_sources.csv"):
-    df = pd.read_csv(path)
-    return df
+
+def load_policy_sources(path: str = "Data/policy_sources.csv") -> pd.DataFrame:
+    """Load the policy source table used by the legacy analysis app."""
+    return pd.read_csv(Path(path))
 
 
 if __name__ == "__main__":
-    df = load_policy_sources()
-    print(df.head())
+    print(load_policy_sources().head())
