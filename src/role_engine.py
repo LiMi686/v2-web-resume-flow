@@ -126,12 +126,15 @@ def run_role_selection(
     elif len(args) == 2:
         policy_result, industry_result = args
         company_result = CompanyStrategyResult(
+            discovery_strategy=[],
             target_company_types=[],
             company_selection_rules=[],
+            ranking_logic=[],
             industry_analysis=[],
             market_analysis=[],
             value_chain_analysis=[],
             competitor_map=[],
+            retrieved_companies=[],
             shortlisted_companies=[],
             why_these_companies=[],
         )

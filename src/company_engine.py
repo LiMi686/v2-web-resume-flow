@@ -5,8 +5,11 @@ from __future__ import annotations
 from typing import Any
 
 try:
-    from .llm_client import generate_optional_text
+    from .company_ranker import rank_company_candidates
+    from .company_search_provider import get_company_search_provider
+    from .llm_client import generate_optional_json, generate_optional_text
     from .schemas import (
+        CompanySearchQuery,
         CompanyStrategyResult,
         CompanyTarget,
         IndustryResult,
@@ -15,8 +18,11 @@ try:
         ensure_user_profile,
     )
 except ImportError:
-    from llm_client import generate_optional_text
+    from company_ranker import rank_company_candidates
+    from company_search_provider import get_company_search_provider
+    from llm_client import generate_optional_json, generate_optional_text
     from schemas import (
+        CompanySearchQuery,
         CompanyStrategyResult,
         CompanyTarget,
         IndustryResult,
@@ -164,6 +170,53 @@ COMPANY_STRATEGY_KB = {
 }
 
 
+def _build_search_query(
+    profile: UserProfile,
+    industry_result: IndustryResult,
+) -> CompanySearchQuery:
+    return CompanySearchQuery(
+        industries=[industry.name for industry in industry_result.top_industries],
+        preferred_regions=profile.preferred_regions,
+        target_roles=[profile.target_role] if profile.target_role else [],
+        preferred_stages=["Series A", "Series B", "Growth-stage"],
+        needs_visa_sponsorship=profile.needs_visa_sponsorship,
+        open_to_remote=profile.open_to_remote,
+    )
+
+
+def _build_shortlist_rationales(
+    profile: UserProfile,
+    shortlisted_companies: list[CompanyTarget],
+) -> list[str]:
+    fallback = [
+        f"{company.name} fits because {company.why_match[0].lower() if company.why_match else 'it aligns with the chosen industry and company strategy'}"
+        for company in shortlisted_companies
+    ]
+    prompt = f"""
+You are helping shortlist companies for a layered career strategy system.
+
+User profile:
+{profile.to_dict()}
+
+Shortlisted companies:
+{shortlisted_companies}
+
+Return strict JSON with this shape:
+{{
+  "why_these_companies": ["reason 1", "reason 2", "reason 3"]
+}}
+Only return valid JSON.
+"""
+    llm_payload = generate_optional_json(prompt, fallback=None)
+    if isinstance(llm_payload, dict):
+        reasons = llm_payload.get("why_these_companies")
+        if isinstance(reasons, list):
+            cleaned = [str(item).strip() for item in reasons if str(item).strip()]
+            if cleaned:
+                return cleaned[: len(shortlisted_companies)]
+    return fallback
+
+
 def run_company_strategy(
     user_profile: UserProfile | dict[str, Any],
     policy_result: PolicyResult,
@@ -171,6 +224,12 @@ def run_company_strategy(
 ) -> CompanyStrategyResult:
     """Convert prioritized industries into a company strategy layer."""
     profile = ensure_user_profile(user_profile)
+    search_query = _build_search_query(profile, industry_result)
+    discovery_strategy = [
+        "Use retrieval to find industry-matched companies before asking the model to summarize them.",
+        "Prioritize A/B-stage signals when the provider has stage data; otherwise prefer growth-stage companies over mature incumbents.",
+        "Bias toward regions and operating models that fit the user's mobility constraints.",
+    ]
     target_company_types: list[str] = []
     company_selection_rules = [
         "Prioritize companies where data work influences revenue, product adoption, or operational efficiency.",
@@ -186,12 +245,16 @@ def run_company_strategy(
             "Add screening for international hiring maturity, remote flexibility, and globally distributed teams."
         )
 
+    ranking_logic = [
+        "Industry alignment is the base score because company discovery starts from the chosen sectors.",
+        "Company stage gets extra weight, with a preference for A/B-stage signals and then growth-stage firms.",
+        "Region fit, remote flexibility, and hiring signal quality help break ties.",
+    ]
     industry_analysis: list[str] = []
     market_analysis: list[str] = []
     value_chain_analysis: list[str] = []
     competitor_map: list[str] = []
-    shortlisted_companies: list[CompanyTarget] = []
-    why_these_companies: list[str] = []
+    retrieved_companies: list[CompanyTarget] = []
 
     for industry in industry_result.top_industries:
         config = COMPANY_STRATEGY_KB.get(industry.name)
@@ -204,21 +267,17 @@ def run_company_strategy(
         value_chain_analysis.extend(config["value_chain_analysis"])
         competitor_map.extend(config["competitor_map"])
 
-        for name, stage, focus in config["shortlisted_companies"][:2]:
-            company_type = config["company_types"][0]
-            shortlisted_companies.append(
-                CompanyTarget(
-                    industry=industry.name,
-                    name=name,
-                    company_type=company_type,
-                    stage=stage,
-                    focus=focus,
-                    why_now=industry.why_now,
-                )
-            )
-            why_these_companies.append(
-                f"{name} fits because it sits inside {industry.name} tailwinds and gives exposure to {focus.lower()}."
-            )
+    provider = get_company_search_provider()
+    retrieved_companies = provider.search(search_query)
+    ranked_companies = rank_company_candidates(retrieved_companies, search_query, profile)
+    shortlisted_companies = ranked_companies[:6]
+    for company in shortlisted_companies:
+        company.why_now = next(
+            (industry.why_now for industry in industry_result.top_industries if industry.name == company.industry),
+            company.why_now,
+        )
+
+    why_these_companies = _build_shortlist_rationales(profile, shortlisted_companies)
 
     explanation_prompt = f"""
 You are explaining company strategy in an industry-first career decision system.
@@ -229,18 +288,24 @@ User profile:
 Top industries:
 {industry_result.top_industries}
 
+Retrieved companies:
+{shortlisted_companies}
+
 Return 3 concise sentences on why company selection should be strategic instead of just a list of names.
 """
     explanation = generate_optional_text(explanation_prompt)
 
     return CompanyStrategyResult(
+        discovery_strategy=discovery_strategy,
         target_company_types=sorted(set(target_company_types)),
         company_selection_rules=company_selection_rules,
+        ranking_logic=ranking_logic,
         industry_analysis=industry_analysis,
         market_analysis=market_analysis,
         value_chain_analysis=value_chain_analysis,
         competitor_map=competitor_map,
-        shortlisted_companies=shortlisted_companies[:6],
+        retrieved_companies=ranked_companies,
+        shortlisted_companies=shortlisted_companies,
         why_these_companies=why_these_companies[:6],
         explanation=explanation,
     )

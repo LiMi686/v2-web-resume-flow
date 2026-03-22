@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 try:
+    from .llm_client import generate_optional_json
     from .schemas import (
         CompanyStrategyResult,
         InternshipExperience,
@@ -15,6 +16,7 @@ try:
         ensure_user_profile,
     )
 except ImportError:
+    from llm_client import generate_optional_json
     from schemas import (
         CompanyStrategyResult,
         InternshipExperience,
@@ -40,6 +42,15 @@ REQUIREMENT_CATALOG = {
 }
 
 
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned = [str(item).strip() for item in value if str(item).strip()]
+    if limit is not None:
+        return cleaned[:limit]
+    return cleaned
+
+
 def _guess_job_title(job_description: str, role_result: RolePathResult) -> str:
     first_line = next((line.strip() for line in job_description.splitlines() if line.strip()), "")
     if len(first_line) <= 80:
@@ -60,6 +71,45 @@ def _extract_requirements(job_description: str) -> list[str]:
     if not requirements:
         requirements = ["Analytics", "Stakeholder Communication", "SQL"]
     return requirements
+
+
+def _llm_job_alignment_payload(
+    profile: UserProfile,
+    role_result: RolePathResult,
+    company_result: CompanyStrategyResult,
+    job_description: str,
+    fallback_requirements: list[str],
+) -> dict[str, Any] | None:
+    prompt = f"""
+You are helping with job alignment for a layered career strategy system.
+
+User profile:
+{profile.to_dict()}
+
+Recommended role paths:
+{role_result.recommended_paths}
+
+Shortlisted companies:
+{company_result.shortlisted_companies[:3]}
+
+Job description:
+{job_description}
+
+Deterministic fallback requirements:
+{fallback_requirements}
+
+Return strict JSON with this shape:
+{{
+  "jd_summary": "short paragraph",
+  "key_requirements": ["requirement 1", "requirement 2"],
+  "positioning_strategy": ["point 1", "point 2", "point 3"],
+  "resume_rewrite_points": ["point 1", "point 2", "point 3"],
+  "cover_letter_inputs": ["point 1", "point 2", "point 3"]
+}}
+Only return valid JSON.
+"""
+    payload = generate_optional_json(prompt, fallback=None)
+    return payload if isinstance(payload, dict) else None
 
 
 def _build_evidence(
@@ -123,6 +173,21 @@ def _build_internship_evidence(
     return evidence
 
 
+def _select_lead_company(
+    company_result: CompanyStrategyResult,
+    role_result: RolePathResult,
+):
+    if not company_result.shortlisted_companies:
+        return None
+    lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
+    if not lead_path:
+        return company_result.shortlisted_companies[0]
+    for company in company_result.shortlisted_companies:
+        if company.industry == lead_path.industry:
+            return company
+    return company_result.shortlisted_companies[0]
+
+
 def run_job_targeting(
     user_profile: UserProfile | dict[str, Any],
     policy_result,
@@ -134,7 +199,18 @@ def run_job_targeting(
     """Convert a job description into evidence mapping and positioning guidance."""
     profile = ensure_user_profile(user_profile)
     job_title = _guess_job_title(job_description, role_result)
-    key_requirements = _extract_requirements(job_description)
+    fallback_requirements = _extract_requirements(job_description)
+    llm_payload = _llm_job_alignment_payload(
+        profile,
+        role_result,
+        company_result,
+        job_description,
+        fallback_requirements,
+    )
+    key_requirements = _clean_string_list(
+        llm_payload.get("key_requirements") if llm_payload else None,
+        limit=8,
+    ) or fallback_requirements
 
     requirement_matches: list[RequirementMatch] = []
     evidence_map: dict[str, list[str]] = {}
@@ -159,7 +235,7 @@ def run_job_targeting(
         evidence_map[requirement] = evidence
 
     lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
-    lead_company = company_result.shortlisted_companies[0] if company_result.shortlisted_companies else None
+    lead_company = _select_lead_company(company_result, role_result)
     experience_alignment = [
         f"Target role path is {lead_path.role_title} in {lead_path.industry}." if lead_path else "Role path has not been selected.",
         f"Company strategy centers on {lead_company.company_type.lower()}." if lead_company else "No company strategy shortlist available.",
@@ -177,20 +253,31 @@ def run_job_targeting(
         match_confidence = "low"
 
     jd_summary = (
-        "The JD appears to value a mix of technical execution, business communication, and role-specific domain context."
+        str(llm_payload.get("jd_summary")).strip()
+        if llm_payload and str(llm_payload.get("jd_summary", "")).strip()
+        else "The JD appears to value a mix of technical execution, business communication, and role-specific domain context."
     )
-    positioning_strategy = [
+    positioning_strategy = _clean_string_list(
+        llm_payload.get("positioning_strategy") if llm_payload else None,
+        limit=4,
+    ) or [
         "Lead with industry context first, then show why your skills fit this role inside that market.",
         "Use evidence that connects analysis to business or operational decisions instead of listing tools alone.",
         f"Frame your story around being ready to contribute inside {lead_path.company_type.lower()}." if lead_path else "Frame your story around measurable contribution.",
     ]
-    resume_rewrite_points = [
+    resume_rewrite_points = _clean_string_list(
+        llm_payload.get("resume_rewrite_points") if llm_payload else None,
+        limit=5,
+    ) or [
         f"Rewrite the summary to target {job_title} instead of a generic analytics profile.",
         "Add bullets that quantify business impact, stakeholder influence, and decision support.",
         "Mirror the JD's top requirements in project descriptions and ordering.",
         "Turn internship outcomes into evidence bullets when they directly match the JD requirements.",
     ]
-    cover_letter_inputs = [
+    cover_letter_inputs = _clean_string_list(
+        llm_payload.get("cover_letter_inputs") if llm_payload else None,
+        limit=5,
+    ) or [
         f"Explain why {lead_path.industry} is the strategic industry choice for you." if lead_path else "Explain why this market matters to you.",
         f"Show why {lead_company.name} is an attractive operating context." if lead_company else "Show why this employer context matters.",
         "Connect previous work to the exact business outcomes the JD seems to value.",

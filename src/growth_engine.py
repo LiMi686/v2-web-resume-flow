@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 try:
-    from .llm_client import generate_optional_text
+    from .llm_client import generate_optional_json, generate_optional_text
     from .schemas import (
         CompanyStrategyResult,
         GrowthPlanResult,
@@ -16,7 +16,7 @@ try:
         ensure_user_profile,
     )
 except ImportError:
-    from llm_client import generate_optional_text
+    from llm_client import generate_optional_json, generate_optional_text
     from schemas import (
         CompanyStrategyResult,
         GrowthPlanResult,
@@ -26,6 +26,30 @@ except ImportError:
         UserProfile,
         ensure_user_profile,
     )
+
+
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned = [str(item).strip() for item in value if str(item).strip()]
+    if limit is not None:
+        return cleaned[:limit]
+    return cleaned
+
+
+def _select_lead_company(
+    company_result: CompanyStrategyResult,
+    role_result: RolePathResult,
+):
+    if not company_result.shortlisted_companies:
+        return None
+    lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
+    if not lead_path:
+        return company_result.shortlisted_companies[0]
+    for company in company_result.shortlisted_companies:
+        if company.industry == lead_path.industry:
+            return company
+    return company_result.shortlisted_companies[0]
 
 
 def run_growth_plan(
@@ -40,7 +64,7 @@ def run_growth_plan(
     profile = ensure_user_profile(user_profile)
     lead_industry = industry_result.top_industries[0] if industry_result.top_industries else None
     lead_role = role_result.recommended_paths[0] if role_result.recommended_paths else None
-    lead_company = company_result.shortlisted_companies[0] if company_result.shortlisted_companies else None
+    lead_company = _select_lead_company(company_result, role_result)
     job_title = job_targeting_result.job_title if job_targeting_result else lead_role.role_title if lead_role else "target role"
 
     first_month_plan = [
@@ -79,6 +103,73 @@ def run_growth_plan(
         f"My role path centers on becoming a high-leverage {job_title} who can translate analysis into decisions.",
         "I want my first year to compound into both immediate contribution and long-term industry positioning.",
     ]
+
+    llm_growth_prompt = f"""
+You are building a growth plan for a layered career strategy system.
+
+User profile:
+{profile.to_dict()}
+
+Policy result:
+{policy_result}
+
+Lead industry:
+{lead_industry}
+
+Lead company:
+{lead_company}
+
+Lead role:
+{lead_role}
+
+Job targeting result:
+{job_targeting_result}
+
+Deterministic baseline:
+first_month_plan={first_month_plan}
+month_2_3_plan={month_2_3_plan}
+one_year_plan={one_year_plan}
+daily_skill_accumulation={daily_skill_accumulation}
+value_creation_plan={value_creation_plan}
+cover_letter_growth_narrative={cover_letter_growth_narrative}
+
+Return strict JSON with this shape:
+{{
+  "first_month_plan": ["..."],
+  "month_2_3_plan": ["..."],
+  "one_year_plan": ["..."],
+  "daily_skill_accumulation": ["..."],
+  "value_creation_plan": ["..."],
+  "cover_letter_growth_narrative": ["..."]
+}}
+Only return valid JSON.
+"""
+    llm_growth_payload = generate_optional_json(llm_growth_prompt, fallback=None)
+    if isinstance(llm_growth_payload, dict):
+        first_month_plan = _clean_string_list(
+            llm_growth_payload.get("first_month_plan"),
+            limit=5,
+        ) or first_month_plan
+        month_2_3_plan = _clean_string_list(
+            llm_growth_payload.get("month_2_3_plan"),
+            limit=5,
+        ) or month_2_3_plan
+        one_year_plan = _clean_string_list(
+            llm_growth_payload.get("one_year_plan"),
+            limit=5,
+        ) or one_year_plan
+        daily_skill_accumulation = _clean_string_list(
+            llm_growth_payload.get("daily_skill_accumulation"),
+            limit=5,
+        ) or daily_skill_accumulation
+        value_creation_plan = _clean_string_list(
+            llm_growth_payload.get("value_creation_plan"),
+            limit=5,
+        ) or value_creation_plan
+        cover_letter_growth_narrative = _clean_string_list(
+            llm_growth_payload.get("cover_letter_growth_narrative"),
+            limit=5,
+        ) or cover_letter_growth_narrative
 
     explanation_prompt = f"""
 You are refining a growth plan for a layered career strategy system.

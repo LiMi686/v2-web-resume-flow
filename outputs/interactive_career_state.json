@@ -86,7 +86,7 @@
     ],
     "target_companies": []
   },
-  "job_description": "",
+  "job_description": "At ST, we believe in the power of technology to drive innovation and make a positive impact on people, business, and society. We are a global semiconductor company, and our advanced technology & chips forms the hidden part of the world we live in today.\n\nWhen you join ST, you will be part of a global business of more than 115+ nationalities and present in 40 countries, 50,000+, diverse and dedicated creators & makers of technology around the world!\n\nDeveloping technologies takes more than talent: it takes amazing people who understands collaboration and respect. People with passion and desire to disrupt the status quo, push boundaries and drive innovation – whilst unlocking your own potential.\n\nWorking at ST means innovating for a future that we want to make smarter, greener, in a responsible and sustainable way. Our technology starts with you. Join us and start the future!\n\nWe are seeking a highly motivated and detail-oriented Data Analytics Intern to join our AME Strategic Marketing team. This intern will play a crucial role in analyzing semiconductor marketshare data, aggregating information from various internal and external databases, and developing insightful reports and dashboards using Microsoft Power BI. The ideal candidate will have a strong interest in data analysis, a foundational understanding of database concepts, and a desire to learn about the dynamic semiconductor industry.\n\nKey Responsibilities\n\nData Collection & Integration: Assist in identifying, collecting, and integrating semiconductor market share data from diverse sources, including internal sales databases, external market research reports, and public datasets.\nData Cleaning & Transformation: Support the cleaning, validation, and transformation of raw data to ensure accuracy, consistency, and usability for analysis.\nDatabase Aggregation: Work with existing database structures (e.g., SQL Server, Excel, CSVs) to aggregate and consolidate relevant marketshare information.\nPower BI Dashboard Development: Design, develop, and maintain interactive dashboards and reports in Microsoft Power BI to visualize semiconductor market trends, competitive landscapes, and marketshare shifts.\nData Analysis: Conduct preliminary data analysis to identify key trends, patterns, and anomalies within the semiconductor market.\nReporting & Presentation: Contribute to the preparation of regular marketshare reports and presentations for internal stakeholders.\nDocumentation: Document data sources, data transformation processes, and Power BI dashboard logic.\nAd-hoc Support: Provide support for ad-hoc data requests and analytical projects as needed.\n\nQualifications\n\nEducation: Currently enrolled in Master's degree program in Data Science, Business Analytics, Statistics, Economics, Computer Science, Engineering, or a related quantitative field.\nTechnical Skills:\nBasic understanding of relational databases and SQL.\nFamiliarity with Microsoft Excel (pivot tables, VLOOKUP, data manipulation).\nExposure to Microsoft Power BI (dashboard creation, DAX).\nBasic programming skills (e.g., Python for data manipulation) are a plus but not required.\nAnalytical Skills: Strong analytical and problem-solving abilities with an aptitude for working with large datasets.\nAttention to Detail: High level of accuracy and attention to detail in data handling and reporting.\nCommunication: Good verbal and written communication skills.\nInitiative: Proactive, self-starter with a strong desire to learn and contribute.\nIndustry Interest: Demonstrated interest in the semiconductor industry and market dynamics.\nLearning Opportunities\n\nGain hands-on experience with real-world semiconductor market data.\nDevelop expertise in Power BI for business intelligence and data visualization.\nEnhance SQL skills and learn about database integration strategies.\nUnderstand the intricacies of market share analysis and competitive intelligence.\nWork closely with experienced data analysts and business stakeholders.\nOpportunity to contribute to impactful business decisions.\n\nWe encourage candidates who may not meet every single requirement to apply, as we appreciate diverse perspectives and provide opportunities for growth and learning. Diversity, Equity and Inclusion (DEI) is part of our company culture. Our DEI vision is, “At ST, you can be the true version of yourself”, we value all employee contributions and have zero tolerance for any kind of discrimination.\n\nJoining us is also about a greater work-life balance and workplace with equal opportunities. Dedicated Employee Resource Groups for women and LGBTQIA+, hybrid work arrangements are amongst the many DEI & Sustainability initiatives that make us a great place to evolve your career.",
   "policy_result": {
     "visa_risk": "high",
     "mobility_strategy": "Prioritize regions and employers with stronger sponsorship patterns, global mobility, or remote-compatible operating models.",
@@ -324,6 +324,11 @@
     "explanation": null
   },
   "company_result": {
+    "discovery_strategy": [
+      "Use retrieval to find industry-matched companies before asking the model to summarize them.",
+      "Prioritize A/B-stage signals when the provider has stage data; otherwise prefer growth-stage companies over mature incumbents.",
+      "Bias toward regions and operating models that fit the user's mobility constraints."
+    ],
     "target_company_types": [
       "AI-native workflow software companies",
       "Finance operations automation companies",
@@ -338,6 +343,11 @@
       "Use industry tailwinds to narrow company types before narrowing exact job titles.",
       "Favor companies with clear analyst-to-strategic-role progression and measurable first-project scope.",
       "Add screening for international hiring maturity, remote flexibility, and globally distributed teams."
+    ],
+    "ranking_logic": [
+      "Industry alignment is the base score because company discovery starts from the chosen sectors.",
+      "Company stage gets extra weight, with a preference for A/B-stage signals and then growth-stage firms.",
+      "Region fit, remote flexibility, and hiring signal quality help break ties."
     ],
     "industry_analysis": [
       "Healthcare AI rewards companies that connect model performance to clinical workflow adoption.",
@@ -371,14 +381,26 @@
       "Payments infrastructure: Stripe, Adyen, Checkout.com",
       "Finance operations: Ramp, Brex, Airbase"
     ],
-    "shortlisted_companies": [
+    "retrieved_companies": [
       {
-        "industry": "Healthcare AI",
-        "name": "Tempus",
-        "company_type": "Workflow-embedded healthcare AI platforms",
-        "stage": "Growth-stage/public",
-        "focus": "Precision medicine and clinical data products",
-        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption."
+        "industry": "Enterprise SaaS",
+        "name": "Notion",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Growth-stage",
+        "focus": "AI-enhanced collaboration software",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "region": "US/Remote",
+        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important",
+        "source": "local_kb",
+        "fit_score": 11.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Enterprise SaaS.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US/Remote.",
+          "Hiring signal: Product analytics and AI workflow instrumentation are strategically important.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
       },
       {
         "industry": "Healthcare AI",
@@ -386,23 +408,75 @@
         "company_type": "Workflow-embedded healthcare AI platforms",
         "stage": "Growth-stage",
         "focus": "Clinical documentation and workflow AI",
-        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption."
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "region": "US",
+        "hiring_signal": "AI workflow teams often hire analytics and product-minded operators",
+        "source": "local_kb",
+        "fit_score": 11.0,
+        "why_match": [
+          "Retrieved from the prioritized industry: Healthcare AI.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: AI workflow teams often hire analytics and product-minded operators.",
+          "Company context fits an analytics-first bridge role."
+        ]
       },
       {
-        "industry": "Enterprise SaaS",
-        "name": "Datadog",
-        "company_type": "AI-native workflow software companies",
-        "stage": "Public",
-        "focus": "Instrumentation-heavy SaaS with strong product analytics",
-        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation."
+        "industry": "Fintech",
+        "name": "Ramp",
+        "company_type": "Finance operations automation companies",
+        "stage": "Growth-stage",
+        "focus": "Finance automation and spend intelligence",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "US",
+        "hiring_signal": "High-leverage analytics roles tied to product and operations",
+        "source": "local_kb",
+        "fit_score": 11.0,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: High-leverage analytics roles tied to product and operations.",
+          "Company context fits an analytics-first bridge role."
+        ]
+      },
+      {
+        "industry": "Fintech",
+        "name": "Plaid",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Growth-stage",
+        "focus": "Financial data connectivity",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "US",
+        "hiring_signal": "Strong product analytics and data platform surface area",
+        "source": "local_kb",
+        "fit_score": 9.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: Strong product analytics and data platform surface area."
+        ]
       },
       {
         "industry": "Enterprise SaaS",
         "name": "HubSpot",
-        "company_type": "AI-native workflow software companies",
+        "company_type": "Product-led SaaS platforms",
         "stage": "Public",
         "focus": "Growth, lifecycle, and customer platform analytics",
-        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation."
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "region": "US/Remote",
+        "hiring_signal": "Analytics often sits close to go-to-market and product decisions",
+        "source": "local_kb",
+        "fit_score": 9.6,
+        "why_match": [
+          "Retrieved from the prioritized industry: Enterprise SaaS.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Region aligns with preference: US/Remote.",
+          "Hiring signal: Analytics often sits close to go-to-market and product decisions.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
       },
       {
         "industry": "Fintech",
@@ -410,24 +484,203 @@
         "company_type": "Payments and financial infrastructure platforms",
         "stage": "Mature/private",
         "focus": "Payments infrastructure and product analytics",
-        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure."
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "Global/Remote",
+        "hiring_signal": "Large analytics footprint across payments, risk, and product growth",
+        "source": "local_kb",
+        "fit_score": 9.2,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Remote option helps widen the search despite region mismatch.",
+          "Hiring signal: Large analytics footprint across payments, risk, and product growth.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Tempus",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "stage": "Public",
+        "focus": "Precision medicine and clinical data products",
+        "why_now": "Retrieved for Healthcare AI from the local company discovery knowledge base.",
+        "region": "US",
+        "hiring_signal": "Data and analytics work ties closely to clinical and product decisions",
+        "source": "local_kb",
+        "fit_score": 8.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Healthcare AI.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Region aligns with preference: US.",
+          "Hiring signal: Data and analytics work ties closely to clinical and product decisions.",
+          "Company context fits an analytics-first bridge role."
+        ]
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Flatiron Health",
+        "company_type": "Healthcare analytics and data infrastructure vendors",
+        "stage": "Mature",
+        "focus": "Oncology data infrastructure",
+        "why_now": "Retrieved for Healthcare AI from the local company discovery knowledge base.",
+        "region": "US",
+        "hiring_signal": "Data-heavy operating environment with healthcare domain depth",
+        "source": "local_kb",
+        "fit_score": 8.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Healthcare AI.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Region aligns with preference: US.",
+          "Hiring signal: Data-heavy operating environment with healthcare domain depth.",
+          "Company context fits an analytics-first bridge role."
+        ]
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "Datadog",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Public",
+        "focus": "Instrumentation-heavy SaaS with strong product analytics",
+        "why_now": "Retrieved for Enterprise SaaS from the local company discovery knowledge base.",
+        "region": "US",
+        "hiring_signal": "Strong data and experimentation opportunities in product-led software",
+        "source": "local_kb",
+        "fit_score": 8.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Enterprise SaaS.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Region aligns with preference: US.",
+          "Hiring signal: Strong data and experimentation opportunities in product-led software.",
+          "Company context fits an analytics-first bridge role."
+        ]
+      }
+    ],
+    "shortlisted_companies": [
+      {
+        "industry": "Enterprise SaaS",
+        "name": "Notion",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Growth-stage",
+        "focus": "AI-enhanced collaboration software",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "region": "US/Remote",
+        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important",
+        "source": "local_kb",
+        "fit_score": 11.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Enterprise SaaS.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US/Remote.",
+          "Hiring signal: Product analytics and AI workflow instrumentation are strategically important.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Abridge",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "stage": "Growth-stage",
+        "focus": "Clinical documentation and workflow AI",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "region": "US",
+        "hiring_signal": "AI workflow teams often hire analytics and product-minded operators",
+        "source": "local_kb",
+        "fit_score": 11.0,
+        "why_match": [
+          "Retrieved from the prioritized industry: Healthcare AI.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: AI workflow teams often hire analytics and product-minded operators.",
+          "Company context fits an analytics-first bridge role."
+        ]
       },
       {
         "industry": "Fintech",
         "name": "Ramp",
-        "company_type": "Payments and financial infrastructure platforms",
+        "company_type": "Finance operations automation companies",
         "stage": "Growth-stage",
         "focus": "Finance automation and spend intelligence",
-        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure."
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "US",
+        "hiring_signal": "High-leverage analytics roles tied to product and operations",
+        "source": "local_kb",
+        "fit_score": 11.0,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: High-leverage analytics roles tied to product and operations.",
+          "Company context fits an analytics-first bridge role."
+        ]
+      },
+      {
+        "industry": "Fintech",
+        "name": "Plaid",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Growth-stage",
+        "focus": "Financial data connectivity",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "US",
+        "hiring_signal": "Strong product analytics and data platform surface area",
+        "source": "local_kb",
+        "fit_score": 9.8,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Matches preferred company stage: Growth-stage",
+          "Region aligns with preference: US.",
+          "Hiring signal: Strong product analytics and data platform surface area."
+        ]
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "HubSpot",
+        "company_type": "Product-led SaaS platforms",
+        "stage": "Public",
+        "focus": "Growth, lifecycle, and customer platform analytics",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "region": "US/Remote",
+        "hiring_signal": "Analytics often sits close to go-to-market and product decisions",
+        "source": "local_kb",
+        "fit_score": 9.6,
+        "why_match": [
+          "Retrieved from the prioritized industry: Enterprise SaaS.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Region aligns with preference: US/Remote.",
+          "Hiring signal: Analytics often sits close to go-to-market and product decisions.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
+      },
+      {
+        "industry": "Fintech",
+        "name": "Stripe",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Mature/private",
+        "focus": "Payments infrastructure and product analytics",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "region": "Global/Remote",
+        "hiring_signal": "Large analytics footprint across payments, risk, and product growth",
+        "source": "local_kb",
+        "fit_score": 9.2,
+        "why_match": [
+          "Retrieved from the prioritized industry: Fintech.",
+          "Mature company offers stronger stability but is less aligned with A/B-stage preference.",
+          "Remote option helps widen the search despite region mismatch.",
+          "Hiring signal: Large analytics footprint across payments, risk, and product growth.",
+          "Company context fits an analytics-first bridge role.",
+          "Global or remote context may reduce mobility friction."
+        ]
       }
     ],
     "why_these_companies": [
-      "Tempus fits because it sits inside Healthcare AI tailwinds and gives exposure to precision medicine and clinical data products.",
-      "Abridge fits because it sits inside Healthcare AI tailwinds and gives exposure to clinical documentation and workflow ai.",
-      "Datadog fits because it sits inside Enterprise SaaS tailwinds and gives exposure to instrumentation-heavy saas with strong product analytics.",
-      "HubSpot fits because it sits inside Enterprise SaaS tailwinds and gives exposure to growth, lifecycle, and customer platform analytics.",
-      "Stripe fits because it sits inside Fintech tailwinds and gives exposure to payments infrastructure and product analytics.",
-      "Ramp fits because it sits inside Fintech tailwinds and gives exposure to finance automation and spend intelligence."
+      "Notion fits because retrieved from the prioritized industry: enterprise saas.",
+      "Abridge fits because retrieved from the prioritized industry: healthcare ai.",
+      "Ramp fits because retrieved from the prioritized industry: fintech.",
+      "Plaid fits because retrieved from the prioritized industry: fintech.",
+      "HubSpot fits because retrieved from the prioritized industry: enterprise saas.",
+      "Stripe fits because retrieved from the prioritized industry: fintech."
     ],
     "explanation": null
   },
@@ -454,7 +707,6 @@
           "Translate analysis into a decision, automation, or workflow improvement"
         ],
         "example_companies": [
-          "Tempus",
           "Abridge"
         ]
       },
@@ -479,13 +731,13 @@
           "Translate analysis into a decision, automation, or workflow improvement"
         ],
         "example_companies": [
-          "Datadog",
+          "Notion",
           "HubSpot"
         ]
       },
       {
         "industry": "Fintech",
-        "company_type": "Payments and financial infrastructure platforms",
+        "company_type": "Finance operations automation companies",
         "role_title": "Business Intelligence Analyst",
         "path_type": "bridge",
         "focus_areas": [
@@ -495,7 +747,7 @@
         ],
         "why_fit": [
           "Industry selected first because The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
-          "Company strategy points toward payments and financial infrastructure platforms rather than generic employer lists.",
+          "Company strategy points toward finance operations automation companies rather than generic employer lists.",
           "Policy mobility context is currently high risk."
         ],
         "success_metrics": [
@@ -504,8 +756,9 @@
           "Translate analysis into a decision, automation, or workflow improvement"
         ],
         "example_companies": [
-          "Stripe",
-          "Ramp"
+          "Ramp",
+          "Plaid",
+          "Stripe"
         ]
       }
     ],
@@ -516,11 +769,138 @@
     ],
     "explanation": null
   },
-  "job_targeting_result": null,
+  "job_targeting_result": {
+    "job_title": "Data Analyst",
+    "jd_summary": "The JD appears to value a mix of technical execution, business communication, and role-specific domain context.",
+    "key_requirements": [
+      "Python",
+      "SQL",
+      "Analytics",
+      "Dashboarding",
+      "Stakeholder Communication",
+      "Statistics"
+    ],
+    "requirement_matches": [
+      {
+        "requirement": "Python",
+        "importance": "high",
+        "matched": true,
+        "evidence": [
+          "Existing skill: Python",
+          "Internship at Arizona List Organization as Data Analyst Intern: used Python",
+          "Internship at University of Arizona - Lung Cancer Research Institute as Student Researcher: used Python",
+          "Internship at USHER Technologies Inc. as Data Analyst Intern: used Python"
+        ],
+        "gap_notes": []
+      },
+      {
+        "requirement": "SQL",
+        "importance": "high",
+        "matched": true,
+        "evidence": [
+          "Existing skill: SQL",
+          "Experience highlight: Built SQL dashboards for business reviews",
+          "Internship at Arizona List Organization as Data Analyst Intern: used SQL",
+          "Internship at Arizona List Organization as Data Analyst Intern: Built reusable SQL query templates and KPI dashboards for leadership reporting."
+        ],
+        "gap_notes": []
+      },
+      {
+        "requirement": "Analytics",
+        "importance": "high",
+        "matched": true,
+        "evidence": [
+          "Existing skill: Analytics",
+          "Experience highlight: Partnered with stakeholders on analytics roadmaps",
+          "Target companies expect analytics tied to ai-enhanced collaboration software"
+        ],
+        "gap_notes": []
+      },
+      {
+        "requirement": "Dashboarding",
+        "importance": "high",
+        "matched": false,
+        "evidence": [],
+        "gap_notes": [
+          "Need stronger proof for Dashboarding in role-specific stories or projects."
+        ]
+      },
+      {
+        "requirement": "Stakeholder Communication",
+        "importance": "medium",
+        "matched": true,
+        "evidence": [
+          "Can frame work around measurable business decisions and stakeholder influence"
+        ],
+        "gap_notes": []
+      },
+      {
+        "requirement": "Statistics",
+        "importance": "medium",
+        "matched": false,
+        "evidence": [],
+        "gap_notes": [
+          "Need stronger proof for Statistics in role-specific stories or projects."
+        ]
+      }
+    ],
+    "experience_alignment": [
+      "Target role path is Data Analyst in Healthcare AI.",
+      "Company strategy centers on workflow-embedded healthcare ai platforms.",
+      "User brings 0 years of experience plus skills in Python, SQL, Analytics, Machine Learning.",
+      "Internship evidence available from 3 role(s)."
+    ],
+    "evidence_map": {
+      "Python": [
+        "Existing skill: Python",
+        "Internship at Arizona List Organization as Data Analyst Intern: used Python",
+        "Internship at University of Arizona - Lung Cancer Research Institute as Student Researcher: used Python",
+        "Internship at USHER Technologies Inc. as Data Analyst Intern: used Python"
+      ],
+      "SQL": [
+        "Existing skill: SQL",
+        "Experience highlight: Built SQL dashboards for business reviews",
+        "Internship at Arizona List Organization as Data Analyst Intern: used SQL",
+        "Internship at Arizona List Organization as Data Analyst Intern: Built reusable SQL query templates and KPI dashboards for leadership reporting."
+      ],
+      "Analytics": [
+        "Existing skill: Analytics",
+        "Experience highlight: Partnered with stakeholders on analytics roadmaps",
+        "Target companies expect analytics tied to ai-enhanced collaboration software"
+      ],
+      "Dashboarding": [],
+      "Stakeholder Communication": [
+        "Can frame work around measurable business decisions and stakeholder influence"
+      ],
+      "Statistics": []
+    },
+    "gap_analysis": [
+      "Dashboarding: add a concrete project, quantified example, or domain-specific case to strengthen credibility.",
+      "Statistics: add a concrete project, quantified example, or domain-specific case to strengthen credibility."
+    ],
+    "positioning_strategy": [
+      "Lead with industry context first, then show why your skills fit this role inside that market.",
+      "Use evidence that connects analysis to business or operational decisions instead of listing tools alone.",
+      "Frame your story around being ready to contribute inside workflow-embedded healthcare ai platforms."
+    ],
+    "resume_rewrite_points": [
+      "Rewrite the summary to target Data Analyst instead of a generic analytics profile.",
+      "Add bullets that quantify business impact, stakeholder influence, and decision support.",
+      "Mirror the JD's top requirements in project descriptions and ordering.",
+      "Turn internship outcomes into evidence bullets when they directly match the JD requirements."
+    ],
+    "cover_letter_inputs": [
+      "Explain why Healthcare AI is the strategic industry choice for you.",
+      "Show why Abridge is an attractive operating context.",
+      "Connect previous work to the exact business outcomes the JD seems to value.",
+      "Reference internship work when it proves domain fit or early execution ability."
+    ],
+    "match_confidence": "medium"
+  },
   "growth_result": {
     "first_month_plan": [
       "Map the operating context of Healthcare AI and learn its core metrics.",
-      "Build stakeholder understanding around precision medicine and clinical data products.",
+      "Build stakeholder understanding around clinical documentation and workflow ai.",
       "Ship one small but visible analysis, dashboard, or workflow improvement that proves execution speed.",
       "Translate job requirements into a 30-day proof-of-value checklist."
     ],
@@ -544,13 +924,13 @@
     ],
     "value_creation_plan": [
       "Target value creation where Healthcare AI has active tailwinds.",
-      "Focus on problems close to precision medicine and clinical data products.",
+      "Focus on problems close to clinical documentation and workflow ai.",
       "Prefer work that reduces decision latency, improves forecast quality, or creates reusable operational leverage.",
       "Document outcomes in a way that can later power interviews, resumes, and promotion cases."
     ],
     "cover_letter_growth_narrative": [
       "I am targeting Healthcare AI because the macro and policy context supports durable demand.",
-      "I am especially interested in Tempus because they sit close to strategic operating problems.",
+      "I am especially interested in Abridge because they sit close to strategic operating problems.",
       "My role path centers on becoming a high-leverage Data Analyst who can translate analysis into decisions.",
       "I want my first year to compound into both immediate contribution and long-term industry positioning."
     ],

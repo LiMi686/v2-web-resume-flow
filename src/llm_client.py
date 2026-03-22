@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 from typing import Any
@@ -151,6 +152,22 @@ def generate_text(prompt: str) -> str:
 def generate_optional_text(prompt: str, fallback: str | None = None) -> str | None:
     try:
         return get_llm_client().generate(prompt)
+    except Exception:
+        return fallback
+
+
+def _extract_json_block(text: str) -> str:
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end < start:
+        raise ValueError("No JSON object found in model response.")
+    return text[start : end + 1]
+
+
+def generate_optional_json(prompt: str, fallback: Any = None) -> Any:
+    try:
+        raw_text = get_llm_client().generate(prompt)
+        return json.loads(_extract_json_block(raw_text))
     except Exception:
         return fallback
 

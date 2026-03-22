@@ -174,19 +174,37 @@ class CompanyTarget:
     stage: str
     focus: str
     why_now: str
+    region: str = ""
+    hiring_signal: str = ""
+    source: str = ""
+    fit_score: float = 0.0
+    why_match: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
 class CompanyStrategyResult:
+    discovery_strategy: list[str]
     target_company_types: list[str]
     company_selection_rules: list[str]
+    ranking_logic: list[str]
     industry_analysis: list[str]
     market_analysis: list[str]
     value_chain_analysis: list[str]
     competitor_map: list[str]
+    retrieved_companies: list[CompanyTarget]
     shortlisted_companies: list[CompanyTarget]
     why_these_companies: list[str]
     explanation: str | None = None
+
+
+@dataclass(slots=True)
+class CompanySearchQuery:
+    industries: list[str]
+    preferred_regions: list[str]
+    target_roles: list[str]
+    preferred_stages: list[str] = field(default_factory=list)
+    needs_visa_sponsorship: bool = False
+    open_to_remote: bool = False
 
 
 @dataclass(slots=True)

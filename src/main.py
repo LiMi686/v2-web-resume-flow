@@ -203,12 +203,17 @@ def _show_company_stage(state: CareerState) -> None:
     if result is None:
         return
     _print_section("Company Strategy")
+    _print_list("Discovery strategy", result.discovery_strategy)
     _print_list("Target company types", result.target_company_types)
     _print_list("Company selection rules", result.company_selection_rules)
+    _print_list("Ranking logic", result.ranking_logic)
+    print(f"Retrieved company candidates: {len(result.retrieved_companies)}")
     print("Shortlisted companies:")
     for company in result.shortlisted_companies:
-        print(f"- {company.name} | {company.industry} | {company.company_type}")
+        print(f"- {company.name} | {company.industry} | {company.company_type} | score={company.fit_score}")
         print(f"  Focus: {company.focus}")
+        if company.why_match:
+            print(f"  Why match: {company.why_match[0]}")
     _print_explanation_if_present(result.explanation)
 
 
