@@ -8,7 +8,9 @@ instead of starting directly from job applications.
 
 ## 🔻 Career Strategy Funnel
 
-![Career Strategy Funnel](career_strategy_funnel.png)
+<p align="center">
+  <img src="career_strategy_funnel.png" width="500"/>
+</p>
 
 ---
 
