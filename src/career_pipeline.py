@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 try:
+    from .application_assets_engine import run_application_assets
     from .company_engine import run_company_strategy
     from .growth_engine import run_growth_plan
     from .industry_engine import run_industry_selection
@@ -13,6 +14,7 @@ try:
     from .role_engine import run_role_path
     from .schemas import CareerState, UserProfile, create_initial_state
 except ImportError:
+    from application_assets_engine import run_application_assets
     from company_engine import run_company_strategy
     from growth_engine import run_growth_plan
     from industry_engine import run_industry_selection
@@ -26,7 +28,7 @@ def run_career_pipeline(
     user_profile: UserProfile | dict[str, Any],
     job_description: str = "",
 ) -> CareerState:
-    """Run the policy -> industry -> company -> role -> job -> growth pipeline."""
+    """Run the policy -> industry -> company -> role -> job -> growth -> application pipeline."""
     state = create_initial_state(user_profile, job_description=job_description.strip())
 
     state.policy_result = run_policy_analysis(state.user_profile)
@@ -61,5 +63,13 @@ def run_career_pipeline(
         state.role_result,
         state.job_targeting_result,
     )
+    if state.job_targeting_result:
+        state.application_assets_result = run_application_assets(
+            state.user_profile,
+            state.company_result,
+            state.role_result,
+            state.job_targeting_result,
+            state.growth_result,
+        )
 
     return state

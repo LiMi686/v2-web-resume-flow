@@ -104,7 +104,9 @@ Return strict JSON with this shape:
   "key_requirements": ["requirement 1", "requirement 2"],
   "positioning_strategy": ["point 1", "point 2", "point 3"],
   "resume_rewrite_points": ["point 1", "point 2", "point 3"],
-  "cover_letter_inputs": ["point 1", "point 2", "point 3"]
+  "cover_letter_inputs": ["point 1", "point 2", "point 3"],
+  "tailored_resume_bullets": ["bullet 1", "bullet 2", "bullet 3"],
+  "why_this_role_answer": "short answer"
 }}
 Only return valid JSON.
 """
@@ -186,6 +188,46 @@ def _select_lead_company(
         if company.industry == lead_path.industry:
             return company
     return company_result.shortlisted_companies[0]
+
+
+def _build_tailored_resume_bullets(
+    profile: UserProfile,
+    role_result: RolePathResult,
+    key_requirements: list[str],
+    evidence_map: dict[str, list[str]],
+) -> list[str]:
+    lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
+    bullets: list[str] = []
+
+    for requirement in key_requirements[:3]:
+        evidence_items = evidence_map.get(requirement, [])
+        evidence_text = evidence_items[0] if evidence_items else "Built a project or workflow that shows direct execution."
+        bullets.append(
+            f"Demonstrated {requirement.lower()} capability through {evidence_text.lower()}, aligned with the target path into {lead_path.role_title if lead_path else profile.target_role or 'the role'}."
+        )
+
+    if not bullets:
+        bullets.append(
+            f"Positioned for {lead_path.role_title if lead_path else profile.target_role or 'this role'} through a mix of internships, project execution, and business-facing analytics work."
+        )
+    return bullets[:4]
+
+
+def _build_why_this_role_answer(
+    profile: UserProfile,
+    lead_path,
+    lead_company,
+    job_title: str,
+    match_confidence: str,
+) -> str:
+    industry_name = lead_path.industry if lead_path else "this market"
+    company_context = lead_company.name if lead_company else "companies in this category"
+    return (
+        f"I am targeting {job_title} because it sits at the intersection of {industry_name}, "
+        f"measurable business impact, and the kind of operating context represented by {company_context}. "
+        f"My background already shows early evidence in analytics execution, and the current fit is {match_confidence}, "
+        f"which makes this role a realistic but still growth-oriented next step."
+    )
 
 
 def run_job_targeting(
@@ -283,6 +325,26 @@ def run_job_targeting(
         "Connect previous work to the exact business outcomes the JD seems to value.",
         "Reference internship work when it proves domain fit or early execution ability.",
     ]
+    tailored_resume_bullets = _clean_string_list(
+        llm_payload.get("tailored_resume_bullets") if llm_payload else None,
+        limit=4,
+    ) or _build_tailored_resume_bullets(
+        profile,
+        role_result,
+        key_requirements,
+        evidence_map,
+    )
+    why_this_role_answer = (
+        str(llm_payload.get("why_this_role_answer", "")).strip()
+        if llm_payload
+        else ""
+    ) or _build_why_this_role_answer(
+        profile,
+        lead_path,
+        lead_company,
+        job_title,
+        match_confidence,
+    )
 
     return JobTargetingResult(
         job_title=job_title,
@@ -295,5 +357,7 @@ def run_job_targeting(
         positioning_strategy=positioning_strategy,
         resume_rewrite_points=resume_rewrite_points,
         cover_letter_inputs=cover_letter_inputs,
+        tailored_resume_bullets=tailored_resume_bullets,
+        why_this_role_answer=why_this_role_answer,
         match_confidence=match_confidence,
     )

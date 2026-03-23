@@ -63,8 +63,16 @@ def rank_company_candidates(
             score += 1.0
             reasons.append(f"Hiring signal: {candidate.hiring_signal}.")
 
+        if candidate.international_environment:
+            if candidate.international_environment in {"high", "medium-high"}:
+                score += 0.8
+                reasons.append("International operating context can widen communication patterns and mobility options.")
+            elif candidate.international_environment == "medium":
+                score += 0.4
+                reasons.append("Moderate international exposure may still support broader collaboration experience.")
+
         candidate_text = " ".join(
-            [candidate.company_type, candidate.focus, candidate.name]
+            [candidate.company_type, candidate.focus, candidate.name, candidate.orientation]
         ).lower()
         if "analyst" in target_role_text and any(
             token in candidate_text for token in {"analytics", "product", "workflow", "operations"}
@@ -77,11 +85,27 @@ def rank_company_candidates(
             score += 1.2
             reasons.append("Company context supports a data-science-heavy trajectory.")
 
+        if candidate.orientation == "technical" and any(
+            token in target_role_text for token in {"scientist", "ml", "engineer"}
+        ):
+            score += 0.8
+            reasons.append("Technical orientation fits a model- or systems-heavy path.")
+        if candidate.orientation == "business" and "analyst" in target_role_text:
+            score += 0.8
+            reasons.append("Business-facing operating model fits an analyst role centered on decisions.")
+
         if user_profile.needs_visa_sponsorship and (
             "global" in candidate.region.lower() or "remote" in candidate.region.lower()
         ):
             score += 0.8
             reasons.append("Global or remote context may reduce mobility friction.")
+        if user_profile.needs_visa_sponsorship and candidate.visa_support_likelihood:
+            if candidate.visa_support_likelihood in {"medium-high", "high"}:
+                score += 0.9
+                reasons.append("Profile indicates a comparatively better chance of visa support.")
+            elif candidate.visa_support_likelihood == "medium":
+                score += 0.4
+                reasons.append("Visa support is not guaranteed, but the context looks more viable than average.")
 
         ranked_candidates.append(
             replace(

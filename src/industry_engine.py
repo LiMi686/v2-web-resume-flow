@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 try:
-    from .llm_client import generate_optional_text
+    from .llm_client import generate_optional_json, generate_optional_text
     from .schemas import (
         IndustryRecommendation,
         IndustryResult,
@@ -14,7 +15,7 @@ try:
         ensure_user_profile,
     )
 except ImportError:
-    from llm_client import generate_optional_text
+    from llm_client import generate_optional_json, generate_optional_text
     from schemas import (
         IndustryRecommendation,
         IndustryResult,
@@ -175,6 +176,154 @@ def _recommendation_for_score(score: float, skill_fit: int) -> str:
     return "monitor as secondary option"
 
 
+def _trend_summary(industry: dict[str, Any]) -> str:
+    return (
+        f"{industry['market_stage']} Current momentum is reinforced by "
+        f"{', '.join(industry['policy_alignment'][:2])}."
+    )
+
+
+def _entry_barriers(
+    industry: dict[str, Any],
+    profile: UserProfile,
+    policy_result: PolicyResult,
+    skill_overlap: int,
+) -> list[str]:
+    barriers = [
+        f"This path usually rewards candidates who already show evidence in {', '.join(sorted(industry['skills'])[:3])}.",
+    ]
+    if skill_overlap < 2:
+        barriers.append("Current skill overlap is still shallow, so a bridge role or stronger portfolio proof may be needed.")
+    if industry["entry_friendliness"] <= 5:
+        barriers.append("Entry is less forgiving because domain fluency and execution proof matter early.")
+    if policy_result.visa_risk == "high" and industry["visa_friendliness"] <= 5:
+        barriers.append("Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup.")
+    if profile.years_experience < 1.5:
+        barriers.append("Early-career candidates should emphasize internships, projects, and fast ramp potential.")
+    return barriers[:4]
+
+
+def _long_term_growth(industry: dict[str, Any]) -> str:
+    if industry["attractiveness"] >= 9:
+        return "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion."
+    if industry["attractiveness"] >= 8:
+        return "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows."
+    return "Long-term growth exists, but it will depend more on company choice and the specific role scope."
+
+
+def _personalized_reason(
+    industry: dict[str, Any],
+    profile: UserProfile,
+    skill_overlap: int,
+    interest_overlap: int,
+) -> str:
+    reasons: list[str] = []
+    if skill_overlap:
+        matched_skills = sorted(
+            skill for skill in _as_lower_set(profile.skills) if skill in industry["skills"]
+        )
+        reasons.append(
+            f"Your current toolkit already overlaps with this sector through {', '.join(matched_skills[:3]) or 'core analytics skills'}."
+        )
+    if interest_overlap:
+        reasons.append("Your stated interests already point toward this market, which lowers the risk of pursuing a forced fit.")
+    if profile.target_role:
+        reasons.append(
+            f"The industry also supports a credible path into {profile.target_role} via company environments that value applied analytics."
+        )
+    if not reasons:
+        reasons.append("This is more of a strategic option than an obvious personal fit right now.")
+    return " ".join(reasons[:3])
+
+
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned = [str(item).strip() for item in value if str(item).strip()]
+    if limit is not None:
+        return cleaned[:limit]
+    return cleaned
+
+
+def _apply_llm_enrichment(
+    profile: UserProfile,
+    policy_result: PolicyResult,
+    recommendations: list[IndustryRecommendation],
+) -> list[IndustryRecommendation]:
+    prompt = f"""
+You are enriching industry prioritization for a layered career strategy system.
+
+User profile:
+{profile.to_dict()}
+
+Policy result:
+{policy_result}
+
+Deterministic ranked industries:
+{recommendations}
+
+Return strict JSON with this shape:
+{{
+  "industry_overrides": [
+    {{
+      "name": "industry name",
+      "trend_summary": "1-2 sentences",
+      "entry_barriers": ["barrier 1", "barrier 2"],
+      "long_term_growth": "1-2 sentences",
+      "personalized_reason": "why this user fits",
+      "priority_modifier": 0.0
+    }}
+  ]
+}}
+Only return valid JSON.
+"""
+    payload = generate_optional_json(prompt, fallback=None)
+    if not isinstance(payload, dict):
+        return recommendations
+
+    raw_overrides = payload.get("industry_overrides")
+    if not isinstance(raw_overrides, list):
+        return recommendations
+
+    override_map = {
+        str(item.get("name", "")).strip(): item
+        for item in raw_overrides
+        if isinstance(item, dict) and str(item.get("name", "")).strip()
+    }
+
+    enriched: list[IndustryRecommendation] = []
+    for recommendation in recommendations:
+        override = override_map.get(recommendation.name, {})
+        updated = replace(recommendation)
+
+        trend_summary = str(override.get("trend_summary", "")).strip()
+        if trend_summary:
+            updated.trend_summary = trend_summary
+
+        entry_barriers = _clean_string_list(override.get("entry_barriers"), limit=4)
+        if entry_barriers:
+            updated.entry_barriers = entry_barriers
+
+        long_term_growth = str(override.get("long_term_growth", "")).strip()
+        if long_term_growth:
+            updated.long_term_growth = long_term_growth
+
+        personalized_reason = str(override.get("personalized_reason", "")).strip()
+        if personalized_reason:
+            updated.personalized_reason = personalized_reason
+
+        try:
+            priority_modifier = float(override.get("priority_modifier", 0.0))
+        except (TypeError, ValueError):
+            priority_modifier = 0.0
+        priority_modifier = max(-0.75, min(0.75, priority_modifier))
+        updated.score = round(updated.score + priority_modifier, 2)
+        enriched.append(updated)
+
+    enriched.sort(key=lambda item: item.score, reverse=True)
+    return enriched
+
+
 def run_industry_selection(
     user_profile: UserProfile | dict[str, Any], policy_result: PolicyResult
 ) -> IndustryResult:
@@ -216,10 +365,20 @@ def run_industry_selection(
                 company_strategy_hint=industry["company_types"][0],
                 market_stage=industry["market_stage"],
                 sample_companies=industry["sample_companies"],
+                trend_summary=_trend_summary(industry),
+                entry_barriers=_entry_barriers(industry, profile, policy_result, skill_overlap),
+                long_term_growth=_long_term_growth(industry),
+                personalized_reason=_personalized_reason(
+                    industry,
+                    profile,
+                    skill_overlap,
+                    interest_overlap,
+                ),
             )
         )
 
     ranked_industries.sort(key=lambda item: item.score, reverse=True)
+    ranked_industries = _apply_llm_enrichment(profile, policy_result, ranked_industries)
     top_industries = ranked_industries[:3]
 
     selection_logic = [

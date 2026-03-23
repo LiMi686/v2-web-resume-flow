@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 try:
@@ -170,6 +171,15 @@ COMPANY_STRATEGY_KB = {
 }
 
 
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned = [str(item).strip() for item in value if str(item).strip()]
+    if limit is not None:
+        return cleaned[:limit]
+    return cleaned
+
+
 def _build_search_query(
     profile: UserProfile,
     industry_result: IndustryResult,
@@ -182,6 +192,35 @@ def _build_search_query(
         needs_visa_sponsorship=profile.needs_visa_sponsorship,
         open_to_remote=profile.open_to_remote,
     )
+
+
+def _fallback_company_summary(company: CompanyTarget) -> tuple[str, str, str]:
+    fit_summary = (
+        f"{company.name} looks useful if you want exposure to {company.focus.lower()} "
+        f"inside a {company.stage.lower()} company context."
+    )
+    candidate_explanation = (
+        f"This company sits in {company.industry}, leans {company.orientation or 'balanced'} in its operating style, "
+        f"and can help you build value near {company.focus.lower()}."
+    )
+    role_value_potential = (
+        f"Potential value is strongest when you connect analytics work to {company.focus.lower()} "
+        f"and the company's core operating decisions."
+    )
+    return fit_summary, candidate_explanation, role_value_potential
+
+
+def _build_candidate_takeaways(shortlisted_companies: list[CompanyTarget]) -> list[str]:
+    if not shortlisted_companies:
+        return []
+    takeaways = [
+        "The shortlist favors companies where data work is tied to real operating decisions instead of isolated reporting.",
+        "Stage preference leans toward A/B-style or growth-stage environments, while still keeping a few mature comparators for context.",
+        "The best company choice is the one where your first year can produce visible business value and credible story-building evidence.",
+    ]
+    if any(company.international_environment in {"high", "medium-high"} for company in shortlisted_companies):
+        takeaways.append("International or remote-friendly environments can improve flexibility for candidates with mobility constraints.")
+    return takeaways[:4]
 
 
 def _build_shortlist_rationales(
@@ -215,6 +254,87 @@ Only return valid JSON.
             if cleaned:
                 return cleaned[: len(shortlisted_companies)]
     return fallback
+
+
+def _apply_company_llm_enrichment(
+    profile: UserProfile,
+    industry_result: IndustryResult,
+    shortlisted_companies: list[CompanyTarget],
+) -> tuple[list[CompanyTarget], list[str]]:
+    if not shortlisted_companies:
+        return shortlisted_companies, []
+
+    prompt = f"""
+You are enriching company strategy for a layered career decision system.
+
+User profile:
+{profile.to_dict()}
+
+Top industries:
+{industry_result.top_industries}
+
+Shortlisted companies:
+{shortlisted_companies}
+
+Return strict JSON with this shape:
+{{
+  "company_evaluations": [
+    {{
+      "name": "company name",
+      "user_fit_summary": "short paragraph",
+      "candidate_explanation": "candidate-facing explanation",
+      "role_value_potential": "how this company could create career value"
+    }}
+  ],
+  "candidate_facing_takeaways": ["takeaway 1", "takeaway 2", "takeaway 3"]
+}}
+Only return valid JSON.
+"""
+    payload = generate_optional_json(prompt, fallback=None)
+    fallback_takeaways = _build_candidate_takeaways(shortlisted_companies)
+    if not isinstance(payload, dict):
+        enriched_companies = []
+        for company in shortlisted_companies:
+            fit_summary, candidate_explanation, role_value_potential = _fallback_company_summary(company)
+            enriched_companies.append(
+                replace(
+                    company,
+                    user_fit_summary=fit_summary,
+                    candidate_explanation=candidate_explanation,
+                    role_value_potential=role_value_potential,
+                )
+            )
+        return enriched_companies, fallback_takeaways
+
+    raw_evaluations = payload.get("company_evaluations")
+    evaluation_map: dict[str, dict[str, Any]] = {}
+    if isinstance(raw_evaluations, list):
+        evaluation_map = {
+            str(item.get("name", "")).strip(): item
+            for item in raw_evaluations
+            if isinstance(item, dict) and str(item.get("name", "")).strip()
+        }
+
+    enriched_companies: list[CompanyTarget] = []
+    for company in shortlisted_companies:
+        fit_summary, candidate_explanation, role_value_potential = _fallback_company_summary(company)
+        evaluation = evaluation_map.get(company.name, {})
+        enriched_companies.append(
+            replace(
+                company,
+                user_fit_summary=str(evaluation.get("user_fit_summary", "")).strip() or fit_summary,
+                candidate_explanation=str(evaluation.get("candidate_explanation", "")).strip()
+                or candidate_explanation,
+                role_value_potential=str(evaluation.get("role_value_potential", "")).strip()
+                or role_value_potential,
+            )
+        )
+
+    candidate_facing_takeaways = _clean_string_list(
+        payload.get("candidate_facing_takeaways"),
+        limit=4,
+    ) or fallback_takeaways
+    return enriched_companies, candidate_facing_takeaways
 
 
 def run_company_strategy(
@@ -277,6 +397,11 @@ def run_company_strategy(
             company.why_now,
         )
 
+    shortlisted_companies, candidate_facing_takeaways = _apply_company_llm_enrichment(
+        profile,
+        industry_result,
+        shortlisted_companies,
+    )
     why_these_companies = _build_shortlist_rationales(profile, shortlisted_companies)
 
     explanation_prompt = f"""
@@ -307,6 +432,7 @@ Return 3 concise sentences on why company selection should be strategic instead 
         retrieved_companies=ranked_companies,
         shortlisted_companies=shortlisted_companies,
         why_these_companies=why_these_companies[:6],
+        candidate_facing_takeaways=candidate_facing_takeaways,
         explanation=explanation,
     )
 

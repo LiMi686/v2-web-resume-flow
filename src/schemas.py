@@ -156,6 +156,10 @@ class IndustryRecommendation:
     company_strategy_hint: str
     market_stage: str
     sample_companies: list[str]
+    trend_summary: str = ""
+    entry_barriers: list[str] = field(default_factory=list)
+    long_term_growth: str = ""
+    personalized_reason: str = ""
 
 
 @dataclass(slots=True)
@@ -179,6 +183,12 @@ class CompanyTarget:
     source: str = ""
     fit_score: float = 0.0
     why_match: list[str] = field(default_factory=list)
+    international_environment: str = ""
+    orientation: str = ""
+    visa_support_likelihood: str = ""
+    user_fit_summary: str = ""
+    candidate_explanation: str = ""
+    role_value_potential: str = ""
 
 
 @dataclass(slots=True)
@@ -194,6 +204,7 @@ class CompanyStrategyResult:
     retrieved_companies: list[CompanyTarget]
     shortlisted_companies: list[CompanyTarget]
     why_these_companies: list[str]
+    candidate_facing_takeaways: list[str] = field(default_factory=list)
     explanation: str | None = None
 
 
@@ -247,6 +258,8 @@ class JobTargetingResult:
     positioning_strategy: list[str]
     resume_rewrite_points: list[str]
     cover_letter_inputs: list[str]
+    tailored_resume_bullets: list[str]
+    why_this_role_answer: str
     match_confidence: str
 
 
@@ -258,6 +271,21 @@ class GrowthPlanResult:
     daily_skill_accumulation: list[str]
     value_creation_plan: list[str]
     cover_letter_growth_narrative: list[str]
+    priority_gaps: list[str]
+    prioritized_skills: list[str]
+    project_recommendations: list[str]
+    job_search_strategy: list[str]
+    explanation: str | None = None
+
+
+@dataclass(slots=True)
+class ApplicationAssetsResult:
+    tailored_resume_bullets: list[str]
+    cover_letter_draft: str
+    cold_email_message: str
+    networking_message: str
+    why_this_role_answer: str
+    linkedin_summary: str
     explanation: str | None = None
 
 
@@ -271,6 +299,7 @@ class CareerState:
     role_result: RolePathResult | None = None
     job_targeting_result: JobTargetingResult | None = None
     growth_result: GrowthPlanResult | None = None
+    application_assets_result: ApplicationAssetsResult | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

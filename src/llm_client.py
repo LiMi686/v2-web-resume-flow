@@ -14,6 +14,7 @@ load_dotenv()
 DEFAULT_PROVIDER = "gemini"
 DEFAULT_MODE = "auto"
 DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
+DEFAULT_GROUNDED_MODEL = "gemini-3-flash-preview"
 DEFAULT_TIMEOUT_SECONDS = 20
 
 
@@ -168,6 +169,57 @@ def generate_optional_json(prompt: str, fallback: Any = None) -> Any:
     try:
         raw_text = get_llm_client().generate(prompt)
         return json.loads(_extract_json_block(raw_text))
+    except Exception:
+        return fallback
+
+
+def _get_grounded_model() -> str:
+    return os.getenv("GEMINI_GROUNDED_MODEL", DEFAULT_GROUNDED_MODEL).strip() or DEFAULT_GROUNDED_MODEL
+
+
+def generate_optional_grounded_json(prompt: str, fallback: Any = None) -> Any:
+    try:
+        config = get_llm_config()
+        client = get_llm_client()
+        if not isinstance(client, GeminiLLMClient) or not client.is_available():
+            return fallback
+
+        from google import genai
+        from google.genai import types
+
+        response = genai.Client(api_key=client._api_key).models.generate_content(
+            model=_get_grounded_model(),
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())]
+            ),
+        )
+        payload = json.loads(_extract_json_block(getattr(response, "text", "") or ""))
+
+        candidate = response.candidates[0] if getattr(response, "candidates", None) else None
+        grounding_metadata = getattr(candidate, "grounding_metadata", None)
+        web_search_queries = list(getattr(grounding_metadata, "web_search_queries", []) or [])
+        grounding_chunks = list(getattr(grounding_metadata, "grounding_chunks", []) or [])
+
+        grounding_sources: list[dict[str, str]] = []
+        seen_uris: set[str] = set()
+        for chunk in grounding_chunks:
+            web = getattr(chunk, "web", None)
+            uri = str(getattr(web, "uri", "") or "").strip()
+            title = str(getattr(web, "title", "") or "").strip()
+            if not uri or uri in seen_uris:
+                continue
+            seen_uris.add(uri)
+            grounding_sources.append({"title": title, "uri": uri})
+
+        if isinstance(payload, dict):
+            payload["_grounding"] = {
+                "model": _get_grounded_model(),
+                "queries": [str(item).strip() for item in web_search_queries if str(item).strip()],
+                "sources": grounding_sources,
+            }
+            return payload
+        return fallback
     except Exception:
         return fallback
 

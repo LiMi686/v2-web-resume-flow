@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 
 try:
+    from .application_assets_engine import run_application_assets
     from .company_engine import run_company_strategy
     from .growth_engine import run_growth_plan
     from .industry_engine import run_industry_selection
@@ -16,6 +17,7 @@ try:
     from .role_engine import run_role_path
     from .schemas import CareerState, UserProfile, create_initial_state
 except ImportError:
+    from application_assets_engine import run_application_assets
     from company_engine import run_company_strategy
     from growth_engine import run_growth_plan
     from industry_engine import run_industry_selection
@@ -123,6 +125,7 @@ def _configure_llm_interactively() -> None:
     )
     if not wants_llm:
         os.environ["LLM_MODE"] = "disabled"
+        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
         print("Gemini explanations disabled. The deterministic pipeline will still run.")
         return
 
@@ -146,6 +149,7 @@ def _configure_llm_interactively() -> None:
             action = "skip"
         if action == "skip":
             os.environ["LLM_MODE"] = "disabled"
+            os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
             print("Continuing without Gemini explanations.")
             return
 
@@ -155,6 +159,32 @@ def _configure_llm_interactively() -> None:
             print(f"Gemini is ready with model: {status['model']}")
             return
         print("Gemini is still unavailable. Check GEMINI_API_KEY and dependency installation, or type 'skip'.")
+
+
+def _configure_company_search_interactively() -> None:
+    _print_section("Company Search Setup")
+    if os.environ.get("LLM_MODE", "disabled").strip().lower() == "disabled":
+        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
+        print("Gemini is disabled, so Company Strategy will use the local provider.")
+        return
+
+    refresh_llm_environment()
+    status = llm_status()
+    if not status["available"]:
+        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
+        print("Gemini is unavailable right now, so Company Strategy will use the local provider.")
+        return
+
+    use_grounded_company_search = _prompt_yes_no(
+        "Use Gemini-grounded company search here to prioritize A/B-stage companies?", default=True
+    )
+    os.environ["COMPANY_SEARCH_PROVIDER"] = (
+        "gemini_grounded" if use_grounded_company_search else "local"
+    )
+    if use_grounded_company_search:
+        print("Company Strategy will try live grounded search first, then fall back to local results if needed.")
+    else:
+        print("Company Strategy will stay on the local provider.")
 
 
 def _collect_job_description() -> str:
@@ -193,6 +223,9 @@ def _show_industry_stage(state: CareerState) -> None:
     for index, industry in enumerate(result.top_industries, start=1):
         print(f"{index}. {industry.name} | score={industry.score} | {industry.recommendation}")
         print(f"   Why now: {industry.why_now}")
+        print(f"   Trend summary: {industry.trend_summary}")
+        print(f"   Long-term growth: {industry.long_term_growth}")
+        print(f"   Why you: {industry.personalized_reason}")
         print(f"   Company hint: {industry.company_strategy_hint}")
     _print_list("Selection logic", result.selection_logic)
     _print_explanation_if_present(result.explanation)
@@ -212,8 +245,17 @@ def _show_company_stage(state: CareerState) -> None:
     for company in result.shortlisted_companies:
         print(f"- {company.name} | {company.industry} | {company.company_type} | score={company.fit_score}")
         print(f"  Focus: {company.focus}")
+        print(
+            f"  Region: {company.region} | Intl: {company.international_environment} | "
+            f"Orientation: {company.orientation} | Stage: {company.stage} | Visa: {company.visa_support_likelihood}"
+        )
+        if company.source:
+            print(f"  Source: {company.source}")
         if company.why_match:
             print(f"  Why match: {company.why_match[0]}")
+        if company.user_fit_summary:
+            print(f"  Fit summary: {company.user_fit_summary}")
+    _print_list("Candidate-facing takeaways", result.candidate_facing_takeaways)
     _print_explanation_if_present(result.explanation)
 
 
@@ -248,6 +290,8 @@ def _show_job_stage(state: CareerState) -> None:
             print(f"  Evidence: {evidence}")
     _print_list("Gap analysis", result.gap_analysis)
     _print_list("Resume rewrite points", result.resume_rewrite_points)
+    _print_list("Tailored resume bullets", result.tailored_resume_bullets)
+    print(f"Why this role: {result.why_this_role_answer}")
 
 
 def _show_growth_stage(state: CareerState) -> None:
@@ -258,8 +302,26 @@ def _show_growth_stage(state: CareerState) -> None:
     _print_list("First month plan", result.first_month_plan)
     _print_list("Month 2-3 plan", result.month_2_3_plan)
     _print_list("One year plan", result.one_year_plan)
+    _print_list("Priority gaps", result.priority_gaps)
+    _print_list("Prioritized skills", result.prioritized_skills)
+    _print_list("Project recommendations", result.project_recommendations)
+    _print_list("Job search strategy", result.job_search_strategy)
     _print_list("Value creation plan", result.value_creation_plan)
     _print_list("Cover letter narrative inputs", result.cover_letter_growth_narrative)
+    _print_explanation_if_present(result.explanation)
+
+
+def _show_application_stage(state: CareerState) -> None:
+    result = state.application_assets_result
+    if result is None:
+        return
+    _print_section("Application Assets")
+    _print_list("Tailored resume bullets", result.tailored_resume_bullets)
+    print(f"Cover letter draft: {result.cover_letter_draft}")
+    print(f"Cold email: {result.cold_email_message}")
+    print(f"Networking message: {result.networking_message}")
+    print(f"Why this role: {result.why_this_role_answer}")
+    print(f"LinkedIn summary: {result.linkedin_summary}")
     _print_explanation_if_present(result.explanation)
 
 
@@ -298,6 +360,7 @@ def main() -> None:
         _save_state_snapshot(state)
         return
 
+    _configure_company_search_interactively()
     state.company_result = run_company_strategy(
         state.user_profile,
         state.policy_result,
@@ -341,6 +404,15 @@ def main() -> None:
             state.job_targeting_result,
         )
         _show_growth_stage(state)
+        if state.job_targeting_result and _pause_for_next_step("Application Assets"):
+            state.application_assets_result = run_application_assets(
+                state.user_profile,
+                state.company_result,
+                state.role_result,
+                state.job_targeting_result,
+                state.growth_result,
+            )
+            _show_application_stage(state)
 
     _save_state_snapshot(state)
 
