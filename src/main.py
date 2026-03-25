@@ -121,19 +121,23 @@ def _print_explanation_if_present(explanation: str | None) -> None:
 def _configure_llm_interactively() -> None:
     _print_section("LLM Setup")
     wants_llm = _prompt_yes_no(
-        "Enable optional Gemini explanations for each stage?", default=False
+        "Enable Gemini-first reasoning across strategy stages?", default=True
     )
     if not wants_llm:
         os.environ["LLM_MODE"] = "disabled"
         os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
-        print("Gemini explanations disabled. The deterministic pipeline will still run.")
+        print("Gemini-first reasoning disabled. The deterministic fallback pipeline will still run.")
         return
 
     os.environ["LLM_MODE"] = "auto"
+    os.environ.setdefault("LLM_RESULT_MODE", "balanced")
     refresh_llm_environment()
     status = llm_status()
     if status["available"]:
-        print(f"Gemini is ready with model: {status['model']}")
+        print(
+            f"Gemini is ready with model: {status['model']} "
+            f"(variability profile: {status['result_mode']})."
+        )
         return
 
     print("Gemini is not ready yet.")
@@ -156,7 +160,10 @@ def _configure_llm_interactively() -> None:
         refresh_llm_environment()
         status = llm_status()
         if status["available"]:
-            print(f"Gemini is ready with model: {status['model']}")
+            print(
+                f"Gemini is ready with model: {status['model']} "
+                f"(variability profile: {status['result_mode']})."
+            )
             return
         print("Gemini is still unavailable. Check GEMINI_API_KEY and dependency installation, or type 'skip'.")
 
@@ -176,7 +183,7 @@ def _configure_company_search_interactively() -> None:
         return
 
     use_grounded_company_search = _prompt_yes_no(
-        "Use Gemini-grounded company search here to prioritize A/B-stage companies?", default=True
+        "Use Gemini-grounded search to supplement LLM-first company discovery?", default=True
     )
     os.environ["COMPANY_SEARCH_PROVIDER"] = (
         "gemini_grounded" if use_grounded_company_search else "local"

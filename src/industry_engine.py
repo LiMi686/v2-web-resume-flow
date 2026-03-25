@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
 from typing import Any
 
 try:
@@ -245,90 +244,10 @@ def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
     return cleaned
 
 
-def _apply_llm_enrichment(
+def _deterministic_industry_recommendations(
     profile: UserProfile,
     policy_result: PolicyResult,
-    recommendations: list[IndustryRecommendation],
 ) -> list[IndustryRecommendation]:
-    prompt = f"""
-You are enriching industry prioritization for a layered career strategy system.
-
-User profile:
-{profile.to_dict()}
-
-Policy result:
-{policy_result}
-
-Deterministic ranked industries:
-{recommendations}
-
-Return strict JSON with this shape:
-{{
-  "industry_overrides": [
-    {{
-      "name": "industry name",
-      "trend_summary": "1-2 sentences",
-      "entry_barriers": ["barrier 1", "barrier 2"],
-      "long_term_growth": "1-2 sentences",
-      "personalized_reason": "why this user fits",
-      "priority_modifier": 0.0
-    }}
-  ]
-}}
-Only return valid JSON.
-"""
-    payload = generate_optional_json(prompt, fallback=None)
-    if not isinstance(payload, dict):
-        return recommendations
-
-    raw_overrides = payload.get("industry_overrides")
-    if not isinstance(raw_overrides, list):
-        return recommendations
-
-    override_map = {
-        str(item.get("name", "")).strip(): item
-        for item in raw_overrides
-        if isinstance(item, dict) and str(item.get("name", "")).strip()
-    }
-
-    enriched: list[IndustryRecommendation] = []
-    for recommendation in recommendations:
-        override = override_map.get(recommendation.name, {})
-        updated = replace(recommendation)
-
-        trend_summary = str(override.get("trend_summary", "")).strip()
-        if trend_summary:
-            updated.trend_summary = trend_summary
-
-        entry_barriers = _clean_string_list(override.get("entry_barriers"), limit=4)
-        if entry_barriers:
-            updated.entry_barriers = entry_barriers
-
-        long_term_growth = str(override.get("long_term_growth", "")).strip()
-        if long_term_growth:
-            updated.long_term_growth = long_term_growth
-
-        personalized_reason = str(override.get("personalized_reason", "")).strip()
-        if personalized_reason:
-            updated.personalized_reason = personalized_reason
-
-        try:
-            priority_modifier = float(override.get("priority_modifier", 0.0))
-        except (TypeError, ValueError):
-            priority_modifier = 0.0
-        priority_modifier = max(-0.75, min(0.75, priority_modifier))
-        updated.score = round(updated.score + priority_modifier, 2)
-        enriched.append(updated)
-
-    enriched.sort(key=lambda item: item.score, reverse=True)
-    return enriched
-
-
-def run_industry_selection(
-    user_profile: UserProfile | dict[str, Any], policy_result: PolicyResult
-) -> IndustryResult:
-    """Rank industries using skills, interests, and policy tailwinds."""
-    profile = ensure_user_profile(user_profile)
     user_skills = _as_lower_set(profile.skills)
     user_interests = _as_lower_set(profile.interests)
     visa_risk = policy_result.visa_risk.lower()
@@ -378,14 +297,146 @@ def run_industry_selection(
         )
 
     ranked_industries.sort(key=lambda item: item.score, reverse=True)
-    ranked_industries = _apply_llm_enrichment(profile, policy_result, ranked_industries)
-    top_industries = ranked_industries[:3]
+    return ranked_industries
 
-    selection_logic = [
+
+def _sanitize_score(raw_score: object, fallback_score: float) -> float:
+    try:
+        score = float(raw_score)
+    except (TypeError, ValueError):
+        score = fallback_score
+    return round(max(0.0, min(score, 10.0)), 2)
+
+
+def _industry_from_payload(
+    item: dict[str, Any],
+    fallback_map: dict[str, IndustryRecommendation],
+    profile: UserProfile,
+) -> IndustryRecommendation | None:
+    name = str(item.get("name", "")).strip()
+    if not name:
+        return None
+
+    fallback = fallback_map.get(name)
+    key_skills = _clean_string_list(item.get("key_skills"), limit=5) or (
+        fallback.key_skills if fallback else profile.skills[:5]
+    )
+    policy_alignment = _clean_string_list(item.get("policy_alignment"), limit=4) or (
+        fallback.policy_alignment if fallback else []
+    )
+    sample_companies = _clean_string_list(item.get("sample_companies"), limit=4) or (
+        fallback.sample_companies if fallback else []
+    )
+    entry_barriers = _clean_string_list(item.get("entry_barriers"), limit=4) or (
+        fallback.entry_barriers if fallback else []
+    )
+    market_stage = str(item.get("market_stage", "")).strip() or (
+        fallback.market_stage
+        if fallback
+        else "This market offers enough strategic data and AI work to justify active exploration."
+    )
+    why_now = str(item.get("why_now", "")).strip() or (
+        fallback.why_now
+        if fallback
+        else f"{market_stage} The sector appears relevant for the next career move."
+    )
+    trend_summary = str(item.get("trend_summary", "")).strip() or (
+        fallback.trend_summary if fallback else why_now
+    )
+    long_term_growth = str(item.get("long_term_growth", "")).strip() or (
+        fallback.long_term_growth
+        if fallback
+        else "Long-term upside depends on building domain fluency and visible business impact."
+    )
+    personalized_reason = str(item.get("personalized_reason", "")).strip() or (
+        fallback.personalized_reason
+        if fallback
+        else "This industry has enough overlap with the profile to justify a focused exploration path."
+    )
+    recommendation = str(item.get("recommendation", "")).strip().lower() or (
+        fallback.recommendation if fallback else "build bridge role path"
+    )
+    if recommendation not in {"direct priority", "build bridge role path", "monitor as secondary option"}:
+        recommendation = fallback.recommendation if fallback else "build bridge role path"
+
+    company_strategy_hint = str(item.get("company_strategy_hint", "")).strip() or (
+        fallback.company_strategy_hint
+        if fallback
+        else "Target operating environments where analytics informs measurable decisions."
+    )
+
+    return IndustryRecommendation(
+        name=name,
+        score=_sanitize_score(item.get("score"), fallback.score if fallback else 6.5),
+        recommendation=recommendation,
+        why_now=why_now,
+        key_skills=key_skills,
+        policy_alignment=policy_alignment,
+        company_strategy_hint=company_strategy_hint,
+        market_stage=market_stage,
+        sample_companies=sample_companies,
+        trend_summary=trend_summary,
+        entry_barriers=entry_barriers,
+        long_term_growth=long_term_growth,
+        personalized_reason=personalized_reason,
+    )
+
+
+def run_industry_selection(
+    user_profile: UserProfile | dict[str, Any], policy_result: PolicyResult
+) -> IndustryResult:
+    """Rank industries using skills, interests, and policy tailwinds."""
+    profile = ensure_user_profile(user_profile)
+    fallback_ranked_industries = _deterministic_industry_recommendations(profile, policy_result)
+    fallback_map = {industry.name: industry for industry in fallback_ranked_industries}
+    fallback_selection_logic = [
         "Industry is selected before role so the user can ride stronger policy and market tailwinds.",
         "Scoring combines macro attractiveness, current skill fit, entry friendliness, and visa friction.",
         "Top industries should feed company strategy before final role positioning.",
     ]
+    industry_prompt = f"""
+You are the industry prioritization strategist in a layered career planning system.
+
+User profile:
+{profile.to_dict()}
+
+Policy result:
+{policy_result}
+
+Deterministic baseline industries:
+{fallback_ranked_industries}
+
+Return strict JSON with this shape:
+{{
+  "ranked_industries": [
+    {{
+      "name": "industry name",
+      "score": 8.4,
+      "recommendation": "direct priority|build bridge role path|monitor as secondary option",
+      "why_now": "1-2 sentences",
+      "key_skills": ["skill 1", "skill 2"],
+      "policy_alignment": ["theme 1", "theme 2"],
+      "company_strategy_hint": "what company type to target",
+      "market_stage": "1-2 sentences",
+      "sample_companies": ["company 1", "company 2"],
+      "trend_summary": "1-2 sentences",
+      "entry_barriers": ["barrier 1", "barrier 2"],
+      "long_term_growth": "1-2 sentences",
+      "personalized_reason": "why this user fits"
+    }}
+  ],
+  "selection_logic": ["logic 1", "logic 2", "logic 3"],
+  "explanation": "3 concise sentences"
+}}
+
+Instructions:
+- Be LLM-first: you may keep, reorder, refine, or replace baseline industries.
+- Stay realistic for data / analytics / AI career paths.
+- Prefer specific sectors over vague labels like "tech" or "business".
+- Return between 4 and 6 ranked industries.
+- Only return valid JSON.
+"""
+    payload = generate_optional_json(industry_prompt, fallback=None, profile="balanced")
 
     explanation_prompt = f"""
 You are explaining why industry should come before company and role in a career strategy system.
@@ -397,11 +448,37 @@ Policy result:
 {policy_result}
 
 Top industries:
-{top_industries}
+{fallback_ranked_industries[:3]}
 
 Return 3 concise sentences.
 """
-    explanation = generate_optional_text(explanation_prompt)
+    fallback_explanation = generate_optional_text(explanation_prompt, profile="creative")
+
+    ranked_industries = fallback_ranked_industries
+    selection_logic = fallback_selection_logic
+    explanation = fallback_explanation
+
+    if isinstance(payload, dict):
+        raw_ranked = payload.get("ranked_industries")
+        if isinstance(raw_ranked, list):
+            parsed_ranked: list[IndustryRecommendation] = []
+            for item in raw_ranked:
+                if not isinstance(item, dict):
+                    continue
+                parsed = _industry_from_payload(item, fallback_map, profile)
+                if parsed is not None:
+                    parsed_ranked.append(parsed)
+            if parsed_ranked:
+                ranked_industries = parsed_ranked
+
+        selection_logic = (
+            _clean_string_list(payload.get("selection_logic"), limit=4)
+            or fallback_selection_logic
+        )
+        explanation = str(payload.get("explanation", "")).strip() or fallback_explanation
+
+    ranked_industries.sort(key=lambda item: item.score, reverse=True)
+    top_industries = ranked_industries[:3]
 
     return IndustryResult(
         ranked_industries=ranked_industries,

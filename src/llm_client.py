@@ -16,6 +16,19 @@ DEFAULT_MODE = "auto"
 DEFAULT_MODEL = "gemini-3.1-flash-lite-preview"
 DEFAULT_GROUNDED_MODEL = "gemini-3-flash-preview"
 DEFAULT_TIMEOUT_SECONDS = 20
+DEFAULT_RESULT_MODE = "balanced"
+
+TEXT_PROFILE_DEFAULTS: dict[str, dict[str, float]] = {
+    "stable": {"temperature": 0.25, "top_p": 0.75},
+    "balanced": {"temperature": 0.7, "top_p": 0.9},
+    "creative": {"temperature": 1.0, "top_p": 0.95},
+}
+
+JSON_PROFILE_DEFAULTS: dict[str, dict[str, float]] = {
+    "stable": {"temperature": 0.15, "top_p": 0.7},
+    "balanced": {"temperature": 0.45, "top_p": 0.85},
+    "creative": {"temperature": 0.7, "top_p": 0.92},
+}
 
 
 def refresh_llm_environment() -> None:
@@ -33,6 +46,7 @@ class LLMConfig:
     mode: str
     model: str
     timeout_seconds: int
+    result_mode: str
 
 
 def _get_timeout_seconds() -> int:
@@ -43,12 +57,20 @@ def _get_timeout_seconds() -> int:
         raise ValueError("LLM_TIMEOUT_SECONDS must be an integer.") from exc
 
 
+def _normalize_result_mode(value: str | None) -> str:
+    normalized = (value or "").strip().lower()
+    if normalized in TEXT_PROFILE_DEFAULTS:
+        return normalized
+    return DEFAULT_RESULT_MODE
+
+
 def get_llm_config() -> LLMConfig:
     return LLMConfig(
         provider=os.getenv("LLM_PROVIDER", DEFAULT_PROVIDER).strip().lower(),
         mode=os.getenv("LLM_MODE", DEFAULT_MODE).strip().lower(),
         model=os.getenv("LLM_MODEL", os.getenv("GEMINI_MODEL", DEFAULT_MODEL)).strip(),
         timeout_seconds=_get_timeout_seconds(),
+        result_mode=_normalize_result_mode(os.getenv("LLM_RESULT_MODE", DEFAULT_RESULT_MODE)),
     )
 
 
@@ -59,7 +81,14 @@ class BaseLLMClient:
     def is_available(self) -> bool:
         return False
 
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+        *,
+        temperature: float | None = None,
+        top_p: float | None = None,
+        response_mime_type: str | None = None,
+    ) -> str:
         raise LLMUnavailableError("LLM generation is disabled or unavailable.")
 
 
@@ -71,9 +100,24 @@ class MockLLMClient(BaseLLMClient):
     def is_available(self) -> bool:
         return True
 
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+        *,
+        temperature: float | None = None,
+        top_p: float | None = None,
+        response_mime_type: str | None = None,
+    ) -> str:
         preview = " ".join(prompt.strip().split())[:180]
-        return f"[mock-llm] {preview}"
+        config_preview = []
+        if temperature is not None:
+            config_preview.append(f"temperature={temperature}")
+        if top_p is not None:
+            config_preview.append(f"top_p={top_p}")
+        if response_mime_type:
+            config_preview.append(f"mime={response_mime_type}")
+        prefix = ", ".join(config_preview) or "default-config"
+        return f"[mock-llm:{prefix}] {preview}"
 
 
 class GeminiLLMClient(BaseLLMClient):
@@ -90,22 +134,38 @@ class GeminiLLMClient(BaseLLMClient):
             return False
         return True
 
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+        *,
+        temperature: float | None = None,
+        top_p: float | None = None,
+        response_mime_type: str | None = None,
+    ) -> str:
         if not self._api_key or self._api_key == "your_gemini_api_key_here":
             raise LLMUnavailableError("Missing GEMINI_API_KEY.")
 
         try:
             from google import genai
+            from google.genai import types
         except ImportError as exc:
             raise LLMUnavailableError(
                 "Missing dependency 'google-genai'. Install it in the active environment."
             ) from exc
 
         client = genai.Client(api_key=self._api_key)
+        request_config = None
+        if temperature is not None or top_p is not None or response_mime_type:
+            request_config = types.GenerateContentConfig(
+                temperature=temperature,
+                top_p=top_p,
+                response_mime_type=response_mime_type,
+            )
         try:
             response = client.models.generate_content(
                 model=self.config.model,
                 contents=prompt,
+                config=request_config,
             )
         except Exception as exc:
             error_name = exc.__class__.__name__
@@ -147,12 +207,35 @@ def get_llm_client() -> BaseLLMClient:
 
 
 def generate_text(prompt: str) -> str:
-    return get_llm_client().generate(prompt)
+    return get_llm_client().generate(prompt, **_generation_kwargs(None, "text"))
 
 
-def generate_optional_text(prompt: str, fallback: str | None = None) -> str | None:
+def _resolve_profile(profile: str | None) -> str:
+    if profile:
+        return _normalize_result_mode(profile)
+    return get_llm_config().result_mode
+
+
+def _generation_kwargs(profile: str | None, response_kind: str) -> dict[str, float | str]:
+    resolved_profile = _resolve_profile(profile)
+    defaults = TEXT_PROFILE_DEFAULTS if response_kind == "text" else JSON_PROFILE_DEFAULTS
+    kwargs: dict[str, float | str] = {
+        "temperature": defaults[resolved_profile]["temperature"],
+        "top_p": defaults[resolved_profile]["top_p"],
+    }
+    if response_kind == "json":
+        kwargs["response_mime_type"] = "application/json"
+    return kwargs
+
+
+def generate_optional_text(
+    prompt: str,
+    fallback: str | None = None,
+    *,
+    profile: str | None = None,
+) -> str | None:
     try:
-        return get_llm_client().generate(prompt)
+        return get_llm_client().generate(prompt, **_generation_kwargs(profile, "text"))
     except Exception:
         return fallback
 
@@ -165,9 +248,17 @@ def _extract_json_block(text: str) -> str:
     return text[start : end + 1]
 
 
-def generate_optional_json(prompt: str, fallback: Any = None) -> Any:
+def generate_optional_json(
+    prompt: str,
+    fallback: Any = None,
+    *,
+    profile: str | None = None,
+) -> Any:
     try:
-        raw_text = get_llm_client().generate(prompt)
+        raw_text = get_llm_client().generate(
+            prompt,
+            **_generation_kwargs(profile, "json"),
+        )
         return json.loads(_extract_json_block(raw_text))
     except Exception:
         return fallback
@@ -177,9 +268,13 @@ def _get_grounded_model() -> str:
     return os.getenv("GEMINI_GROUNDED_MODEL", DEFAULT_GROUNDED_MODEL).strip() or DEFAULT_GROUNDED_MODEL
 
 
-def generate_optional_grounded_json(prompt: str, fallback: Any = None) -> Any:
+def generate_optional_grounded_json(
+    prompt: str,
+    fallback: Any = None,
+    *,
+    profile: str | None = None,
+) -> Any:
     try:
-        config = get_llm_config()
         client = get_llm_client()
         if not isinstance(client, GeminiLLMClient) or not client.is_available():
             return fallback
@@ -187,11 +282,15 @@ def generate_optional_grounded_json(prompt: str, fallback: Any = None) -> Any:
         from google import genai
         from google.genai import types
 
+        generation_kwargs = _generation_kwargs(profile, "json")
         response = genai.Client(api_key=client._api_key).models.generate_content(
             model=_get_grounded_model(),
             contents=prompt,
             config=types.GenerateContentConfig(
-                tools=[types.Tool(google_search=types.GoogleSearch())]
+                temperature=float(generation_kwargs["temperature"]),
+                top_p=float(generation_kwargs["top_p"]),
+                response_mime_type=str(generation_kwargs["response_mime_type"]),
+                tools=[types.Tool(google_search=types.GoogleSearch())],
             ),
         )
         payload = json.loads(_extract_json_block(getattr(response, "text", "") or ""))
@@ -231,6 +330,7 @@ def llm_status() -> dict[str, Any]:
         "provider": config.provider,
         "mode": config.mode,
         "model": config.model,
+        "result_mode": config.result_mode,
         "available": client.is_available(),
         "client": client.__class__.__name__,
     }

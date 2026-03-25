@@ -6,7 +6,7 @@ from typing import Any
 
 try:
     from .industry_engine import INDUSTRY_KB
-    from .llm_client import generate_optional_text
+    from .llm_client import generate_optional_json, generate_optional_text
     from .schemas import (
         CompanyStrategyResult,
         PolicyResult,
@@ -17,7 +17,7 @@ try:
     )
 except ImportError:
     from industry_engine import INDUSTRY_KB
-    from llm_client import generate_optional_text
+    from llm_client import generate_optional_json, generate_optional_text
     from schemas import (
         CompanyStrategyResult,
         PolicyResult,
@@ -39,14 +39,21 @@ def _matching_company_names(
     return matching[0].company_type, [company.name for company in matching[:3]]
 
 
-def run_role_path(
-    user_profile: UserProfile | dict[str, Any],
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned = [str(item).strip() for item in value if str(item).strip()]
+    if limit is not None:
+        return cleaned[:limit]
+    return cleaned
+
+
+def _deterministic_role_path_result(
+    profile: UserProfile,
     policy_result: PolicyResult,
     industry_result,
     company_result: CompanyStrategyResult,
 ) -> RolePathResult:
-    """Translate industry and company choices into role path options."""
-    profile = ensure_user_profile(user_profile)
     years_experience = profile.years_experience
     target_role_text = profile.target_role.lower()
     role_map = {industry["name"]: industry["roles"] for industry in INDUSTRY_KB}
@@ -95,8 +102,8 @@ def run_role_path(
         "Bridge roles are valid when they improve industry entry speed and future option value.",
         "Choose roles where the first year can produce visible business impact, not just technical exposure.",
     ]
-
-    explanation_prompt = f"""
+    explanation = generate_optional_text(
+        f"""
 You are explaining role path design inside an industry-first and company-strategy-centered system.
 
 User profile:
@@ -106,13 +113,114 @@ Recommended paths:
 {recommended_paths}
 
 Return 3 concise sentences.
-"""
-    explanation = generate_optional_text(explanation_prompt)
-
+""",
+        profile="creative",
+    )
     return RolePathResult(
         recommended_paths=recommended_paths,
         decision_principles=decision_principles,
         explanation=explanation,
+    )
+
+
+def run_role_path(
+    user_profile: UserProfile | dict[str, Any],
+    policy_result: PolicyResult,
+    industry_result,
+    company_result: CompanyStrategyResult,
+) -> RolePathResult:
+    """Translate industry and company choices into role path options."""
+    profile = ensure_user_profile(user_profile)
+    fallback_result = _deterministic_role_path_result(
+        profile,
+        policy_result,
+        industry_result,
+        company_result,
+    )
+    role_prompt = f"""
+You are the role-path strategist in a layered career planning system.
+
+User profile:
+{profile.to_dict()}
+
+Policy result:
+{policy_result}
+
+Industry result:
+{industry_result}
+
+Company result:
+{company_result}
+
+Deterministic fallback role paths:
+{fallback_result}
+
+Return strict JSON with this shape:
+{{
+  "recommended_paths": [
+    {{
+      "industry": "industry name",
+      "company_type": "company environment",
+      "role_title": "specific role title",
+      "path_type": "bridge|direct|stretch",
+      "focus_areas": ["focus 1", "focus 2"],
+      "why_fit": ["reason 1", "reason 2"],
+      "success_metrics": ["metric 1", "metric 2"],
+      "example_companies": ["company 1", "company 2"]
+    }}
+  ],
+  "decision_principles": ["principle 1", "principle 2", "principle 3"],
+  "explanation": "3 concise sentences"
+}}
+
+Instructions:
+- Be LLM-first: you may revise the fallback paths or create more specific titles.
+- Keep path_type realistic given years of experience and current evidence.
+- Prefer roles that connect to measurable first-year business impact.
+- Only return valid JSON.
+"""
+    payload = generate_optional_json(role_prompt, fallback=None, profile="balanced")
+    if not isinstance(payload, dict):
+        return fallback_result
+
+    raw_paths = payload.get("recommended_paths")
+    recommended_paths: list[RolePathOption] = []
+    if isinstance(raw_paths, list):
+        for item in raw_paths:
+            if not isinstance(item, dict):
+                continue
+            role_title = str(item.get("role_title", "")).strip()
+            industry_name = str(item.get("industry", "")).strip()
+            if not role_title or not industry_name:
+                continue
+            path_type = str(item.get("path_type", "")).strip().lower() or "bridge"
+            if path_type not in {"bridge", "direct", "stretch"}:
+                path_type = "bridge"
+            recommended_paths.append(
+                RolePathOption(
+                    industry=industry_name,
+                    company_type=str(item.get("company_type", "")).strip() or "Strategic operating companies",
+                    role_title=role_title,
+                    path_type=path_type,
+                    focus_areas=_clean_string_list(item.get("focus_areas"), limit=4) or ["analytics"],
+                    why_fit=_clean_string_list(item.get("why_fit"), limit=4) or [
+                        f"This path creates a plausible next step into {role_title}."
+                    ],
+                    success_metrics=_clean_string_list(item.get("success_metrics"), limit=4) or [
+                        "Own a visible metric or workflow within the first 90 days"
+                    ],
+                    example_companies=_clean_string_list(item.get("example_companies"), limit=4),
+                )
+            )
+
+    if not recommended_paths:
+        recommended_paths = fallback_result.recommended_paths
+
+    return RolePathResult(
+        recommended_paths=recommended_paths,
+        decision_principles=_clean_string_list(payload.get("decision_principles"), limit=4)
+        or fallback_result.decision_principles,
+        explanation=str(payload.get("explanation", "")).strip() or fallback_result.explanation,
     )
 
 
