@@ -62,6 +62,7 @@ def run_career_pipeline(
         state.company_result,
         state.role_result,
         state.job_targeting_result,
+        state.job_description,
     )
     if state.job_targeting_result:
         state.application_assets_result = run_application_assets(

@@ -402,6 +402,7 @@ def main() -> None:
             state.company_result,
             state.role_result,
             state.job_targeting_result,
+            state.job_description,
         )
         _show_growth_stage(state)
         if state.job_targeting_result and _pause_for_next_step("Application Assets"):
