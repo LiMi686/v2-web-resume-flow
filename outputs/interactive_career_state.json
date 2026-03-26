@@ -2,6 +2,30 @@
   "user_profile": {
     "name": "Leon",
     "target_role": "Data Analyst",
+    "degree": "Master of Science in Data Science",
+    "schools": [
+      "Mapua University",
+      "Arizona State University",
+      "University of Arizona"
+    ],
+    "education_history": [
+      {
+        "school": "Mapua University",
+        "degree": "Bachelor of Science in Data Science",
+        "start_year": "2019",
+        "end_year": "2023",
+        "location": "Manila, Philippines",
+        "notes": "Joint program with Arizona State University."
+      },
+      {
+        "school": "University of Arizona",
+        "degree": "Master of Science in Data Science",
+        "start_year": "2024",
+        "end_year": "2026",
+        "location": "",
+        "notes": ""
+      }
+    ],
     "skills": [
       "Python",
       "SQL",
@@ -82,44 +106,160 @@
           "Reduced manual inspection workload by 15% through automated damage assessment.",
           "Validated model predictions against real-world inspection data for reliability."
         ]
+      },
+      {
+        "company": "University of Arizona, James E. Rogers College of Law",
+        "title": "Law Library Assistant",
+        "industry": "Legal / Library Science",
+        "summary": "Assisted with legal research and data management for library resources.",
+        "skills_used": [
+          "Data Management",
+          "Research",
+          "Python",
+          "Data Visualization"
+        ],
+        "impact_points": [
+          "Assisted with legal research and data management for library resources.",
+          "Addressing direct questions at circulation desk from phone call or in-person.",
+          "Applied classification and organization principles (Library of Congress System) to manage large-scale collections.",
+          "Conducted targeted information retrieval in Nexis Uni, improving efficiency in sourcing case law and academic materials.",
+          "Maintained structured information management using ALMA, ensuring accurate cataloging and resource organization.",
+          "Tracked and logged service inquiries in LibAnswers, reinforcing structured problem-solving and data entry precision."
+        ]
+      },
+      {
+        "company": "University of Arizona, Computer Vision Lab",
+        "title": "Graduate Research Assistant",
+        "industry": "Research / Computer Vision",
+        "summary": "Assisted with research projects focused on computer vision and machine learning.",
+        "skills_used": [
+          "Computer Vision",
+          "Python",
+          "Research Assistance"
+        ],
+        "impact_points": [
+          "Assisted with research projects focused on computer vision and machine learning.",
+          "Created an image dataset for AI medical model recognition, generating 300+ laparoscopic surgery images.",
+          "Designed and implemented a contamination pipeline that overlays surgical artifacts such as blood, smoke, and lens blur onto clean endoscopy images.",
+          "Using both coding based method and AI image generators (e.g., Sora, Gemini)."
+        ]
+      }
+    ],
+    "project_experiences": [
+      {
+        "name": "Airbnb Relational Database Design - MySQL",
+        "role": "Group Project",
+        "summary": "Designed and implemented a normalized relational database modeling Airbnb's marketplace operations.",
+        "skills_used": [
+          "MySQL",
+          "SQL",
+          "Database Design",
+          "ER Modeling",
+          "Relational Databases"
+        ],
+        "impact_points": [
+          "Designed and implemented a normalized relational database modeling Airbnb's marketplace operations.",
+          "Built an ER model and translated it into 20 SQL tables with primary and foreign keys to ensure data integrity.",
+          "Defined 10 real-world business problems and developed SQL queries to generate revenue, risk, and performance insights.",
+          "Collaborated on a group project to model Airbnb marketplace operations through a normalized relational database."
+        ]
+      },
+      {
+        "name": "Cloud-Based E-Commerce Customer Analytics",
+        "role": "Project Team Member",
+        "summary": "Developed a cloud-based customer analytics pipeline using Snowflake and Python to analyze e-commerce behavioral data.",
+        "skills_used": [
+          "Snowflake",
+          "Python",
+          "Feature Engineering",
+          "RFM Analysis",
+          "K-Means Clustering",
+          "Customer Segmentation"
+        ],
+        "impact_points": [
+          "Developed a cloud-based customer analytics pipeline using Snowflake and Python to analyze e-commerce behavioral data.",
+          "Performed feature engineering and aggregated customer-level metrics from e-commerce behavioral data.",
+          "Applied RFM analysis and K-Means clustering to identify distinct customer segments.",
+          "Generated insights into spending patterns, satisfaction levels, and delivery performance through the resulting clusters."
+        ]
+      },
+      {
+        "name": "Pandemic Visualization & Analysis by R",
+        "role": "Project",
+        "summary": "Processed and analyzed global WHO datasets across 200+ countries to examine infection and mortality trends.",
+        "skills_used": [
+          "R",
+          "Data Analysis",
+          "Data Visualization",
+          "ggplot2",
+          "Shiny",
+          "Web Scraping",
+          "rvest"
+        ],
+        "impact_points": [
+          "Processed and analyzed global WHO datasets across 200+ countries to examine infection and mortality trends.",
+          "Built interactive geographic heatmaps using ggplot2 and Shiny for spatiotemporal analysis.",
+          "Applied web scraping with rvest to study correlations between media coverage and case growth.",
+          "Analyzed WHO data across 200+ countries to surface global infection and mortality patterns."
+        ]
+      },
+      {
+        "name": "Online Retail Association Rule",
+        "role": "Project",
+        "summary": "Implemented association rule mining with the Apriori algorithm to identify frequent itemsets and co-purchasing patterns in transactional retail data.",
+        "skills_used": [
+          "Python",
+          "Apriori",
+          "Association Rule Mining",
+          "Market Basket Analysis",
+          "Data Analysis"
+        ],
+        "impact_points": [
+          "Implemented association rule mining with the Apriori algorithm to identify frequent itemsets and co-purchasing patterns in transactional retail data.",
+          "Identified frequent itemsets and co-purchasing patterns from transactional retail data using the Apriori algorithm.",
+          "Computed Support, Confidence, and Lift to quantify product relationships.",
+          "Generated data-driven insights to inform bundling and cross-selling strategies."
+        ]
       }
     ],
     "target_companies": []
   },
-  "job_description": "At PCL Construction, Inc., part of the PCL Family of Companies (PCL), we don’t just build projects—we build opportunities, careers and communities. We are 100% employee-owned, every employee has a stake in our success, and that shared commitment drives how we work, grow and lead in the construction industry.\n\nWe’re a team of builders who care deeply about what we create and who we build it with. That includes you. We are not only investing in what’s next in construction, we are investing in what’s next for your career.\n\nAs a Estimating Data Analyst for PCL Construction, Inc. in Tempe, Arizona, you’ll have the opportunity to leverage data analytics and technology to enhance the accuracy and efficiency of our estimating processes. In this role, you will analyze large datasets, develop and refine cost estimation models, and create visual dashboards and reports that translate complex data into actionable insights for project teams and leadership. Using tools such as SQL, Excel, PowerBI, Python, and AI platforms, you will help identify trends, optimize workflows, and support data-driven decision-making across our estimating and project teams.\n\nWhy Choose PCL?\n\nChoose a career with rewards that matter. PCL’s total rewards are designed to support your growth, well-being and future success—because when you succeed, we all do.\n\nOur Offerings Could Include\n\n* Employee ownership opportunities that build long-term value\n* Annual discretionary performance bonuses\n* 401(k) with company match\n* Industry-leading medical, dental and vision benefits\n* Prescription drug coverage and telemedicine services\n* Life, AD&D and disability insurance\n* Paid parental leave and family care support\n* HSA or FSA for healthcare, dependent care and transportation\n* Mental health and wellness support, including Employee Assistance Programs\n* Career growth pathways, leadership development and mentorship programs\n* Access to world-class training through PCL’s College of Construction and professional development courses\n* Ongoing opportunities to learn new skills, explore different roles and grow your career across sectors and regions\n* \nHere's how a Estimating Data Analyst for PCL Construction, Inc. within Civil West contributes to our team:\n\nResponsibilities\n\n* Supports estimators on preparing bids and proposals.\n* Develop, maintain, and refine cost estimation models using historical data, trends, and statistical techniques.\n* Create dashboards and reports to present trends and projections to leadership and owners.\n* Utilize AI to optimize estimating/administrative processes.\n* Assists with bid document control and documenting, organizing, and archiving all information relating to the estimate for successful transfer to the project team. \n* Develops and maintains strong relationships with all stakeholders including lead estimator, lead bid runner, subtrade partners and suppliers. \n* \nQualifications\n\n* Background: degree in (mathematics, statistics, computer science, data analytics, AI)\n* Technical skills in some or all of the following: SQL, Excel, PowerBI, Python, Tableau, Azure (SQL server), Co-Pilot (or other AI platforms)\n* Strong critical thinking skills\n* Ability to analyze large data sets and translate into actional business insights\n* Ability to communicate technical findings to non-technical clients\n* Accuracy and attention to detail\n* Ability to represent complex data in visual dashboards\n* \nYour Work Has Purpose Here\n\nPCL projects are where life happens, where communities connect, careers begin, and progress is made. Regardless of the type of project, we are building something bigger: a future that's inclusive, resilient and full of opportunity.\n\nAt PCL Construction, Inc., we are committed to creating a workplace where everyone belongs. We value the diverse experiences, identities and perspectives our employees bring. Employment decisions are based on merit, potential and the drive to make a difference, regardless of race, gender, age, ability or background.\n\nWe know everyone's needs are different, if you require accommodation during the application process, please contact careers@pcl.com and include the position and location of interest.\n\nCompany: PCL Construction, Inc.\n\nPrimary Location: Tempe, Arizona\n\nJob Title: Estimating Data Analyst\n\nRequisition ID: 11754",
+  "job_description": "",
   "policy_result": {
     "visa_risk": "high",
-    "mobility_strategy": "Focus on Canada's Global Skills Strategy and remote-first US companies with entities in Canada to bypass immediate H-1B lottery constraints. Prioritize employers with established O-1 or TN visa pathways for high-potential early-career talent.",
+    "mobility_strategy": "Leverage your US-based Master's degree to utilize OPT/STEM OPT as a primary bridge to employment. Focus on mid-to-large enterprises in Canada or the US that have established internal mobility programs and dedicated immigration support teams.",
     "recommended_regions": [
-      "Canada",
-      "Remote (US-based companies)"
+      "United States",
+      "Canada"
     ],
     "priority_policy_themes": [
-      "National AI investment and enterprise AI adoption",
-      "Cross-border digital trade and remote work labor mobility"
+      "STEM-designated degree utilization for extended work authorization",
+      "Cross-border digital trade and remote data talent mobility",
+      "Enterprise AI adoption and data governance infrastructure"
     ],
     "constraints": [
       "Growth-oriented industry requirement",
+      "Limited to markets with favorable post-graduate work permit policies",
       "Needs employer visa sponsorship",
       "Needs sponsorship",
-      "No existing work authorization",
       "Remote-friendly teams expand the opportunity set",
+      "Requires employer visa sponsorship",
       "Wants growth-oriented industry"
     ],
     "opportunity_signals": [
-      "Canadian immigration policy currently favors STEM graduates with data analytics and ML expertise.",
-      "US-based AI infrastructure firms are increasingly hiring remote-first to access global talent pools.",
-      "Demand for data analysts in disaster resilience and healthcare analytics aligns with your specific internship portfolio."
+      "STEM OPT extension provides a 3-year runway in the US, making you highly attractive to mid-sized firms.",
+      "Canada’s Global Skills Strategy offers expedited processing for tech talent, aligning with your background.",
+      "Growth in AI-driven healthcare and infrastructure analytics matches your specific internship portfolio."
     ],
-    "explanation": "Given the lack of current work authorization in the US, the path of least resistance is leveraging Canada's more accessible immigration framework while targeting US companies with remote-first policies. Your background in high-impact sectors like disaster analytics and biomedical research provides a strong narrative for 'extraordinary ability' or specialized skill-based visa petitions. By focusing on growth-oriented sectors like AI infrastructure, you align your profile with industries that are currently receiving significant government subsidies and investment, increasing the likelihood of sponsorship."
+    "explanation": "Your background in both US-based research and international data science provides a strong foundation for STEM-based visa pathways. By targeting firms that prioritize AI infrastructure, you align your technical expertise with current industrial investment trends. Prioritizing the US for the immediate post-grad period maximizes your OPT benefits, while Canada serves as a viable long-term contingency for permanent residency."
   },
   "industry_result": {
     "ranked_industries": [
       {
         "name": "Healthcare AI",
-        "score": 8.5,
-        "recommendation": "direct priority",
-        "why_now": "Incumbents are digitizing rapidly while AI-native specialists open new workflow wedges. Policy alignment is driven by massive healthcare digitization budgets and the adoption of AI-enabled clinical workflows.",
+        "score": 7.45,
+        "recommendation": "build bridge role path",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
         "key_skills": [
           "analytics",
           "healthcare",
@@ -132,58 +272,26 @@
           "AI-enabled clinical workflow adoption",
           "Data infrastructure modernization"
         ],
-        "company_strategy_hint": "Clinical AI platform companies and health-tech startups",
-        "market_stage": "High growth phase with significant venture and government backing for predictive clinical tools.",
+        "company_strategy_hint": "Clinical AI platform companies",
+        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
         "sample_companies": [
           "Tempus",
           "Abridge",
           "Flatiron Health"
         ],
-        "trend_summary": "Healthcare is shifting toward data-driven outcomes, creating high demand for analysts who can bridge clinical data and ML models.",
+        "trend_summary": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Current momentum is reinforced by Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
         "entry_barriers": [
-          "Requires domain-specific understanding of health data privacy (HIPAA)",
-          "High emphasis on portfolio proof of clinical data cleaning"
+          "This path usually rewards candidates who already show evidence in analytics, healthcare, machine learning.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
         ],
-        "long_term_growth": "Exceptional long-term stability due to the essential nature of the sector and the complexity of its data problems.",
-        "personalized_reason": "Your research experience in lung cancer analysis provides a direct, high-value narrative for this sector that differentiates you from generalist applicants."
-      },
-      {
-        "name": "Climate and Energy Tech",
-        "score": 7.8,
-        "recommendation": "direct priority",
-        "why_now": "Policy support and massive infrastructure investment are expanding demand for data-heavy operations roles. This sector is a direct beneficiary of public-private climate investment.",
-        "key_skills": [
-          "analytics",
-          "forecasting",
-          "optimization",
-          "python",
-          "sql"
-        ],
-        "policy_alignment": [
-          "Energy transition and grid modernization",
-          "Industrial efficiency and optimization",
-          "Public-private climate investment"
-        ],
-        "company_strategy_hint": "Grid management and renewable energy analytics firms",
-        "market_stage": "Rapidly scaling as the energy transition requires complex optimization of decentralized power grids.",
-        "sample_companies": [
-          "Aurora Solar",
-          "AutoGrid",
-          "Stem"
-        ],
-        "trend_summary": "Policy-driven investment is creating a surge in demand for technical talent capable of modeling energy consumption and grid performance.",
-        "entry_barriers": [
-          "Niche domain knowledge of energy systems",
-          "Strong requirement for forecasting and time-series modeling proficiency"
-        ],
-        "long_term_growth": "Strong, as global decarbonization efforts will require decades of data-driven infrastructure optimization.",
-        "personalized_reason": "Your background in disaster analytics and forecasting models aligns perfectly with the predictive modeling needs of grid management companies."
+        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, machine learning, python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
       },
       {
         "name": "Enterprise SaaS",
-        "score": 7.2,
+        "score": 6.8,
         "recommendation": "build bridge role path",
-        "why_now": "AI is reshaping product design and analytics ownership, creating a need for analysts who can build internal decision intelligence. Enterprise productivity demand remains a top priority for corporate spending.",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
         "key_skills": [
           "analytics",
           "dashboarding",
@@ -196,26 +304,26 @@
           "AI copilots and workflow automation",
           "Decision intelligence in software platforms"
         ],
-        "company_strategy_hint": "Product-led growth SaaS platforms",
-        "market_stage": "Mature but undergoing a massive pivot toward embedding AI and predictive analytics into core product offerings.",
+        "company_strategy_hint": "Product-led SaaS platforms",
+        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
         "sample_companies": [
           "Datadog",
           "HubSpot",
           "Notion"
         ],
-        "trend_summary": "Companies are moving away from simple reporting toward automated, AI-driven insights for business users.",
+        "trend_summary": "AI is reshaping product design, analytics ownership, and software buyer expectations. Current momentum is reinforced by Enterprise productivity demand, AI copilots and workflow automation.",
         "entry_barriers": [
-          "Competitive hiring market",
-          "High requirement for clean, scalable SQL and dashboarding skills"
+          "This path usually rewards candidates who already show evidence in analytics, dashboarding, experimentation.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
         ],
-        "long_term_growth": "Highly stable with clear career ladders for data professionals moving into product analytics or data science.",
-        "personalized_reason": "Your internship experience building SQL dashboards and KPI reporting is directly applicable to the core operations of SaaS companies."
+        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
       },
       {
         "name": "Fintech",
-        "score": 6.9,
+        "score": 6.55,
         "recommendation": "build bridge role path",
-        "why_now": "The sector continues to reward companies that reduce friction, fraud, and manual finance work through automation. Policy alignment is strong in digital financial operations and trust infrastructure.",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
         "key_skills": [
           "analytics",
           "experimentation",
@@ -229,59 +337,26 @@
           "Product analytics and growth efficiency"
         ],
         "company_strategy_hint": "Payments and infrastructure platforms",
-        "market_stage": "Consolidating around high-efficiency platforms that prioritize risk reduction and user growth.",
+        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
         "sample_companies": [
           "Stripe",
           "Plaid",
           "Ramp"
         ],
-        "trend_summary": "Fintech is increasingly reliant on real-time anomaly detection and predictive analytics to maintain trust and operational efficiency.",
+        "trend_summary": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Current momentum is reinforced by Digital financial operations, Risk automation and trust infrastructure.",
         "entry_barriers": [
-          "Strict regulatory environment",
-          "Requires high-quality, bug-free code for financial data integrity"
+          "This path usually rewards candidates who already show evidence in analytics, experimentation, python.",
+          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
         ],
-        "long_term_growth": "High, as financial systems move toward fully digital, automated infrastructure.",
-        "personalized_reason": "Your experience with anomaly detection in disaster analytics is a transferable skill for fraud detection and risk modeling in fintech."
-      }
-    ],
-    "top_industries": [
-      {
-        "name": "Healthcare AI",
-        "score": 8.5,
-        "recommendation": "direct priority",
-        "why_now": "Incumbents are digitizing rapidly while AI-native specialists open new workflow wedges. Policy alignment is driven by massive healthcare digitization budgets and the adoption of AI-enabled clinical workflows.",
-        "key_skills": [
-          "analytics",
-          "healthcare",
-          "machine learning",
-          "python",
-          "sql"
-        ],
-        "policy_alignment": [
-          "Healthcare digitization budgets",
-          "AI-enabled clinical workflow adoption",
-          "Data infrastructure modernization"
-        ],
-        "company_strategy_hint": "Clinical AI platform companies and health-tech startups",
-        "market_stage": "High growth phase with significant venture and government backing for predictive clinical tools.",
-        "sample_companies": [
-          "Tempus",
-          "Abridge",
-          "Flatiron Health"
-        ],
-        "trend_summary": "Healthcare is shifting toward data-driven outcomes, creating high demand for analysts who can bridge clinical data and ML models.",
-        "entry_barriers": [
-          "Requires domain-specific understanding of health data privacy (HIPAA)",
-          "High emphasis on portfolio proof of clinical data cleaning"
-        ],
-        "long_term_growth": "Exceptional long-term stability due to the essential nature of the sector and the complexity of its data problems.",
-        "personalized_reason": "Your research experience in lung cancer analysis provides a direct, high-value narrative for this sector that differentiates you from generalist applicants."
+        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
       },
       {
         "name": "Climate and Energy Tech",
-        "score": 7.8,
-        "recommendation": "direct priority",
-        "why_now": "Policy support and massive infrastructure investment are expanding demand for data-heavy operations roles. This sector is a direct beneficiary of public-private climate investment.",
+        "score": 6.35,
+        "recommendation": "monitor as secondary option",
+        "why_now": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles. Policy alignment comes from Energy transition and grid modernization, Industrial efficiency and optimization.",
         "key_skills": [
           "analytics",
           "forecasting",
@@ -294,26 +369,94 @@
           "Industrial efficiency and optimization",
           "Public-private climate investment"
         ],
-        "company_strategy_hint": "Grid management and renewable energy analytics firms",
-        "market_stage": "Rapidly scaling as the energy transition requires complex optimization of decentralized power grids.",
+        "company_strategy_hint": "Grid and energy analytics companies",
+        "market_stage": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles.",
         "sample_companies": [
           "Aurora Solar",
           "AutoGrid",
           "Stem"
         ],
-        "trend_summary": "Policy-driven investment is creating a surge in demand for technical talent capable of modeling energy consumption and grid performance.",
+        "trend_summary": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles. Current momentum is reinforced by Energy transition and grid modernization, Industrial efficiency and optimization.",
         "entry_barriers": [
-          "Niche domain knowledge of energy systems",
-          "Strong requirement for forecasting and time-series modeling proficiency"
+          "This path usually rewards candidates who already show evidence in analytics, forecasting, optimization.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
         ],
-        "long_term_growth": "Strong, as global decarbonization efforts will require decades of data-driven infrastructure optimization.",
-        "personalized_reason": "Your background in disaster analytics and forecasting models aligns perfectly with the predictive modeling needs of grid management companies."
+        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+      },
+      {
+        "name": "Semiconductors and Advanced Manufacturing",
+        "score": 4.8,
+        "recommendation": "monitor as secondary option",
+        "why_now": "Industrial policy and compute demand are strengthening the full semiconductor value chain. Policy alignment comes from CHIPS-style industrial policy, Supply-chain resilience.",
+        "key_skills": [
+          "automation",
+          "forecasting",
+          "python",
+          "quality",
+          "statistics"
+        ],
+        "policy_alignment": [
+          "CHIPS-style industrial policy",
+          "Supply-chain resilience",
+          "Factory automation and yield optimization"
+        ],
+        "company_strategy_hint": "Chip design and platform companies",
+        "market_stage": "Industrial policy and compute demand are strengthening the full semiconductor value chain.",
+        "sample_companies": [
+          "NVIDIA",
+          "ASML",
+          "Applied Materials"
+        ],
+        "trend_summary": "Industrial policy and compute demand are strengthening the full semiconductor value chain. Current momentum is reinforced by CHIPS-style industrial policy, Supply-chain resilience.",
+        "entry_barriers": [
+          "This path usually rewards candidates who already show evidence in automation, forecasting, python.",
+          "Current skill overlap is still shallow, so a bridge role or stronger portfolio proof may be needed.",
+          "Entry is less forgiving because domain fluency and execution proof matter early.",
+          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup."
+        ],
+        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+      }
+    ],
+    "top_industries": [
+      {
+        "name": "Healthcare AI",
+        "score": 7.45,
+        "recommendation": "build bridge role path",
+        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "key_skills": [
+          "analytics",
+          "healthcare",
+          "machine learning",
+          "python",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Healthcare digitization budgets",
+          "AI-enabled clinical workflow adoption",
+          "Data infrastructure modernization"
+        ],
+        "company_strategy_hint": "Clinical AI platform companies",
+        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
+        "sample_companies": [
+          "Tempus",
+          "Abridge",
+          "Flatiron Health"
+        ],
+        "trend_summary": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Current momentum is reinforced by Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "entry_barriers": [
+          "This path usually rewards candidates who already show evidence in analytics, healthcare, machine learning.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+        ],
+        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, machine learning, python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
       },
       {
         "name": "Enterprise SaaS",
-        "score": 7.2,
+        "score": 6.8,
         "recommendation": "build bridge role path",
-        "why_now": "AI is reshaping product design and analytics ownership, creating a need for analysts who can build internal decision intelligence. Enterprise productivity demand remains a top priority for corporate spending.",
+        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
         "key_skills": [
           "analytics",
           "dashboarding",
@@ -326,491 +469,535 @@
           "AI copilots and workflow automation",
           "Decision intelligence in software platforms"
         ],
-        "company_strategy_hint": "Product-led growth SaaS platforms",
-        "market_stage": "Mature but undergoing a massive pivot toward embedding AI and predictive analytics into core product offerings.",
+        "company_strategy_hint": "Product-led SaaS platforms",
+        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
         "sample_companies": [
           "Datadog",
           "HubSpot",
           "Notion"
         ],
-        "trend_summary": "Companies are moving away from simple reporting toward automated, AI-driven insights for business users.",
+        "trend_summary": "AI is reshaping product design, analytics ownership, and software buyer expectations. Current momentum is reinforced by Enterprise productivity demand, AI copilots and workflow automation.",
         "entry_barriers": [
-          "Competitive hiring market",
-          "High requirement for clean, scalable SQL and dashboarding skills"
+          "This path usually rewards candidates who already show evidence in analytics, dashboarding, experimentation.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
         ],
-        "long_term_growth": "Highly stable with clear career ladders for data professionals moving into product analytics or data science.",
-        "personalized_reason": "Your internship experience building SQL dashboards and KPI reporting is directly applicable to the core operations of SaaS companies."
+        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+      },
+      {
+        "name": "Fintech",
+        "score": 6.55,
+        "recommendation": "build bridge role path",
+        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+        "key_skills": [
+          "analytics",
+          "experimentation",
+          "python",
+          "risk",
+          "sql"
+        ],
+        "policy_alignment": [
+          "Digital financial operations",
+          "Risk automation and trust infrastructure",
+          "Product analytics and growth efficiency"
+        ],
+        "company_strategy_hint": "Payments and infrastructure platforms",
+        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
+        "sample_companies": [
+          "Stripe",
+          "Plaid",
+          "Ramp"
+        ],
+        "trend_summary": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Current momentum is reinforced by Digital financial operations, Risk automation and trust infrastructure.",
+        "entry_barriers": [
+          "This path usually rewards candidates who already show evidence in analytics, experimentation, python.",
+          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup.",
+          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+        ],
+        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
+        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
       }
     ],
     "selection_logic": [
-      "Prioritized industries with high policy-driven funding to increase sponsorship feasibility.",
-      "Weighted sectors where your specific internship projects (Healthcare, Disaster/Forecasting) serve as direct evidence of competence.",
-      "Filtered for industries with remote-friendly cultures to support your need for cross-border mobility."
+      "Industry is selected before role so the user can ride stronger policy and market tailwinds.",
+      "Scoring combines macro attractiveness, current skill fit, entry friendliness, and visa friction.",
+      "Top industries should feed company strategy before final role positioning."
     ],
-    "explanation": "Your profile is uniquely strong in healthcare and predictive modeling, making those sectors your highest-probability paths for sponsorship. By targeting growth-oriented industries with significant government investment, you align your career trajectory with sectors that prioritize talent acquisition. Focus your applications on companies with global footprints to maximize the potential for remote work and visa sponsorship pathways."
+    "explanation": "Choosing an industry first grounds your career in a sector with structural growth, ensuring your skills remain in high demand regardless of company-specific fluctuations. For someone requiring visa sponsorship like you, aligning with a high-growth industry—such as Healthcare AI or Enterprise SaaS—positions you at the center of institutional investment, where companies are most likely to prioritize hiring and retaining specialized international talent. By prioritizing the \"where\" over the \"who,\" you build domain expertise that compounds over time, making you more valuable to any future employer within that space."
   },
   "company_result": {
     "discovery_strategy": [
-      "Filter for high-growth firms in sectors with strong policy tailwinds (Healthcare AI, Climate Tech, Enterprise SaaS).",
-      "Prioritize companies with remote-first or global-distributed engineering cultures to mitigate immediate visa friction.",
-      "Evaluate companies based on the 'proximity to revenue' of their data teams to ensure high-impact first-year project potential."
+      "Filter for high-growth US-based companies with established data-driven product cultures.",
+      "Prioritize firms with documented sponsorship history or global operations to mitigate visa risk.",
+      "Align company selection with the user's specific internship background in AI, healthcare, and infrastructure."
     ],
     "target_company_types": [
-      "AI-native healthcare workflow platforms",
-      "Grid management and energy optimization software",
-      "Product-led growth (PLG) SaaS platforms with embedded AI"
+      "AI-native workflow software companies",
+      "Healthcare analytics and data infrastructure vendors",
+      "Product-led SaaS platforms"
     ],
     "company_selection_rules": [
-      "Favor companies where data analytics directly informs product features or operational efficiency.",
-      "Target firms that have demonstrated a willingness to hire remote talent or maintain international entities.",
-      "Prefer growth-stage (Series B/C) companies over early-stage startups to ensure infrastructure for visa sponsorship exists."
+      "Prioritize companies where data work directly influences product adoption or operational efficiency.",
+      "Favor teams where analytics sits close to decision-makers rather than isolated reporting functions.",
+      "Filter for companies with a high likelihood of sponsoring STEM OPT candidates."
     ],
     "ranking_logic": [
-      "Industry alignment score (weighted by policy tailwinds).",
-      "Visa sponsorship potential based on remote-first maturity and international hiring history.",
-      "Direct relevance of user's internship experience (Healthcare/Disaster Analytics) to the company's core product."
+      "Industry alignment with user's background (Healthcare AI, Enterprise SaaS).",
+      "Company stage (Growth-stage preferred for high-leverage data projects).",
+      "Visa support potential and international operating environment."
     ],
     "industry_analysis": [
-      "Healthcare AI is shifting from research-heavy to workflow-integration-heavy, favoring analysts who understand clinical data.",
-      "Climate Tech is experiencing a surge in demand for forecasting and time-series expertise due to grid modernization mandates.",
-      "Enterprise SaaS is pivoting toward 'decision intelligence,' increasing the value of analysts who can build internal experimentation loops."
+      "Healthcare AI rewards companies that connect model performance to clinical workflow adoption.",
+      "Enterprise SaaS gives broad access to product, revenue, and usage data with clear experimentation loops.",
+      "Data infrastructure modernization is a key investment area for incumbents."
     ],
     "market_analysis": [
-      "B2B buyers are demanding measurable ROI from AI, creating a high-value niche for analysts who can prove model efficacy.",
-      "Remote-first companies are increasingly using EOR (Employer of Record) services to bypass local visa constraints, favoring global talent.",
-      "Growth-stage companies are currently prioritizing 'efficiency-focused' hiring, which favors data analysts over generalists."
+      "B2B buyers now expect AI augmentation and measurable productivity gains.",
+      "Companies with product-led data loops often develop stronger analyst and data scientist scope.",
+      "Efficiency-focused buyers reward products that reduce manual operations."
     ],
     "value_chain_analysis": [
-      "Data analysts in Healthcare AI sit at the intersection of clinical compliance and model performance, a high-leverage position.",
-      "In Climate Tech, analytics roles are critical for translating sensor data into grid stability, directly impacting operational revenue.",
-      "Enterprise SaaS analytics roles are moving closer to the product loop, where data-driven insights directly dictate feature prioritization."
+      "High-value positions sit near clinical data infrastructure and decision support.",
+      "The best operating leverage comes from turning fragmented processes into repeatable data products.",
+      "The most strategic teams sit between product usage, monetization, and go-to-market efficiency."
     ],
     "competitor_map": [
-      "Healthcare AI: Abridge, Tempus, Flatiron Health",
-      "Climate Tech: Aurora Solar, AutoGrid, Stem",
-      "Enterprise SaaS: Notion, HubSpot, Datadog"
+      "Clinical AI platforms: Tempus, Abridge, Flatiron Health",
+      "Collaboration and workflow: Notion, Airtable",
+      "Product-led SaaS: HubSpot, Datadog"
     ],
     "retrieved_companies": [
       {
-        "industry": "Climate and Energy Tech",
-        "name": "Aurora Solar",
-        "company_type": "Climate software",
+        "industry": "Enterprise SaaS",
+        "name": "Notion",
+        "company_type": "AI-native workflow software companies",
         "stage": "Growth-stage",
-        "focus": "Solar design and workflow software",
-        "why_now": "Massive infrastructure investment in renewables.",
+        "focus": "AI-enhanced collaboration software",
+        "why_now": "AI is reshaping product design and analytics ownership.",
         "region": "US/Remote",
-        "hiring_signal": "Analytics roles support operational workflows.",
+        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important.",
         "source": "local_kb",
-        "fit_score": 13.0,
+        "fit_score": 13.5,
         "why_match": [
-          "Remote-first culture",
-          "Forecasting/Optimization focus"
+          "Strong alignment with Enterprise SaaS",
+          "Growth-stage environment",
+          "High visa support likelihood"
         ],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for forecasting skills.",
-        "candidate_explanation": "Your forecasting model experience is a direct match for solar energy optimization.",
-        "role_value_potential": "High visibility in operational resource allocation."
+        "user_fit_summary": "Ideal for exposure to AI-enhanced collaboration software in a growth-stage context.",
+        "candidate_explanation": "Notion's focus on product-led growth provides a perfect environment for high-impact analytics.",
+        "role_value_potential": "Connect analytics to AI product features to build a strong portfolio."
       },
       {
         "industry": "Healthcare AI",
         "name": "Abridge",
-        "company_type": "Workflow-embedded healthcare AI",
+        "company_type": "Workflow-embedded healthcare AI platforms",
         "stage": "Growth-stage",
-        "focus": "Clinical documentation AI",
-        "why_now": "Rapid adoption of AI-enabled clinical workflows.",
+        "focus": "Clinical documentation and workflow AI",
+        "why_now": "Healthcare digitization budgets are driving AI adoption.",
         "region": "US",
-        "hiring_signal": "Strong demand for analysts to bridge clinical data and AI outputs.",
+        "hiring_signal": "AI workflow teams hire analytics and product-minded operators.",
         "source": "local_kb",
-        "fit_score": 12.5,
+        "fit_score": 12.8,
         "why_match": [
-          "Direct relevance to research background",
-          "High-impact workflow focus"
+          "Matches healthcare research background",
+          "Growth-stage",
+          "Direct industry alignment"
         ],
         "international_environment": "medium",
         "orientation": "technical",
         "visa_support_likelihood": "medium",
-        "user_fit_summary": "High alignment with research background.",
-        "candidate_explanation": "Your experience in biomedical research makes you a prime candidate for clinical data analysis roles.",
-        "role_value_potential": "High potential to influence clinical product adoption."
+        "user_fit_summary": "Strong fit for clinical documentation and workflow AI.",
+        "candidate_explanation": "Your research experience directly translates to Abridge's clinical data challenges.",
+        "role_value_potential": "Build domain expertise in high-stakes healthcare AI."
       },
       {
         "industry": "Enterprise SaaS",
-        "name": "Notion",
-        "company_type": "AI-native workflow software",
-        "stage": "Growth-stage",
-        "focus": "AI-enhanced collaboration",
-        "why_now": "AI reshaping product design and analytics.",
+        "name": "HubSpot",
+        "company_type": "Product-led SaaS platforms",
+        "stage": "Public",
+        "focus": "Growth and customer platform analytics",
+        "why_now": "Enterprise productivity demand remains high.",
         "region": "US/Remote",
-        "hiring_signal": "Product analytics is a strategic priority.",
+        "hiring_signal": "Analytics sits close to go-to-market and product decisions.",
         "source": "local_kb",
-        "fit_score": 12.0,
+        "fit_score": 11.3,
         "why_match": [
-          "Product-led growth focus",
-          "Remote-friendly"
+          "Stable public company",
+          "Remote flexibility",
+          "Strong analytics culture"
         ],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for product analytics.",
-        "candidate_explanation": "Your dashboarding and KPI experience fits well with internal product decision intelligence.",
-        "role_value_potential": "Direct impact on product-led growth metrics."
+        "user_fit_summary": "Great for growth, lifecycle, and customer platform analytics.",
+        "candidate_explanation": "HubSpot offers a structured environment to master product-led analytics.",
+        "role_value_potential": "Develop skills in large-scale experimentation and lifecycle analytics."
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Flatiron Health",
+        "company_type": "Healthcare analytics and data infrastructure vendors",
+        "stage": "Mature",
+        "focus": "Oncology data infrastructure",
+        "why_now": "Data-heavy operating environment with healthcare domain depth.",
+        "region": "US",
+        "hiring_signal": "Data and analytics work ties closely to clinical decisions.",
+        "source": "local_kb",
+        "fit_score": 10.5,
+        "why_match": [
+          "Deep healthcare domain",
+          "Strong data infrastructure focus"
+        ],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium",
+        "user_fit_summary": "Excellent for oncology data infrastructure and clinical analytics.",
+        "candidate_explanation": "Flatiron is a leader in oncology data, ideal for a data scientist with research experience.",
+        "role_value_potential": "Gain deep expertise in complex, regulated healthcare datasets."
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "Datadog",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Public",
+        "focus": "Instrumentation-heavy SaaS",
+        "why_now": "AI-native workflow software is a top enterprise priority.",
+        "region": "US",
+        "hiring_signal": "Strong data and experimentation opportunities.",
+        "source": "local_kb",
+        "fit_score": 10.2,
+        "why_match": [
+          "Instrumentation-heavy",
+          "High-growth public company"
+        ],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "Strong fit for instrumentation and product analytics.",
+        "candidate_explanation": "Datadog's massive scale provides unique challenges in product analytics.",
+        "role_value_potential": "Master large-scale data instrumentation and product experimentation."
+      },
+      {
+        "industry": "Fintech",
+        "name": "Stripe",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Mature/private",
+        "focus": "Payments infrastructure and product analytics",
+        "why_now": "Digital financial operations and risk automation are critical.",
+        "region": "Global/Remote",
+        "hiring_signal": "Large analytics footprint across payments and risk.",
+        "source": "local_kb",
+        "fit_score": 9.8,
+        "why_match": [
+          "Global scale",
+          "Strong visa support",
+          "Analytics-heavy culture"
+        ],
+        "international_environment": "high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "Best for payments infrastructure and product analytics at scale.",
+        "candidate_explanation": "Stripe is the gold standard for data-driven product decisions.",
+        "role_value_potential": "Build a career on the backbone of the internet economy."
       }
     ],
     "shortlisted_companies": [
       {
-        "industry": "Climate and Energy Tech",
-        "name": "Aurora Solar",
-        "company_type": "Climate software",
+        "industry": "Enterprise SaaS",
+        "name": "Notion",
+        "company_type": "AI-native workflow software companies",
         "stage": "Growth-stage",
-        "focus": "Solar design and workflow software",
-        "why_now": "Massive infrastructure investment in renewables.",
+        "focus": "AI-enhanced collaboration software",
+        "why_now": "AI is reshaping product design and analytics ownership.",
         "region": "US/Remote",
-        "hiring_signal": "Analytics roles support operational workflows.",
+        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important.",
         "source": "local_kb",
-        "fit_score": 13.0,
+        "fit_score": 13.5,
         "why_match": [
-          "Remote-first culture",
-          "Forecasting/Optimization focus"
+          "Strong alignment with Enterprise SaaS",
+          "Growth-stage environment",
+          "High visa support likelihood"
         ],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for forecasting skills.",
-        "candidate_explanation": "Your forecasting model experience is a direct match for solar energy optimization.",
-        "role_value_potential": "High visibility in operational resource allocation."
+        "user_fit_summary": "Ideal for exposure to AI-enhanced collaboration software in a growth-stage context.",
+        "candidate_explanation": "Notion's focus on product-led growth provides a perfect environment for high-impact analytics.",
+        "role_value_potential": "Connect analytics to AI product features to build a strong portfolio."
       },
       {
         "industry": "Healthcare AI",
         "name": "Abridge",
-        "company_type": "Workflow-embedded healthcare AI",
+        "company_type": "Workflow-embedded healthcare AI platforms",
         "stage": "Growth-stage",
-        "focus": "Clinical documentation AI",
-        "why_now": "Rapid adoption of AI-enabled clinical workflows.",
+        "focus": "Clinical documentation and workflow AI",
+        "why_now": "Healthcare digitization budgets are driving AI adoption.",
         "region": "US",
-        "hiring_signal": "Strong demand for analysts to bridge clinical data and AI outputs.",
+        "hiring_signal": "AI workflow teams hire analytics and product-minded operators.",
         "source": "local_kb",
-        "fit_score": 12.5,
+        "fit_score": 12.8,
         "why_match": [
-          "Direct relevance to research background",
-          "High-impact workflow focus"
+          "Matches healthcare research background",
+          "Growth-stage",
+          "Direct industry alignment"
         ],
         "international_environment": "medium",
         "orientation": "technical",
         "visa_support_likelihood": "medium",
-        "user_fit_summary": "High alignment with research background.",
-        "candidate_explanation": "Your experience in biomedical research makes you a prime candidate for clinical data analysis roles.",
-        "role_value_potential": "High potential to influence clinical product adoption."
+        "user_fit_summary": "Strong fit for clinical documentation and workflow AI.",
+        "candidate_explanation": "Your research experience directly translates to Abridge's clinical data challenges.",
+        "role_value_potential": "Build domain expertise in high-stakes healthcare AI."
       },
       {
         "industry": "Enterprise SaaS",
-        "name": "Notion",
-        "company_type": "AI-native workflow software",
-        "stage": "Growth-stage",
-        "focus": "AI-enhanced collaboration",
-        "why_now": "AI reshaping product design and analytics.",
+        "name": "HubSpot",
+        "company_type": "Product-led SaaS platforms",
+        "stage": "Public",
+        "focus": "Growth and customer platform analytics",
+        "why_now": "Enterprise productivity demand remains high.",
         "region": "US/Remote",
-        "hiring_signal": "Product analytics is a strategic priority.",
+        "hiring_signal": "Analytics sits close to go-to-market and product decisions.",
         "source": "local_kb",
-        "fit_score": 12.0,
+        "fit_score": 11.3,
         "why_match": [
-          "Product-led growth focus",
-          "Remote-friendly"
+          "Stable public company",
+          "Remote flexibility",
+          "Strong analytics culture"
         ],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for product analytics.",
-        "candidate_explanation": "Your dashboarding and KPI experience fits well with internal product decision intelligence.",
-        "role_value_potential": "Direct impact on product-led growth metrics."
+        "user_fit_summary": "Great for growth, lifecycle, and customer platform analytics.",
+        "candidate_explanation": "HubSpot offers a structured environment to master product-led analytics.",
+        "role_value_potential": "Develop skills in large-scale experimentation and lifecycle analytics."
+      },
+      {
+        "industry": "Healthcare AI",
+        "name": "Flatiron Health",
+        "company_type": "Healthcare analytics and data infrastructure vendors",
+        "stage": "Mature",
+        "focus": "Oncology data infrastructure",
+        "why_now": "Data-heavy operating environment with healthcare domain depth.",
+        "region": "US",
+        "hiring_signal": "Data and analytics work ties closely to clinical decisions.",
+        "source": "local_kb",
+        "fit_score": 10.5,
+        "why_match": [
+          "Deep healthcare domain",
+          "Strong data infrastructure focus"
+        ],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium",
+        "user_fit_summary": "Excellent for oncology data infrastructure and clinical analytics.",
+        "candidate_explanation": "Flatiron is a leader in oncology data, ideal for a data scientist with research experience.",
+        "role_value_potential": "Gain deep expertise in complex, regulated healthcare datasets."
+      },
+      {
+        "industry": "Enterprise SaaS",
+        "name": "Datadog",
+        "company_type": "AI-native workflow software companies",
+        "stage": "Public",
+        "focus": "Instrumentation-heavy SaaS",
+        "why_now": "AI-native workflow software is a top enterprise priority.",
+        "region": "US",
+        "hiring_signal": "Strong data and experimentation opportunities.",
+        "source": "local_kb",
+        "fit_score": 10.2,
+        "why_match": [
+          "Instrumentation-heavy",
+          "High-growth public company"
+        ],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "Strong fit for instrumentation and product analytics.",
+        "candidate_explanation": "Datadog's massive scale provides unique challenges in product analytics.",
+        "role_value_potential": "Master large-scale data instrumentation and product experimentation."
+      },
+      {
+        "industry": "Fintech",
+        "name": "Stripe",
+        "company_type": "Payments and financial infrastructure platforms",
+        "stage": "Mature/private",
+        "focus": "Payments infrastructure and product analytics",
+        "why_now": "Digital financial operations and risk automation are critical.",
+        "region": "Global/Remote",
+        "hiring_signal": "Large analytics footprint across payments and risk.",
+        "source": "local_kb",
+        "fit_score": 9.8,
+        "why_match": [
+          "Global scale",
+          "Strong visa support",
+          "Analytics-heavy culture"
+        ],
+        "international_environment": "high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "Best for payments infrastructure and product analytics at scale.",
+        "candidate_explanation": "Stripe is the gold standard for data-driven product decisions.",
+        "role_value_potential": "Build a career on the backbone of the internet economy."
       }
     ],
     "why_these_companies": [
-      "Aurora Solar offers the best combination of remote flexibility and direct technical application of your forecasting skills.",
-      "Abridge leverages your specific biomedical research background, providing a unique competitive advantage.",
-      "Notion provides a high-growth environment where product analytics is central to the company's AI-driven roadmap."
+      "These companies sit at the intersection of high-growth industries and strong analytics demand.",
+      "Each firm has a proven track record of integrating data into core product and business decisions.",
+      "The selection balances high-growth potential with the stability and visa support necessary for your career stage."
     ],
     "candidate_facing_takeaways": [
-      "Focus on companies where your specific internship domain expertise (Healthcare/Forecasting) acts as a differentiator.",
-      "Prioritize remote-first growth-stage companies to maximize your visa flexibility while maintaining high career growth.",
-      "Position your analytics projects not just as reporting, but as direct drivers of product and operational decision-making."
+      "Focus on companies where your data work can be directly tied to product metrics or operational revenue.",
+      "Leverage your research background in healthcare and AI to stand out in specialized firms like Abridge or Flatiron.",
+      "Prioritize roles that emphasize experimentation and product instrumentation to build a high-leverage portfolio."
     ],
-    "explanation": "Targeting growth-stage companies in policy-backed sectors allows you to leverage your niche domain expertise to bypass generalist competition. By focusing on firms with remote-first cultures, you effectively mitigate immediate visa constraints while gaining access to high-impact operational data. This strategy ensures your first role is not just a job, but a strategic platform for long-term career growth."
+    "explanation": "Strategic company selection acts as a force multiplier by aligning your technical skills with high-leverage data problems. By targeting firms where analytics is central to product strategy, you build domain expertise that is highly valued in the US market. This approach ensures your daily work serves as a portfolio that justifies the investment in visa sponsorship."
   },
   "role_result": {
     "recommended_paths": [
       {
         "industry": "Healthcare AI",
-        "company_type": "Clinical AI platform",
-        "role_title": "Clinical Data Analyst",
-        "path_type": "direct",
+        "company_type": "Workflow-embedded healthcare AI platforms",
+        "role_title": "Data Analyst",
+        "path_type": "bridge",
         "focus_areas": [
-          "Clinical data pipelines",
-          "Model performance monitoring",
-          "HIPAA-compliant analytics"
+          "analytics",
+          "healthcare",
+          "machine learning"
         ],
         "why_fit": [
-          "Leverages your biomedical research background as a unique differentiator",
-          "High demand for analysts who can translate clinical data into actionable AI model inputs"
+          "Industry selected first because Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+          "Company strategy points toward workflow-embedded healthcare ai platforms rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
         ],
         "success_metrics": [
-          "Reduce clinical data cleaning time by 15%",
-          "Improve model prediction accuracy through refined feature engineering"
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
         ],
         "example_companies": [
           "Abridge",
-          "Tempus",
           "Flatiron Health"
         ]
       },
       {
-        "industry": "Climate and Energy Tech",
-        "company_type": "Grid management software",
-        "role_title": "Operations Data Analyst",
-        "path_type": "bridge",
-        "focus_areas": [
-          "Time-series forecasting",
-          "Energy grid optimization",
-          "Sensor data validation"
-        ],
-        "why_fit": [
-          "Directly maps your earthquake sensor data experience to energy grid monitoring",
-          "Aligns with massive public-private infrastructure investment"
-        ],
-        "success_metrics": [
-          "Automate daily grid performance reporting",
-          "Increase forecasting model reliability by 10%"
-        ],
-        "example_companies": [
-          "Aurora Solar",
-          "AutoGrid",
-          "Stem"
-        ]
-      },
-      {
         "industry": "Enterprise SaaS",
-        "company_type": "AI-native productivity platform",
-        "role_title": "Product Data Analyst",
+        "company_type": "AI-native workflow software companies",
+        "role_title": "Data Analyst",
         "path_type": "bridge",
         "focus_areas": [
-          "Product-led growth metrics",
-          "Experimentation design",
-          "Internal decision intelligence"
+          "analytics",
+          "dashboarding",
+          "experimentation"
         ],
         "why_fit": [
-          "Builds on your SQL dashboarding and KPI reporting experience",
-          "High-growth environment offers clear career progression and visa sponsorship potential"
+          "Industry selected first because AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+          "Company strategy points toward ai-native workflow software companies rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
         ],
         "success_metrics": [
-          "Identify key product usage drivers for user retention",
-          "Launch A/B testing framework for new AI feature rollouts"
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
         ],
         "example_companies": [
           "Notion",
           "HubSpot",
           "Datadog"
         ]
+      },
+      {
+        "industry": "Fintech",
+        "company_type": "Payments and financial infrastructure platforms",
+        "role_title": "Business Intelligence Analyst",
+        "path_type": "bridge",
+        "focus_areas": [
+          "analytics",
+          "experimentation",
+          "python"
+        ],
+        "why_fit": [
+          "Industry selected first because The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
+          "Company strategy points toward payments and financial infrastructure platforms rather than generic employer lists.",
+          "Policy mobility context is currently high risk."
+        ],
+        "success_metrics": [
+          "Own a measurable business or operational metric in the first 90 days",
+          "Demonstrate domain fluency in the chosen industry",
+          "Translate analysis into a decision, automation, or workflow improvement"
+        ],
+        "example_companies": [
+          "Stripe"
+        ]
       }
     ],
     "decision_principles": [
-      "Prioritize roles where domain-specific internship experience acts as a primary competitive advantage.",
-      "Target growth-stage companies with established remote-first cultures to maximize visa sponsorship feasibility.",
-      "Focus on positions that bridge technical data modeling with measurable operational or product ROI."
+      "Role path comes after industry and company strategy so the title reflects the market context.",
+      "Bridge roles are valid when they improve industry entry speed and future option value.",
+      "Choose roles where the first year can produce visible business impact, not just technical exposure."
     ],
-    "explanation": "These paths leverage your existing predictive modeling and analytics portfolio to secure roles in high-growth, policy-backed industries. By targeting specialized 'bridge' roles, you minimize generalist competition and maximize your value proposition to employers. Each path is designed to produce measurable business impact within the first year, creating the strongest possible case for visa sponsorship."
+    "explanation": "To navigate the high-risk visa landscape, your strategy shifts from generic job hunting to joining \"growth-oriented\" firms where your data expertise directly scales their core infrastructure or clinical workflows. By positioning yourself as a \"bridge\" candidate, you translate your diverse background in healthcare, AI, and SQL-driven reporting into immediate, measurable impact on these companies' operational bottlenecks. Your path success depends on demonstrating \"domain fluency\" within the first 90 days, effectively proving that your technical skills aren't just academic but are essential drivers of the company's specific strategic goals."
   },
-  "job_targeting_result": {
-    "job_title": "Clinical Data Analyst",
-    "jd_summary": "PCL Construction is seeking an Estimating Data Analyst in Tempe, AZ, to optimize cost estimation models and bid processes. The role involves leveraging SQL, Python, and AI to transform large datasets into actionable insights, supporting project teams and leadership through sophisticated dashboarding and statistical modeling.",
-    "key_requirements": [
-      "Proficiency in SQL, Python, and PowerBI",
-      "Experience with predictive modeling and statistical techniques",
-      "Ability to communicate technical insights to non-technical stakeholders",
-      "Experience with cost estimation models or large-scale data analysis",
-      "A degree in a quantitative field such as Math, Statistics, CS, or Data Analytics"
-    ],
-    "requirement_matches": [
-      {
-        "requirement": "Proficiency in SQL, Python, and PowerBI",
-        "importance": "high",
-        "matched": true,
-        "evidence": [
-          "Existing skill: Python",
-          "Existing skill: SQL",
-          "Internship at Arizona List Organization as Data Analyst Intern: used SQL",
-          "Internship at Arizona List Organization as Data Analyst Intern: used Python",
-          "Internship at University of Arizona - Lung Cancer Research Institute as Student Researcher: used Python",
-          "Internship at USHER Technologies Inc. as Data Analyst Intern: used Python"
-        ],
-        "gap_notes": []
-      },
-      {
-        "requirement": "Experience with predictive modeling and statistical techniques",
-        "importance": "high",
-        "matched": false,
-        "evidence": [],
-        "gap_notes": [
-          "Need stronger proof for Experience with predictive modeling and statistical techniques in role-specific stories or projects."
-        ]
-      },
-      {
-        "requirement": "Ability to communicate technical insights to non-technical stakeholders",
-        "importance": "high",
-        "matched": false,
-        "evidence": [],
-        "gap_notes": [
-          "Need stronger proof for Ability to communicate technical insights to non-technical stakeholders in role-specific stories or projects."
-        ]
-      },
-      {
-        "requirement": "Experience with cost estimation models or large-scale data analysis",
-        "importance": "high",
-        "matched": false,
-        "evidence": [],
-        "gap_notes": [
-          "Need stronger proof for Experience with cost estimation models or large-scale data analysis in role-specific stories or projects."
-        ]
-      },
-      {
-        "requirement": "A degree in a quantitative field such as Math, Statistics, CS, or Data Analytics",
-        "importance": "medium",
-        "matched": true,
-        "evidence": [
-          "Existing skill: Analytics"
-        ],
-        "gap_notes": []
-      }
-    ],
-    "experience_alignment": [
-      "Target role path is Clinical Data Analyst in Healthcare AI.",
-      "Company strategy centers on workflow-embedded healthcare ai.",
-      "User brings 0 years of experience plus skills in Python, SQL, Analytics, Machine Learning.",
-      "Internship evidence available from 3 role(s)."
-    ],
-    "evidence_map": {
-      "Proficiency in SQL, Python, and PowerBI": [
-        "Existing skill: Python",
-        "Existing skill: SQL",
-        "Internship at Arizona List Organization as Data Analyst Intern: used SQL",
-        "Internship at Arizona List Organization as Data Analyst Intern: used Python",
-        "Internship at University of Arizona - Lung Cancer Research Institute as Student Researcher: used Python",
-        "Internship at USHER Technologies Inc. as Data Analyst Intern: used Python"
-      ],
-      "Experience with predictive modeling and statistical techniques": [],
-      "Ability to communicate technical insights to non-technical stakeholders": [],
-      "Experience with cost estimation models or large-scale data analysis": [],
-      "A degree in a quantitative field such as Math, Statistics, CS, or Data Analytics": [
-        "Existing skill: Analytics"
-      ]
-    },
-    "gap_analysis": [
-      "Experience with predictive modeling and statistical techniques: add a concrete project, quantified example, or domain-specific case to strengthen credibility.",
-      "Ability to communicate technical insights to non-technical stakeholders: add a concrete project, quantified example, or domain-specific case to strengthen credibility.",
-      "Experience with cost estimation models or large-scale data analysis: add a concrete project, quantified example, or domain-specific case to strengthen credibility."
-    ],
-    "positioning_strategy": [
-      "Highlight your experience building predictive models for disaster assessment as a proxy for complex cost estimation",
-      "Emphasize your history of stakeholder partnership to demonstrate your ability to support lead estimators and bid teams",
-      "Frame your internship work in KPI reporting as direct evidence of your ability to create high-impact executive dashboards"
-    ],
-    "resume_rewrite_points": [
-      "Pivot the description of your earthquake damage assessment model to focus on 'predictive modeling for resource allocation and risk estimation'",
-      "Emphasize the 'automation' aspect of your previous internship work to align with the company's focus on AI-driven process optimization",
-      "Explicitly highlight your experience with 'data integrity' and 'reporting accuracy' as these are critical for the accuracy requirements of construction bidding"
-    ],
-    "cover_letter_inputs": [
-      "Mention how your background in analyzing sensor data translates to identifying trends in construction cost datasets",
-      "Connect your experience in cross-functional stakeholder management to the requirement of working with subtrade partners and bid runners",
-      "Express enthusiasm for applying your data science toolkit to the tangible, real-world impact of large-scale infrastructure projects"
-    ],
-    "tailored_resume_bullets": [
-      "Developed predictive models for anomaly detection, demonstrating the ability to build and refine complex estimation algorithms.",
-      "Partnered with project stakeholders to translate raw sensor data into actionable insights, improving process efficiency by 15%.",
-      "Designed and deployed SQL-based KPI dashboards to provide leadership with real-time visibility into project trends and data integrity."
-    ],
-    "why_this_role_answer": "This role is a strong match because it allows me to apply my expertise in predictive modeling and SQL dashboarding to a high-stakes, data-driven industry. My background in technical research and infrastructure analytics directly prepares me to enhance PCL's cost estimation accuracy and support their commitment to AI-driven operational excellence.",
-    "match_confidence": "low"
-  },
+  "job_targeting_result": null,
   "growth_result": {
     "first_month_plan": [
-      "Map the construction estimating workflow to identify where data-driven cost models currently fail or introduce latency.",
-      "Develop a 'Proof of Value' dashboard using PowerBI that visualizes historical bid data, focusing on cost variance analysis.",
-      "Draft three 'STAR' method stories specifically addressing how you communicated technical findings to non-technical project managers.",
-      "Complete a technical deep-dive into time-series forecasting to bridge the gap between your sensor data experience and cost estimation modeling.",
-      "Refine your resume to explicitly feature the 'Predictive modeling for resource allocation' bullet point as the primary achievement."
+      "Map the operating context of Healthcare AI and learn its core metrics.",
+      "Build stakeholder understanding around clinical documentation and workflow ai.",
+      "Translate job requirements into a 30-day proof-of-value checklist.",
+      "Ship one small but visible analysis, dashboard, or workflow improvement that proves execution speed.",
+      "Package your strongest matched requirements into interview-ready examples."
     ],
     "month_2_3_plan": [
-      "Build an automated Python script that cleans and standardizes raw bid data, directly addressing the 'data integrity' requirement.",
-      "Conduct a mock presentation of your predictive modeling project to a non-technical peer to practice translating complex statistical output into actionable business advice.",
-      "Expand your portfolio to include a 'Cost Estimation Model' prototype that uses historical project data to predict bid outcomes.",
-      "Begin networking with PCL Construction employees or similar industry analysts to understand the specific AI platforms they prioritize.",
-      "Iterate on your cover letter to emphasize the transition from 'disaster analytics' to 'infrastructure cost analytics'."
+      "Own a recurring analysis or decision-support workflow instead of one-off reporting.",
+      "Develop domain fluency so recommendations reflect industry economics, not just data outputs.",
+      "Turn one technical capability into a reusable artifact such as a dashboard, model, template, or playbook.",
+      "Strengthen cross-functional trust by connecting analysis to a business decision or operational win."
     ],
     "one_year_plan": [
-      "Establish yourself as a subject matter expert in construction-tech data analytics by contributing to open-source or industry-specific data standards.",
-      "Lead a project that automates a manual reporting workflow, resulting in a quantified reduction in bid preparation time.",
-      "Transition from reactive data reporting to proactive model-based forecasting for project leadership.",
-      "Mentor junior analysts or interns on SQL and PowerBI best practices to demonstrate leadership and communication skills.",
-      "Achieve full mastery of the PCL-specific tech stack, moving from tool-user to tool-architect."
+      "Become the go-to operator for data analyst problems.",
+      "Build a portfolio of impact stories that compound into promotion or stronger external positioning.",
+      "Expand from execution into prioritization by influencing what should be measured, automated, or changed.",
+      "Create option value for the next move across stronger roles, better companies, or deeper domain specialization."
     ],
     "daily_skill_accumulation": [
-      "Spend 45 minutes daily building and testing predictive models using Python (scikit-learn) on construction-related datasets.",
-      "Document one 'translation' exercise daily: write a one-paragraph summary of a complex technical concept for a non-technical stakeholder.",
-      "Review industry news regarding AI in construction to remain macro-aware of the sector's digital transformation.",
-      "Update your evidence log with one specific metric or outcome from your current projects every evening.",
-      "Practice SQL query optimization for large-scale datasets to ensure your reporting is performant."
+      "Spend 30-45 minutes strengthening one role-critical skill with a concrete artifact every day.",
+      "Maintain a running evidence log of business impact, stakeholder wins, and domain insights.",
+      "Refine one resume or narrative bullet each week using fresh evidence from projects.",
+      "Read one company, industry, or market note daily to stay macro-aware instead of tool-focused."
     ],
     "value_creation_plan": [
-      "Focus on projects that reduce 'decision latency' for estimators, such as automated bid-risk flagging.",
-      "Prioritize the creation of 'reusable operational leverage' by building SQL query templates that can be used across multiple project types.",
-      "Target the 'accuracy' gap by building a validation model that flags outliers in historical cost data.",
-      "Document all project outcomes with clear 'Before vs. After' metrics to build a compelling portfolio for interviews.",
-      "Align all technical work with the business goal of 'optimizing workflows' rather than just 'analyzing data'."
+      "Target value creation inside Healthcare AI.",
+      "Focus on problems close to clinical documentation and workflow ai.",
+      "Prefer work that reduces decision latency, improves forecast quality, or creates reusable operational leverage.",
+      "Document outcomes in a way that can later power interviews, resumes, and promotion cases."
     ],
     "cover_letter_growth_narrative": [
-      "I am targeting this Estimating Data Analyst role at PCL Construction because it sits at the intersection of my technical background and the high-impact world of infrastructure development.",
-      "My experience in disaster analytics and sensor data has prepared me to handle the complexity of large-scale construction datasets.",
-      "I am uniquely positioned to help PCL improve bid accuracy by applying the same predictive modeling rigor I used to automate damage assessment in previous roles.",
-      "I am committed to bridging the gap between raw data and actionable strategy, ensuring that project leadership can make informed, data-driven decisions.",
-      "My goal is to leverage my proficiency in SQL, Python, and PowerBI to drive operational excellence and support PCL's commitment to innovation."
+      "I am targeting Healthcare AI because the macro and policy context supports durable demand.",
+      "I am especially interested in Abridge because the role appears close to strategic operating problems.",
+      "My role path centers on becoming a high-leverage Data Analyst who can translate analysis into decisions.",
+      "I want my first year to compound into both immediate contribution and long-term industry positioning."
     ],
     "priority_gaps": [
-      "Experience with predictive modeling and statistical techniques in a cost-estimation context.",
-      "Ability to communicate technical insights to non-technical stakeholders (e.g., project managers, bid runners).",
-      "Direct experience with construction-specific cost estimation models or large-scale infrastructure data analysis."
+      "Strengthen domain evidence in the chosen industry.",
+      "Build one visible project that links analysis to business decisions."
     ],
     "prioritized_skills": [
-      "Proficiency in SQL, Python, and PowerBI",
-      "Predictive modeling and statistical techniques",
-      "Stakeholder communication and technical storytelling",
-      "Construction cost estimation data analysis"
+      "healthcare",
+      "clinical data analysis",
+      "SQL",
+      "Python",
+      "dashboarding"
     ],
     "project_recommendations": [
-      "Create a 'Bid Accuracy Dashboard' using PowerBI that highlights historical cost deviations and identifies key risk factors.",
-      "Develop a Python-based predictive model that estimates project costs based on historical historical bid performance and material trends.",
-      "Write a case study detailing how you identified a data integrity issue in a dataset and the specific steps you took to resolve it, improving reporting accuracy."
+      "Build a scoped project that produces one reusable artifact and one quantified business story related to clinical documentation or healthcare workflow efficiency."
     ],
     "job_search_strategy": [
-      "Target construction-tech and infrastructure firms that prioritize digital transformation and AI adoption.",
-      "Use the next 6 weeks to build a 'Construction Data Portfolio' that showcases your ability to handle large, messy datasets.",
-      "Leverage your internship experience in disaster analytics as a direct proxy for infrastructure risk management.",
-      "Apply to roles that emphasize 'workflow optimization' and 'process automation' to align with your strengths.",
-      "Treat every application as a networking opportunity by reaching out to current analysts in the target company to understand their specific data challenges."
+      "Bias toward bridge roles such as DA, BI, or analytics-heavy operations paths before stretching too early.",
+      "Use the next 4-8 weeks to build one portfolio project and one clearer narrative around business impact.",
+      "Treat applications and skill-building as one loop: every gap should inform what you build next."
     ],
-    "explanation": "To align with PCL Construction’s needs, pivot your narrative from general \"Data Analyst\" to \"Construction Intelligence Partner\" by framing your past modeling experience as a direct solution to their cost-estimation accuracy and bid-workflow inefficiencies. You must bridge the current evidence gap regarding \"cost modeling\" by translating your previous forecasting and anomaly detection projects into tangible dollar-impact metrics that demonstrate your ability to minimize financial risk for project teams. Near-term, prioritize building a portfolio project that simulates a \"bid-estimation pipeline\"—cleaning historical cost data and visualizing sensitivity analysis—to prove you can transform raw project metrics into actionable leadership dashboards."
+    "explanation": "To align your growth plan with your target, map your past forecasting and clustering achievements directly to the specific clinical or operational bottlenecks highlighted in your target JD, such as patient outcome prediction or workflow optimization. Identify the \"evidence gap\" by highlighting where your academic research projects—like the Computer Vision lab work—can be framed as proof of your ability to handle complex, unstructured healthcare data. Finally, prioritize near-term execution by building a portfolio piece that solves a simulated version of the company’s core business problem, effectively demonstrating you can deliver immediate value despite your need for visa sponsorship."
   },
-  "application_assets_result": {
-    "tailored_resume_bullets": [
-      "Developed predictive models for anomaly detection, demonstrating the ability to build and refine complex estimation algorithms.",
-      "Partnered with project stakeholders to translate raw sensor data into actionable insights, improving process efficiency by 15%.",
-      "Designed and deployed SQL-based KPI dashboards to provide leadership with real-time visibility into project trends and data integrity."
-    ],
-    "cover_letter_draft": "I am excited about the Clinical Data Analyst role at Abridge because it sits at the intersection of my technical background and high-impact healthcare innovation. My experience developing predictive models for complex sensor data and building KPI dashboards for leadership directly prepares me to help your team translate clinical data into actionable AI model inputs. I am eager to apply my proficiency in Python, SQL, and statistical analysis to drive operational excellence and support Abridge’s mission to improve clinical documentation workflows.",
-    "cold_email_message": "Hi, I am Leon, an aspiring Clinical Data Analyst. I have been following Abridge's work in clinical documentation AI and am impressed by your team's approach to workflow optimization. Given my background in biomedical research and predictive modeling, I believe I could contribute to your data initiatives. Do you have 10 minutes to share what your team currently values most in early-career analysts?",
-    "networking_message": "Hi, I am Leon, a data analyst passionate about the intersection of Healthcare AI and clinical workflows. I am currently exploring opportunities at Abridge and would love to hear your perspective on the team's culture and the most critical data challenges you are solving today. Would you be open to a brief conversation?",
-    "why_this_role_answer": "This role is a strong match because it allows me to apply my expertise in predictive modeling and SQL dashboarding to a high-stakes, data-driven industry. My background in technical research and infrastructure analytics directly prepares me to enhance clinical data pipelines and support the commitment to AI-driven operational excellence at Abridge.",
-    "linkedin_summary": "Early-career Data Analyst with a background in biomedical research and infrastructure analytics. Passionate about applying Python, SQL, and predictive modeling to solve complex problems in Healthcare AI. Committed to bridging the gap between raw data and actionable business insights through high-impact dashboarding and statistical rigor.",
-    "explanation": "Application assets transform abstract skills into tangible proof, bridging the gap between your previous experiences and the specific requirements of a target role. By converting past projects into industry-aligned evidence, these assets provide the credibility necessary to convince stakeholders that you can solve their unique business challenges."
-  }
+  "application_assets_result": null
 }

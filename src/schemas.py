@@ -69,6 +69,65 @@ class InternshipExperience:
         return cls(summary=text, impact_points=[text] if text else [])
 
 
+@dataclass(slots=True)
+class EducationExperience:
+    school: str = ""
+    degree: str = ""
+    start_year: str = ""
+    end_year: str = ""
+    location: str = ""
+    notes: str = ""
+
+    @classmethod
+    def from_value(cls, data: Any) -> "EducationExperience":
+        if isinstance(data, cls):
+            return data
+        if isinstance(data, str):
+            text = data.strip()
+            return cls(school=text)
+        if isinstance(data, dict):
+            return cls(
+                school=str(data.get("school", "")).strip(),
+                degree=str(data.get("degree", "")).strip(),
+                start_year=str(data.get("start_year", "")).strip(),
+                end_year=str(data.get("end_year", "")).strip(),
+                location=str(data.get("location", "")).strip(),
+                notes=str(data.get("notes", "")).strip(),
+            )
+        return cls(school=str(data).strip())
+
+
+@dataclass(slots=True)
+class ProjectExperience:
+    name: str = ""
+    role: str = ""
+    summary: str = ""
+    skills_used: list[str] = field(default_factory=list)
+    impact_points: list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_value(cls, data: Any) -> "ProjectExperience":
+        if isinstance(data, cls):
+            return data
+        if isinstance(data, str):
+            text = data.strip()
+            return cls(name=text, summary=text, impact_points=[text] if text else [])
+        if isinstance(data, dict):
+            summary = str(data.get("summary", "")).strip()
+            impact_points = _as_list(data.get("impact_points"))
+            if summary and summary not in impact_points:
+                impact_points = [summary, *impact_points]
+            return cls(
+                name=str(data.get("name", "")).strip(),
+                role=str(data.get("role", "")).strip(),
+                summary=summary,
+                skills_used=_as_list(data.get("skills_used")),
+                impact_points=impact_points,
+            )
+        text = str(data).strip()
+        return cls(name=text, summary=text, impact_points=[text] if text else [])
+
+
 def _as_internships(value: Any) -> list[InternshipExperience]:
     if value is None:
         return []
@@ -81,10 +140,37 @@ def _as_internships(value: Any) -> list[InternshipExperience]:
     return [InternshipExperience.from_value(item) for item in items]
 
 
+def _as_education_history(value: Any) -> list[EducationExperience]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        items = value
+    elif isinstance(value, tuple):
+        items = list(value)
+    else:
+        items = [value]
+    return [EducationExperience.from_value(item) for item in items]
+
+
+def _as_projects(value: Any) -> list[ProjectExperience]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        items = value
+    elif isinstance(value, tuple):
+        items = list(value)
+    else:
+        items = [value]
+    return [ProjectExperience.from_value(item) for item in items]
+
+
 @dataclass(slots=True)
 class UserProfile:
     name: str = ""
     target_role: str = ""
+    degree: str = ""
+    schools: list[str] = field(default_factory=list)
+    education_history: list[EducationExperience] = field(default_factory=list)
     skills: list[str] = field(default_factory=list)
     interests: list[str] = field(default_factory=list)
     years_experience: float = 0.0
@@ -95,11 +181,23 @@ class UserProfile:
     constraints: list[str] = field(default_factory=list)
     experience_highlights: list[str] = field(default_factory=list)
     internship_experiences: list[InternshipExperience] = field(default_factory=list)
+    project_experiences: list[ProjectExperience] = field(default_factory=list)
     target_companies: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.name = str(self.name).strip()
         self.target_role = str(self.target_role).strip()
+        self.degree = str(self.degree).strip()
+        self.schools = _as_list(self.schools)
+        self.education_history = _as_education_history(self.education_history)
+        if self.education_history and not self.schools:
+            self.schools = list(
+                dict.fromkeys(
+                    education.school for education in self.education_history if education.school
+                )
+            )
+        if self.education_history and not self.degree:
+            self.degree = self.education_history[-1].degree
         self.skills = _as_list(self.skills)
         self.interests = _as_list(self.interests)
         self.years_experience = _as_float(self.years_experience)
@@ -110,6 +208,7 @@ class UserProfile:
         self.constraints = _as_list(self.constraints)
         self.experience_highlights = _as_list(self.experience_highlights)
         self.internship_experiences = _as_internships(self.internship_experiences)
+        self.project_experiences = _as_projects(self.project_experiences)
         self.target_companies = _as_list(self.target_companies)
 
     @classmethod
@@ -117,6 +216,9 @@ class UserProfile:
         return cls(
             name=str(data.get("name", "")).strip(),
             target_role=str(data.get("target_role", "")).strip(),
+            degree=str(data.get("degree", "")).strip(),
+            schools=_as_list(data.get("schools")),
+            education_history=_as_education_history(data.get("education_history")),
             skills=_as_list(data.get("skills")),
             interests=_as_list(data.get("interests")),
             years_experience=_as_float(data.get("years_experience")),
@@ -127,6 +229,7 @@ class UserProfile:
             constraints=_as_list(data.get("constraints")),
             experience_highlights=_as_list(data.get("experience_highlights")),
             internship_experiences=_as_internships(data.get("internship_experiences")),
+            project_experiences=_as_projects(data.get("project_experiences")),
             target_companies=_as_list(data.get("target_companies")),
         )
 

@@ -10,6 +10,7 @@ try:
         CompanyStrategyResult,
         InternshipExperience,
         JobTargetingResult,
+        ProjectExperience,
         RequirementMatch,
         RolePathResult,
         UserProfile,
@@ -21,6 +22,7 @@ except ImportError:
         CompanyStrategyResult,
         InternshipExperience,
         JobTargetingResult,
+        ProjectExperience,
         RequirementMatch,
         RolePathResult,
         UserProfile,
@@ -130,6 +132,8 @@ def _build_evidence(
             evidence.append(f"Experience highlight: {highlight}")
     for internship in profile.internship_experiences:
         evidence.extend(_build_internship_evidence(requirement_lower, internship))
+    for project in profile.project_experiences:
+        evidence.extend(_build_project_evidence(requirement_lower, project))
 
     lead_path = role_result.recommended_paths[0] if role_result.recommended_paths else None
     if lead_path and requirement in lead_path.focus_areas:
@@ -171,6 +175,29 @@ def _build_internship_evidence(
         cleaned = text.strip()
         if cleaned and requirement_lower in cleaned.lower():
             evidence.append(f"{internship_label}: {cleaned}")
+
+    return evidence
+
+
+def _build_project_evidence(
+    requirement_lower: str,
+    project: ProjectExperience,
+) -> list[str]:
+    evidence: list[str] = []
+    project_label = f"Project {project.name}" if project.name else "Project"
+    if project.role:
+        project_label = f"{project_label} ({project.role})"
+
+    for skill in project.skills_used:
+        skill_lower = skill.lower()
+        if requirement_lower in skill_lower or skill_lower in requirement_lower:
+            evidence.append(f"{project_label}: used {skill}")
+
+    project_texts = [project.summary, *project.impact_points]
+    for text in project_texts:
+        cleaned = text.strip()
+        if cleaned and requirement_lower in cleaned.lower():
+            evidence.append(f"{project_label}: {cleaned}")
 
     return evidence
 
@@ -283,6 +310,7 @@ def run_job_targeting(
         f"Company strategy centers on {lead_company.company_type.lower()}." if lead_company else "No company strategy shortlist available.",
         f"User brings {profile.years_experience:g} years of experience plus skills in {', '.join(profile.skills[:4]) or 'foundational analytics'}.",
         f"Internship evidence available from {len(profile.internship_experiences)} role(s)." if profile.internship_experiences else "No structured internship evidence added yet.",
+        f"Project evidence available from {len(profile.project_experiences)} project(s)." if profile.project_experiences else "No structured project evidence added yet.",
     ]
 
     matched_count = sum(match.matched for match in requirement_matches)

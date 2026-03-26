@@ -15,7 +15,7 @@ try:
     from .llm_client import llm_status, refresh_llm_environment
     from .policy_engine import run_policy_analysis
     from .role_engine import run_role_path
-    from .schemas import CareerState, UserProfile, create_initial_state
+    from .schemas import CareerState, ProjectExperience, UserProfile, create_initial_state
 except ImportError:
     from application_assets_engine import run_application_assets
     from company_engine import run_company_strategy
@@ -25,13 +25,79 @@ except ImportError:
     from llm_client import llm_status, refresh_llm_environment
     from policy_engine import run_policy_analysis
     from role_engine import run_role_path
-    from schemas import CareerState, UserProfile, create_initial_state
+    from schemas import CareerState, ProjectExperience, UserProfile, create_initial_state
+
+
+DEGREE_OPTIONS = [
+    "Bachelor of Science in Data Science",
+    "Master of Science in Data Science",
+    "Bachelor's",
+    "Master's",
+]
+
+SCHOOL_OPTIONS = [
+    "Mapua University",
+    "Arizona State University",
+    "University of Arizona",
+]
+
+SKILL_OPTIONS = [
+    "MySQL",
+    "Snowflake",
+    "Python",
+    "R",
+    "SQL",
+    "Analytics",
+    "Machine Learning",
+    "Data Analysis",
+    "Data Visualization",
+    "Statistics",
+    "Data Cleaning",
+    "Dashboarding",
+    "KPI Reporting",
+    "ETL",
+    "Excel",
+    "Tableau",
+    "Power BI",
+    "Pandas",
+    "Scikit-learn",
+    "K-Means Clustering",
+    "RFM Analysis",
+    "Feature Engineering",
+    "Customer Segmentation",
+    "ggplot2",
+    "Shiny",
+    "Web Scraping",
+    "rvest",
+    "Apriori",
+    "Association Rule Mining",
+    "Market Basket Analysis",
+]
 
 
 def _sample_user_profile() -> UserProfile:
     return UserProfile(
         name="Leon",
         target_role="Data Analyst",
+        degree="Master of Science in Data Science",
+        schools=["Mapua University", "Arizona State University", "University of Arizona"],
+        education_history=[
+            {
+                "school": "Mapua University",
+                "degree": "Bachelor of Science in Data Science",
+                "start_year": "2019",
+                "end_year": "2023",
+                "location": "Manila, Philippines",
+                "notes": "Joint program with Arizona State University.",
+            },
+            {
+                "school": "University of Arizona",
+                "degree": "Master of Science in Data Science",
+                "start_year": "2024",
+                "end_year": "2026",
+                "notes": "",
+            },
+        ],
         skills=["Python", "SQL", "Analytics", "Machine Learning"],
         years_experience=0,
         preferred_regions=["US", "Canada"],
@@ -80,6 +146,99 @@ def _sample_user_profile() -> UserProfile:
                     "Validated model predictions against real-world inspection data for reliability.",
                 ],
             },
+            {
+                "company": "University of Arizona, James E. Rogers College of Law",
+                "title": "Law Library Assistant",
+                "industry": "Legal / Library Science",
+                "summary": "Assisted with legal research and data management for library resources.",
+                "skills_used": ["Data Management", "Research", "Python", "Data Visualization"],
+                "impact_points": [
+                    "Addressing direct questions at circulation desk from phone call or in-person.",
+                    "Applied classification and organization principles (Library of Congress System) to manage large-scale collections.",
+                    "Conducted targeted information retrieval in Nexis Uni, improving efficiency in sourcing case law and academic materials.",
+                    "Maintained structured information management using ALMA, ensuring accurate cataloging and resource organization.",
+                    "Tracked and logged service inquiries in LibAnswers, reinforcing structured problem-solving and data entry precision.",
+                ],
+            },
+            {
+                "company": "University of Arizona, Computer Vision Lab",
+                "title": "Graduate Research Assistant",
+                "industry": "Research / Computer Vision",
+                "summary": "Assisted with research projects focused on computer vision and machine learning.",
+                "skills_used": ["Computer Vision", "Python", "Research Assistance"],
+                "impact_points": [
+                    "Created an image dataset for AI medical model recognition, generating 300+ laparoscopic surgery images.",
+                    "Designed and implemented a contamination pipeline that overlays surgical artifacts such as blood, smoke, and lens blur onto clean endoscopy images.",
+                    "Using both coding based method and AI image generators (e.g., Sora, Gemini).",
+                ],
+            },
+        ],
+        project_experiences=[
+            {
+                "name": "Airbnb Relational Database Design - MySQL",
+                "role": "Group Project",
+                "summary": "Designed and implemented a normalized relational database modeling Airbnb's marketplace operations.",
+                "skills_used": ["MySQL", "SQL", "Database Design", "ER Modeling", "Relational Databases"],
+                "impact_points": [
+                    "Built an ER model and translated it into 20 SQL tables with primary and foreign keys to ensure data integrity.",
+                    "Defined 10 real-world business problems and developed SQL queries to generate revenue, risk, and performance insights.",
+                    "Collaborated on a group project to model Airbnb marketplace operations through a normalized relational database.",
+                ],
+            },
+            {
+                "name": "Cloud-Based E-Commerce Customer Analytics",
+                "role": "Project Team Member",
+                "summary": "Developed a cloud-based customer analytics pipeline using Snowflake and Python to analyze e-commerce behavioral data.",
+                "skills_used": [
+                    "Snowflake",
+                    "Python",
+                    "Feature Engineering",
+                    "RFM Analysis",
+                    "K-Means Clustering",
+                    "Customer Segmentation",
+                ],
+                "impact_points": [
+                    "Performed feature engineering and aggregated customer-level metrics from e-commerce behavioral data.",
+                    "Applied RFM analysis and K-Means clustering to identify distinct customer segments.",
+                    "Generated insights into spending patterns, satisfaction levels, and delivery performance through the resulting clusters.",
+                ],
+            },
+            {
+                "name": "Pandemic Visualization & Analysis by R",
+                "role": "Project",
+                "summary": "Processed and analyzed global WHO datasets across 200+ countries to examine infection and mortality trends.",
+                "skills_used": [
+                    "R",
+                    "Data Analysis",
+                    "Data Visualization",
+                    "ggplot2",
+                    "Shiny",
+                    "Web Scraping",
+                    "rvest",
+                ],
+                "impact_points": [
+                    "Built interactive geographic heatmaps using ggplot2 and Shiny for spatiotemporal analysis.",
+                    "Applied web scraping with rvest to study correlations between media coverage and case growth.",
+                    "Analyzed WHO data across 200+ countries to surface global infection and mortality patterns.",
+                ],
+            },
+            {
+                "name": "Online Retail Association Rule",
+                "role": "Project",
+                "summary": "Implemented association rule mining with the Apriori algorithm to identify frequent itemsets and co-purchasing patterns in transactional retail data.",
+                "skills_used": [
+                    "Python",
+                    "Apriori",
+                    "Association Rule Mining",
+                    "Market Basket Analysis",
+                    "Data Analysis",
+                ],
+                "impact_points": [
+                    "Identified frequent itemsets and co-purchasing patterns from transactional retail data using the Apriori algorithm.",
+                    "Computed Support, Confidence, and Lift to quantify product relationships.",
+                    "Generated data-driven insights to inform bundling and cross-selling strategies.",
+                ],
+            },
         ],
     )
 
@@ -106,6 +265,140 @@ def _prompt_yes_no(prompt: str, default: bool = True) -> bool:
     if not raw:
         return default
     return raw in {"y", "yes"}
+
+
+def _prompt_text(prompt: str, default: str = "") -> str:
+    suffix = f" [{default}]" if default else ""
+    try:
+        raw = input(f"{prompt}{suffix} ").strip()
+    except EOFError:
+        return default
+    return raw or default
+
+
+def _deduplicate(items: list[str]) -> list[str]:
+    deduplicated: list[str] = []
+    seen: set[str] = set()
+    for item in items:
+        cleaned = item.strip()
+        if not cleaned:
+            continue
+        lowered = cleaned.lower()
+        if lowered in seen:
+            continue
+        seen.add(lowered)
+        deduplicated.append(cleaned)
+    return deduplicated
+
+
+def _print_options(options: list[str], selected: list[str] | None = None) -> None:
+    selected = selected or []
+    selected_lookup = {item.lower() for item in selected}
+    for index, option in enumerate(options, start=1):
+        marker = " (current)" if option.lower() in selected_lookup else ""
+        print(f"{index}. {option}{marker}")
+
+
+def _prompt_single_choice(prompt: str, options: list[str], default: str = "") -> str:
+    print(prompt)
+    _print_options(options, [default] if default else [])
+    response = _prompt_text(
+        "Choose one number or type a custom value. Press Enter to keep the current value",
+        default=default,
+    )
+    if response.isdigit():
+        selected_index = int(response) - 1
+        if 0 <= selected_index < len(options):
+            return options[selected_index]
+        return default
+    return response.strip()
+
+
+def _prompt_multi_choice(prompt: str, options: list[str], default: list[str] | None = None) -> list[str]:
+    default = default or []
+    print(prompt)
+    _print_options(options, default)
+    raw = _prompt_text(
+        "Choose comma-separated numbers and/or custom values. Press Enter to keep the current values",
+        default=", ".join(default),
+    )
+    if not raw.strip():
+        return default
+
+    selected_items: list[str] = []
+    for token in raw.split(","):
+        item = token.strip()
+        if not item:
+            continue
+        if item.isdigit():
+            selected_index = int(item) - 1
+            if 0 <= selected_index < len(options):
+                selected_items.append(options[selected_index])
+            continue
+        selected_items.append(item)
+    return _deduplicate(selected_items)
+
+
+def _collect_multiline_items(prompt: str) -> list[str]:
+    print(prompt)
+    print("Type one line per item. Type END when finished.")
+    items: list[str] = []
+    while True:
+        try:
+            line = input().strip()
+        except EOFError:
+            break
+        if line == "END":
+            break
+        if line:
+            items.append(line)
+    return items
+
+
+def _configure_projects_interactively(user_profile: UserProfile) -> UserProfile:
+    print("Project records:")
+    if user_profile.project_experiences:
+        for project in user_profile.project_experiences:
+            print(f"- {project.name or 'Untitled project'}")
+    else:
+        print("- None")
+
+    if not _prompt_yes_no("Review or add project records now?", default=True):
+        return user_profile
+
+    if user_profile.project_experiences and _prompt_yes_no(
+        "Replace the current project list before adding new projects?",
+        default=False,
+    ):
+        user_profile.project_experiences = []
+
+    while _prompt_yes_no("Add a project record?", default=False):
+        project_name = _prompt_text("Project name")
+        if not project_name:
+            print("Skipped an empty project entry.")
+            continue
+
+        role = _prompt_text("Your role in the project", default="")
+        summary = _prompt_text("One-line project summary", default="")
+        skills_used = _prompt_multi_choice(
+            "Select or type the skills used in this project:",
+            SKILL_OPTIONS,
+            default=[],
+        )
+        impact_points = _collect_multiline_items(
+            "Add project impact points or outcomes for this project:"
+        )
+        user_profile.project_experiences.append(
+            ProjectExperience(
+                name=project_name,
+                role=role,
+                summary=summary,
+                skills_used=skills_used,
+                impact_points=impact_points,
+            )
+        )
+
+    return user_profile
 
 
 def _pause_for_next_step(next_label: str) -> bool:
@@ -200,6 +493,64 @@ def _collect_job_description() -> str:
             break
         lines.append(line)
     return "\n".join(lines).strip()
+
+
+def _configure_profile_interactively(user_profile: UserProfile) -> UserProfile:
+    _print_section("Profile Setup")
+    if not _prompt_yes_no(
+        "Review or update your education, skills, and projects before running the pipeline?",
+        default=True,
+    ):
+        return user_profile
+
+    user_profile.degree = _prompt_single_choice(
+        "Select your highest degree:",
+        DEGREE_OPTIONS,
+        default=user_profile.degree,
+    )
+    user_profile.schools = _prompt_multi_choice(
+        "Select the schools you attended:",
+        SCHOOL_OPTIONS,
+        default=user_profile.schools,
+    )
+    user_profile.skills = _prompt_multi_choice(
+        "Select the skills you want the pipeline to use:",
+        SKILL_OPTIONS,
+        default=user_profile.skills,
+    )
+    return _configure_projects_interactively(user_profile)
+
+
+def _print_profile_summary(user_profile: UserProfile) -> None:
+    _print_section("Profile")
+    print("Using the current profile from src/main.py.")
+    print(f"Target role: {user_profile.target_role}")
+    print(f"Degree: {user_profile.degree or 'Not set'}")
+    print(f"Schools: {', '.join(user_profile.schools) if user_profile.schools else 'Not set'}")
+    if user_profile.education_history:
+        print("Education history:")
+        for education in user_profile.education_history:
+            years = " - ".join(
+                part for part in [education.start_year, education.end_year] if part
+            )
+            detail_parts = [education.school, education.degree]
+            if years:
+                detail_parts.append(years)
+            if education.location:
+                detail_parts.append(education.location)
+            print(f"- {' | '.join(part for part in detail_parts if part)}")
+            if education.notes:
+                print(f"  Notes: {education.notes}")
+    print(f"Skills: {', '.join(user_profile.skills) if user_profile.skills else 'Not set'}")
+    print(f"Internship records: {len(user_profile.internship_experiences)}")
+    print(f"Project records: {len(user_profile.project_experiences)}")
+    if user_profile.project_experiences:
+        for project in user_profile.project_experiences:
+            print(f"- {project.name} | {project.role or 'Role not set'}")
+            if project.summary:
+                print(f"  Summary: {project.summary}")
+            if project.skills_used:
+                print(f"  Skills: {', '.join(project.skills_used)}")
 
 
 def _show_policy_stage(state: CareerState) -> None:
@@ -338,13 +689,10 @@ def _save_state_snapshot(state: CareerState) -> None:
 def main() -> None:
     """Run the strategy flow one stage at a time."""
     user_profile = _sample_user_profile()
+    user_profile = _configure_profile_interactively(user_profile)
     state = create_initial_state(user_profile)
 
-    _print_section("Profile")
-    print("Using the current profile from src/main.py.")
-    print(f"Target role: {state.user_profile.target_role}")
-    print(f"Skills: {', '.join(state.user_profile.skills)}")
-    print(f"Internship records: {len(state.user_profile.internship_experiences)}")
+    _print_profile_summary(state.user_profile)
 
     _configure_llm_interactively()
 
