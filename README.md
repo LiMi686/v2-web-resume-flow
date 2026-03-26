@@ -66,7 +66,7 @@ Unlike traditional tools, this system focuses on:
 - **Company Strategy Engine** → Market, stage, value chain, competitors  
 - **Role Path Engine** → Ideal / bridge / stretch roles  
 - **Job Targeting Engine** → JD analysis, alignment, gap, positioning  
-- **Growth Engine** → 30-60-90 plan, value creation, narrative  
+- **Growth Engine** → 30-60-90 days plan, value creation, narrative  
 
 ---
 
@@ -90,17 +90,9 @@ To evolve into a **career decision intelligence system** that:
 - Translates experience into **market-valued positioning**
 - Provides **actionable growth strategies**
 
+
 ---
 
-## 📌 Why This Matters
+## ▶️ Local Usage
 
-Most job seekers focus on:
-
-> “How do I get this job?”
-
-This system asks a more important question:
-
-> **“Where should I go — and how do I build a path that compounds over time?”**
-
-Instead of optimizing for one offer,  
-it helps you optimize for a **career trajectory**.
+After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, and run the project with `python -m src.main`; the CLI will let you review the default profile, choose whether to enable Gemini, and optionally paste a job description. If you want AI-enhanced explanations or grounded /联网 company discovery, you must add **your own** `GEMINI_API_KEY` to `.env`; otherwise, the system will still run in local deterministic mode and save the session output to `outputs/interactive_career_state.json`.
