@@ -70,17 +70,6 @@ Unlike traditional tools, this system focuses on:
 
 ---
 
-## 🚧 Current Status
-
-This project is currently in **system design + prototype stage**:
-
-- ✅ Policy & Industry layers implemented (rule-based + LLM-assisted)
-- ⚠️ Role layer partially implemented
-- 🚧 Company / Job / Growth layers under active development
-- 🔄 Ongoing refactor toward schema-first + orchestrator architecture
-
----
-
 ## 🔮 Vision
 
 To evolve into a **career decision intelligence system** that:
