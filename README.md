@@ -6,82 +6,24 @@ instead of starting directly from job applications.
 
 ---
 
-## 🔻 Career Strategy Funnel
+## Career Strategy Funnel
 
 <p align="center">
-  <img src="career_strategy_funnel.png" width="500"/>
+  <img src="Diagram.png" width="500"/>
 </p>
 
 ---
 
-## 💡 What This Project Does
+## What This Project Does
 
-Most job search tools start from **resumes and job postings**.
-
-This system takes a fundamentally different approach:
-
-> Start from **where opportunity exists**, then move down to execution.
-
-It helps answer:
-
-- 🌍 Which **regions and policies** support long-term opportunities?
-- 🧭 Which **industries** are worth entering?
-- 🏢 What **types of companies** should you target (not just names)?
-- 🎯 What **role path** makes sense given your background?
-- 📄 How to **align your experience with a specific job (JD)**?
-- 🚀 How to build a **growth plan and compelling application narrative**?
+This project is a Layered Progressive Career Strategy System, built to feel like a smart career advisor that walks with you through every step of your job search. What makes it powerful is that every step is driven by a large language model, and each step connects to the next—so instead of random suggestions, you get a clear, continuous path. You start by telling the system about yourself—your education, skills, projects, and even real-world constraints like visa status. From there, the system thinks step by step: it helps you choose the right industries, points you to the kinds of companies you should focus on, matches you with realistic roles, and even helps you prepare resumes, cover letters, and networking messages. Along the way, it explains why each decision makes sense, so you’re not just following advice—you’re learning how to think strategically about your career. In simple terms, this isn’t just a tool to find jobs; it’s a complete AI-powered career planning journey where every part is connected, helping you go from feeling unsure to having a clear, confident plan.
 
 ---
 
-## 🧠 Core Philosophy
-
-This system follows a **top-down decision framework**:
-
-Policy / Region
-↓
-Industry Prioritization
-↓
-Company Strategy
-↓
-Role Path Design
-↓
-Job Alignment (JD)
-↓
-Growth & Application Assets
-
-
-Unlike traditional tools, this system focuses on:
-
-- **Industry-first decision making**
-- **Company strategy over company lists**
-- **Positioning & value creation (not just matching)**
-- **Long-term career growth, not just short-term offers**
-
----
-
-## ⚙️ System Architecture (High-Level)
-
-- **Policy Engine** → Macro signals, visa constraints, regional opportunities  
-- **Industry Engine** → Industry scoring (growth, fit, entry feasibility)  
-- **Company Strategy Engine** → Market, company archetype, competitiveness, stage, value chain, competitors  
-- **Role Path Engine** → Ideal / bridge / stretch roles  
-- **Job Targeting Engine** → JD analysis, alignment, gap, positioning  
-- **Growth Engine** → 30-60-90 days plan, value creation, narrative  
-
----
-
-## 🔮 Vision
-
-To evolve into a **career decision intelligence system** that:
-
-- Goes beyond job matching
-- Helps users **choose the right industry and company**
-- Translates experience into **market-valued positioning**
-- Provides **actionable growth strategies**
-
-
----
-
-## ▶️ Local Usage
+## Local Usage
 
 After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, and run the project with `python -m src.main`. This project now runs as an LLM-only pipeline: Gemini is required, policy and company discovery use grounded search by default, and the system no longer falls back to local deterministic baselines. After the Industry step, the CLI will also collect explicit company-environment preferences so the Company Strategy stage can balance user intent with competitiveness analysis. Add **your own** `GEMINI_API_KEY` to `.env`; successful runs will save the session output to `outputs/interactive_career_state.json`.
+
+
+## What' the Next? 
+Next, I plan to add a resume scanning feature that automatically populates the required information into the form based on the scanned resume.
