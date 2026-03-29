@@ -15,7 +15,13 @@ try:
     from .llm_client import llm_status, refresh_llm_environment
     from .policy_engine import run_policy_analysis
     from .role_engine import run_role_path
-    from .schemas import CareerState, ProjectExperience, UserProfile, create_initial_state
+    from .schemas import (
+        CareerState,
+        CompanyPreferenceProfile,
+        ProjectExperience,
+        UserProfile,
+        create_initial_state,
+    )
 except ImportError:
     from application_assets_engine import run_application_assets
     from company_engine import run_company_strategy
@@ -25,7 +31,13 @@ except ImportError:
     from llm_client import llm_status, refresh_llm_environment
     from policy_engine import run_policy_analysis
     from role_engine import run_role_path
-    from schemas import CareerState, ProjectExperience, UserProfile, create_initial_state
+    from schemas import (
+        CareerState,
+        CompanyPreferenceProfile,
+        ProjectExperience,
+        UserProfile,
+        create_initial_state,
+    )
 
 
 DEGREE_OPTIONS = [
@@ -72,6 +84,26 @@ SKILL_OPTIONS = [
     "Apriori",
     "Association Rule Mining",
     "Market Basket Analysis",
+]
+
+COMPANY_ENVIRONMENT_OPTIONS = [
+    "Big Tech / platform company",
+    "Series A-B startup",
+    "Late-stage growth company",
+    "Established operator or mission-driven organization",
+]
+
+RISK_TOLERANCE_OPTIONS = ["low", "medium", "high"]
+STABILITY_PRIORITY_OPTIONS = ["highest", "high", "balanced", "lower"]
+WORK_STYLE_OPTIONS = [
+    "Structured training and defined scope",
+    "Balanced structure and ownership",
+    "High ownership and ambiguity",
+]
+BRAND_VS_GROWTH_OPTIONS = [
+    "Brand and structured training",
+    "Balanced",
+    "Rapid ownership and growth speed",
 ]
 
 
@@ -240,6 +272,16 @@ def _sample_user_profile() -> UserProfile:
                 ],
             },
         ],
+        company_preferences=CompanyPreferenceProfile(
+            preferred_environments=[
+                "Late-stage growth company",
+                "Established operator or mission-driven organization",
+            ],
+            risk_tolerance="medium",
+            stability_priority="high",
+            work_style_preference="Balanced structure and ownership",
+            brand_vs_growth_preference="Balanced",
+        ),
     )
 
 
@@ -289,6 +331,10 @@ def _deduplicate(items: list[str]) -> list[str]:
         seen.add(lowered)
         deduplicated.append(cleaned)
     return deduplicated
+
+
+def _split_csv_values(raw: str) -> list[str]:
+    return _deduplicate([item.strip() for item in raw.split(",") if item.strip()])
 
 
 def _print_options(options: list[str], selected: list[str] | None = None) -> None:
@@ -401,6 +447,51 @@ def _configure_projects_interactively(user_profile: UserProfile) -> UserProfile:
     return user_profile
 
 
+def _configure_company_preferences_interactively(user_profile: UserProfile) -> UserProfile:
+    _print_section("Company Preference")
+    print("These inputs help Company Strategy balance your stated preferences with your actual competitiveness.")
+
+    if not _prompt_yes_no(
+        "Review company environment preferences before Company Strategy?",
+        default=True,
+    ):
+        return user_profile
+
+    preferences = user_profile.company_preferences
+    preferences.preferred_environments = _prompt_multi_choice(
+        "Which company environments should the system seriously consider?",
+        COMPANY_ENVIRONMENT_OPTIONS,
+        default=preferences.preferred_environments,
+    )
+    preferences.risk_tolerance = _prompt_single_choice(
+        "What is your current risk tolerance?",
+        RISK_TOLERANCE_OPTIONS,
+        default=preferences.risk_tolerance or "medium",
+    )
+    preferences.stability_priority = _prompt_single_choice(
+        "How important are stability and sponsorship infrastructure right now?",
+        STABILITY_PRIORITY_OPTIONS,
+        default=preferences.stability_priority or "high",
+    )
+    preferences.work_style_preference = _prompt_single_choice(
+        "Which work style fits you best right now?",
+        WORK_STYLE_OPTIONS,
+        default=preferences.work_style_preference or "Balanced structure and ownership",
+    )
+    preferences.brand_vs_growth_preference = _prompt_single_choice(
+        "Which do you value more at this stage?",
+        BRAND_VS_GROWTH_OPTIONS,
+        default=preferences.brand_vs_growth_preference or "Balanced",
+    )
+    notes_default = ", ".join(preferences.notes)
+    notes_raw = _prompt_text(
+        "Any extra context to consider, such as family, finances, location, or lifestyle? Use commas to separate ideas",
+        default=notes_default,
+    )
+    preferences.notes = _split_csv_values(notes_raw)
+    return user_profile
+
+
 def _pause_for_next_step(next_label: str) -> bool:
     return _prompt_yes_no(f"Continue to {next_label}?", default=True)
 
@@ -413,71 +504,47 @@ def _print_explanation_if_present(explanation: str | None) -> None:
 
 def _configure_llm_interactively() -> None:
     _print_section("LLM Setup")
-    wants_llm = _prompt_yes_no(
-        "Enable optional Gemini explanations for each stage?", default=False
-    )
-    if not wants_llm:
-        os.environ["LLM_MODE"] = "disabled"
-        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
-        print("Gemini explanations disabled. The deterministic pipeline will still run.")
-        return
-
     os.environ["LLM_MODE"] = "auto"
+    os.environ["POLICY_SEARCH_PROVIDER"] = "gemini_grounded"
+    os.environ["COMPANY_SEARCH_PROVIDER"] = "gemini_grounded"
     refresh_llm_environment()
     status = llm_status()
     if status["available"]:
-        print(f"Gemini is ready with model: {status['model']}")
+        print(f"Gemini is required for this pipeline and is ready with model: {status['model']}")
         return
 
-    print("Gemini is not ready yet.")
-    print("To enable it, add GEMINI_API_KEY to your .env file and make sure google-genai is installed.")
+    print("Gemini is required for this pipeline and is not ready yet.")
+    print("Add GEMINI_API_KEY to your .env file and make sure google-genai is installed.")
     print(f"Current .env path: {Path('.env').resolve()}")
 
     while True:
         try:
             action = input(
-                "After updating .env, press Enter to re-check, or type 'skip' to continue without Gemini: "
+                "After updating .env, press Enter to re-check, or type 'exit' to stop: "
             ).strip().lower()
         except EOFError:
-            action = "skip"
-        if action == "skip":
-            os.environ["LLM_MODE"] = "disabled"
-            os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
-            print("Continuing without Gemini explanations.")
-            return
+            action = "exit"
+        if action == "exit":
+            raise RuntimeError("Gemini is required for the LLM-only pipeline.")
 
         refresh_llm_environment()
         status = llm_status()
         if status["available"]:
             print(f"Gemini is ready with model: {status['model']}")
             return
-        print("Gemini is still unavailable. Check GEMINI_API_KEY and dependency installation, or type 'skip'.")
+        print("Gemini is still unavailable. Check GEMINI_API_KEY and dependency installation, or type 'exit'.")
+
+
+def _configure_policy_search_interactively() -> None:
+    _print_section("Policy Search Setup")
+    os.environ["POLICY_SEARCH_PROVIDER"] = "gemini_grounded"
+    print("Policy / Region will use Gemini-grounded search with no local baseline.")
 
 
 def _configure_company_search_interactively() -> None:
     _print_section("Company Search Setup")
-    if os.environ.get("LLM_MODE", "disabled").strip().lower() == "disabled":
-        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
-        print("Gemini is disabled, so Company Strategy will use the local provider.")
-        return
-
-    refresh_llm_environment()
-    status = llm_status()
-    if not status["available"]:
-        os.environ["COMPANY_SEARCH_PROVIDER"] = "local"
-        print("Gemini is unavailable right now, so Company Strategy will use the local provider.")
-        return
-
-    use_grounded_company_search = _prompt_yes_no(
-        "Use Gemini-grounded company search here to prioritize A/B-stage companies?", default=True
-    )
-    os.environ["COMPANY_SEARCH_PROVIDER"] = (
-        "gemini_grounded" if use_grounded_company_search else "local"
-    )
-    if use_grounded_company_search:
-        print("Company Strategy will try live grounded search first, then fall back to local results if needed.")
-    else:
-        print("Company Strategy will stay on the local provider.")
+    os.environ["COMPANY_SEARCH_PROVIDER"] = "gemini_grounded"
+    print("Company Strategy will use Gemini-grounded search with no local provider.")
 
 
 def _collect_job_description() -> str:
@@ -544,6 +611,11 @@ def _print_profile_summary(user_profile: UserProfile) -> None:
     print(f"Skills: {', '.join(user_profile.skills) if user_profile.skills else 'Not set'}")
     print(f"Internship records: {len(user_profile.internship_experiences)}")
     print(f"Project records: {len(user_profile.project_experiences)}")
+    if user_profile.company_preferences.preferred_environments:
+        print(
+            "Company preferences: "
+            f"{', '.join(user_profile.company_preferences.preferred_environments)}"
+        )
     if user_profile.project_experiences:
         for project in user_profile.project_experiences:
             print(f"- {project.name} | {project.role or 'Role not set'}")
@@ -553,16 +625,42 @@ def _print_profile_summary(user_profile: UserProfile) -> None:
                 print(f"  Skills: {', '.join(project.skills_used)}")
 
 
+def _show_company_preference_summary(user_profile: UserProfile) -> None:
+    preferences = user_profile.company_preferences
+    _print_section("Company Preference")
+    _print_list("Preferred environments", preferences.preferred_environments)
+    print(f"Risk tolerance: {preferences.risk_tolerance or 'Not set'}")
+    print(f"Stability priority: {preferences.stability_priority or 'Not set'}")
+    print(f"Work style: {preferences.work_style_preference or 'Not set'}")
+    print(
+        "Brand vs growth: "
+        f"{preferences.brand_vs_growth_preference or 'Not set'}"
+    )
+    _print_list("Extra context", preferences.notes)
+
+
 def _show_policy_stage(state: CareerState) -> None:
     result = state.policy_result
     if result is None:
         return
     _print_section("Policy / Region")
+    print(f"Analysis mode: {result.analysis_mode}")
     print(f"Visa risk: {result.visa_risk}")
     print(f"Mobility strategy: {result.mobility_strategy}")
     _print_list("Recommended regions", result.recommended_regions)
     _print_list("Priority policy themes", result.priority_policy_themes)
     _print_list("Constraints", result.constraints)
+    _print_list("Opportunity signals", result.opportunity_signals)
+    if result.grounding_queries:
+        _print_list("Grounded search queries", result.grounding_queries)
+    if result.grounding_sources:
+        print("Grounded sources:")
+        for source in result.grounding_sources:
+            label = source.title or source.uri
+            if source.uri and source.title:
+                print(f"- {label} | {source.uri}")
+            else:
+                print(f"- {label}")
     _print_explanation_if_present(result.explanation)
 
 
@@ -587,9 +685,28 @@ def _show_company_stage(state: CareerState) -> None:
     if result is None:
         return
     _print_section("Company Strategy")
+    print(f"Your stated preference: {result.user_preference_summary}")
+    print(f"Preference alignment: {result.preference_alignment_summary}")
+    print(f"Recommended company path: {result.primary_company_path}")
+    print(f"Competitiveness summary: {result.competitiveness_summary}")
+    print(f"Development recommendation: {result.development_recommendation}")
     _print_list("Discovery strategy", result.discovery_strategy)
     _print_list("Target company types", result.target_company_types)
     _print_list("Company selection rules", result.company_selection_rules)
+    print("Company archetype assessment:")
+    for assessment in result.company_archetype_assessments:
+        print(
+            f"- {assessment.archetype} | {assessment.recommendation_level} | "
+            f"competitiveness={assessment.competitiveness_level}"
+        )
+        print(f"  Development value: {assessment.development_value}")
+        print(f"  Entry strategy: {assessment.entry_strategy}")
+        if assessment.fit_rationale:
+            print(f"  Why fit: {assessment.fit_rationale[0]}")
+        if assessment.watchouts:
+            print(f"  Watchout: {assessment.watchouts[0]}")
+        if assessment.example_companies:
+            print(f"  Example companies: {', '.join(assessment.example_companies)}")
     _print_list("Ranking logic", result.ranking_logic)
     print(f"Retrieved company candidates: {len(result.retrieved_companies)}")
     print("Shortlisted companies:")
@@ -695,6 +812,7 @@ def main() -> None:
     _print_profile_summary(state.user_profile)
 
     _configure_llm_interactively()
+    _configure_policy_search_interactively()
 
     state.policy_result = run_policy_analysis(state.user_profile)
     _show_policy_stage(state)
@@ -704,6 +822,12 @@ def main() -> None:
 
     state.industry_result = run_industry_selection(state.user_profile, state.policy_result)
     _show_industry_stage(state)
+    if not _pause_for_next_step("Company Preference"):
+        _save_state_snapshot(state)
+        return
+
+    state.user_profile = _configure_company_preferences_interactively(state.user_profile)
+    _show_company_preference_summary(state.user_profile)
     if not _pause_for_next_step("Company Strategy"):
         _save_state_snapshot(state)
         return

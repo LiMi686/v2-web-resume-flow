@@ -165,6 +165,41 @@ def _as_projects(value: Any) -> list[ProjectExperience]:
 
 
 @dataclass(slots=True)
+class CompanyPreferenceProfile:
+    preferred_environments: list[str] = field(default_factory=list)
+    risk_tolerance: str = ""
+    stability_priority: str = ""
+    work_style_preference: str = ""
+    brand_vs_growth_preference: str = ""
+    notes: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.preferred_environments = _as_list(self.preferred_environments)
+        self.risk_tolerance = str(self.risk_tolerance).strip()
+        self.stability_priority = str(self.stability_priority).strip()
+        self.work_style_preference = str(self.work_style_preference).strip()
+        self.brand_vs_growth_preference = str(self.brand_vs_growth_preference).strip()
+        self.notes = _as_list(self.notes)
+
+    @classmethod
+    def from_value(cls, data: Any) -> "CompanyPreferenceProfile":
+        if isinstance(data, cls):
+            return data
+        if isinstance(data, dict):
+            return cls(
+                preferred_environments=_as_list(data.get("preferred_environments")),
+                risk_tolerance=str(data.get("risk_tolerance", "")).strip(),
+                stability_priority=str(data.get("stability_priority", "")).strip(),
+                work_style_preference=str(data.get("work_style_preference", "")).strip(),
+                brand_vs_growth_preference=str(
+                    data.get("brand_vs_growth_preference", "")
+                ).strip(),
+                notes=_as_list(data.get("notes")),
+            )
+        return cls()
+
+
+@dataclass(slots=True)
 class UserProfile:
     name: str = ""
     target_role: str = ""
@@ -183,6 +218,9 @@ class UserProfile:
     internship_experiences: list[InternshipExperience] = field(default_factory=list)
     project_experiences: list[ProjectExperience] = field(default_factory=list)
     target_companies: list[str] = field(default_factory=list)
+    company_preferences: CompanyPreferenceProfile = field(
+        default_factory=CompanyPreferenceProfile
+    )
 
     def __post_init__(self) -> None:
         self.name = str(self.name).strip()
@@ -210,6 +248,7 @@ class UserProfile:
         self.internship_experiences = _as_internships(self.internship_experiences)
         self.project_experiences = _as_projects(self.project_experiences)
         self.target_companies = _as_list(self.target_companies)
+        self.company_preferences = CompanyPreferenceProfile.from_value(self.company_preferences)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "UserProfile":
@@ -231,10 +270,19 @@ class UserProfile:
             internship_experiences=_as_internships(data.get("internship_experiences")),
             project_experiences=_as_projects(data.get("project_experiences")),
             target_companies=_as_list(data.get("target_companies")),
+            company_preferences=CompanyPreferenceProfile.from_value(
+                data.get("company_preferences")
+            ),
         )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(slots=True)
+class GroundingSource:
+    title: str = ""
+    uri: str = ""
 
 
 @dataclass(slots=True)
@@ -246,6 +294,9 @@ class PolicyResult:
     constraints: list[str]
     opportunity_signals: list[str]
     explanation: str | None = None
+    analysis_mode: str = "llm"
+    grounding_queries: list[str] = field(default_factory=list)
+    grounding_sources: list[GroundingSource] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -295,10 +346,28 @@ class CompanyTarget:
 
 
 @dataclass(slots=True)
+class CompanyArchetypeAssessment:
+    archetype: str
+    recommendation_level: str
+    competitiveness_level: str
+    fit_rationale: list[str]
+    watchouts: list[str]
+    development_value: str
+    entry_strategy: str
+    example_companies: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
 class CompanyStrategyResult:
+    user_preference_summary: str
+    preference_alignment_summary: str
     discovery_strategy: list[str]
     target_company_types: list[str]
     company_selection_rules: list[str]
+    company_archetype_assessments: list[CompanyArchetypeAssessment]
+    primary_company_path: str
+    competitiveness_summary: str
+    development_recommendation: str
     ranking_logic: list[str]
     industry_analysis: list[str]
     market_analysis: list[str]

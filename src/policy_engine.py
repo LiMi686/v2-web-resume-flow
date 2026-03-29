@@ -2,37 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 try:
-    from .llm_client import generate_optional_json, generate_optional_text
-    from .schemas import PolicyResult, UserProfile, ensure_user_profile
+    from .llm_client import generate_grounded_json_strict, generate_json_strict
+    from .schemas import GroundingSource, PolicyResult, UserProfile, ensure_user_profile
 except ImportError:
-    from llm_client import generate_optional_json, generate_optional_text
-    from schemas import PolicyResult, UserProfile, ensure_user_profile
+    from llm_client import generate_grounded_json_strict, generate_json_strict
+    from schemas import GroundingSource, PolicyResult, UserProfile, ensure_user_profile
 
 
-def _collect_policy_themes(user_profile: UserProfile) -> list[str]:
-    combined_text = " ".join(
-        user_profile.skills + user_profile.interests + [user_profile.target_role]
-    ).lower()
-
-    themes: list[str] = []
-    if any(keyword in combined_text for keyword in {"ai", "machine learning", "ml", "llm"}):
-        themes.append("National AI investment and enterprise AI adoption")
-    if any(keyword in combined_text for keyword in {"health", "healthcare", "biotech"}):
-        themes.append("Healthcare digitization and AI-enabled clinical workflows")
-    if any(keyword in combined_text for keyword in {"energy", "climate", "sustainability"}):
-        themes.append("Energy transition, grid modernization, and industrial efficiency")
-    if any(keyword in combined_text for keyword in {"semiconductor", "chip", "manufacturing", "hardware"}):
-        themes.append("Advanced manufacturing and semiconductor supply-chain incentives")
-    if any(keyword in combined_text for keyword in {"analytics", "product", "saas", "experimentation"}):
-        themes.append("Enterprise software productivity and decision intelligence")
-
-    if not themes:
-        themes.append("Broad digital transformation and analytics modernization")
-    return themes
-
-
-def _clean_string_list(value: object, limit: int | None = None) -> list[str]:
+def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
     if not isinstance(value, list):
         return []
     cleaned = [str(item).strip() for item in value if str(item).strip()]
@@ -41,66 +21,36 @@ def _clean_string_list(value: object, limit: int | None = None) -> list[str]:
     return cleaned
 
 
-def _deterministic_policy_result(profile: UserProfile) -> PolicyResult:
-    recommended_regions = profile.preferred_regions[:] or ["US", "Canada", "UK"]
-    constraints = profile.constraints[:]
+def _clean_grounding_sources(value: Any, limit: int | None = None) -> list[GroundingSource]:
+    if not isinstance(value, list):
+        return []
 
-    if profile.has_work_authorization:
-        visa_risk = "low"
-        mobility_strategy = "Can target local hiring markets first, then add selective global opportunities."
-    elif profile.needs_visa_sponsorship:
-        visa_risk = "high"
-        mobility_strategy = (
-            "Prioritize regions and employers with stronger sponsorship patterns, global mobility, "
-            "or remote-compatible operating models."
-        )
-        constraints.append("Needs employer visa sponsorship")
-    else:
-        visa_risk = "medium"
-        mobility_strategy = "Can pursue multiple regions, but should validate work authorization early."
+    deduped_sources: list[GroundingSource] = []
+    seen_uris: set[str] = set()
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title", "")).strip()
+        uri = str(item.get("uri", "")).strip()
+        if not title and not uri:
+            continue
+        if uri and uri in seen_uris:
+            continue
+        if uri:
+            seen_uris.add(uri)
+        deduped_sources.append(GroundingSource(title=title, uri=uri))
 
-    if profile.open_to_remote:
-        constraints.append("Remote-friendly teams expand the opportunity set")
-        if "Remote" not in recommended_regions:
-            recommended_regions.append("Remote")
-
-    if profile.needs_visa_sponsorship and not profile.has_work_authorization:
-        recommended_regions = [
-            region
-            for region in recommended_regions
-            if region in {"Canada", "UK", "Germany", "Singapore", "Remote"}
-        ] or ["Canada", "UK", "Germany", "Singapore", "Remote"]
-
-    priority_policy_themes = _collect_policy_themes(profile)
-    opportunity_signals = [
-        f"Policy tailwinds suggest prioritizing industries connected to: {priority_policy_themes[0]}.",
-        f"Recommended regions to investigate first: {', '.join(recommended_regions)}.",
-        "Use macro tailwinds to narrow industries before narrowing roles or specific employers.",
-    ]
-    return PolicyResult(
-        visa_risk=visa_risk,
-        mobility_strategy=mobility_strategy,
-        recommended_regions=recommended_regions,
-        priority_policy_themes=priority_policy_themes,
-        constraints=sorted(set(constraints)),
-        opportunity_signals=opportunity_signals,
-        explanation=None,
-    )
+    if limit is not None:
+        return deduped_sources[:limit]
+    return deduped_sources
 
 
-def run_policy_analysis(user_profile: UserProfile | dict[str, object]) -> PolicyResult:
-    """Summarize region and policy constraints before industry selection."""
-    profile = ensure_user_profile(user_profile)
-    fallback_result = _deterministic_policy_result(profile)
-
-    policy_prompt = f"""
+def _policy_prompt(profile: UserProfile) -> str:
+    return f"""
 You are the policy and geography strategist in a layered career planning system.
 
 User profile:
 {profile.to_dict()}
-
-Deterministic fallback result:
-{fallback_result}
 
 Return strict JSON with this shape:
 {{
@@ -114,52 +64,122 @@ Return strict JSON with this shape:
 }}
 
 Instructions:
-- Be LLM-first: you may refine or replace the fallback if a better strategic framing exists.
-- Keep the result realistic for data / analytics / AI career planning.
+- Results must be fully model-derived from the user profile.
+- Keep the output realistic for data / analytics / AI career planning.
 - Respect hard constraints such as work authorization, visa sponsorship, and remote openness.
-- Prefer strategic themes over generic motivational advice.
+- Recommended regions should stay concise and strategic, not exhaustive.
+- Prefer policy and labor-market implications over generic motivational advice.
 - Only return valid JSON.
 """
-    payload = generate_optional_json(policy_prompt, fallback=None, profile="balanced")
 
-    explanation_prompt = f"""
-You are summarizing policy and region implications for a layered career strategy system.
+
+def _grounded_policy_prompt(profile: UserProfile) -> str:
+    return f"""
+You are the policy and geography strategist in a layered career planning system.
+
+Use Google Search grounding to identify current policy and market signals that materially affect this user's career strategy.
 
 User profile:
 {profile.to_dict()}
 
-Return 3-4 concise sentences that explain:
-1. mobility or visa risk
-2. which regions to prioritize
-3. which policy themes create opportunity
-"""
-    fallback_explanation = generate_optional_text(explanation_prompt, profile="creative")
-    if not isinstance(payload, dict):
-        fallback_result.explanation = fallback_explanation
-        return fallback_result
+Focus on current, decision-relevant signals such as:
+- visa sponsorship, post-study work authorization, or cross-border hiring constraints
+- industrial policy, public investment, digitization programs, and sector incentives
+- regions where demand for data / analytics / AI talent appears strategically supported
 
+Return strict JSON with this shape:
+{{
+  "visa_risk": "low|medium|high",
+  "mobility_strategy": "2-3 sentences",
+  "recommended_regions": ["region 1", "region 2"],
+  "priority_policy_themes": ["theme 1", "theme 2"],
+  "constraints": ["constraint 1", "constraint 2"],
+  "opportunity_signals": ["signal 1", "signal 2", "signal 3"],
+  "explanation": "3-4 concise sentences"
+}}
+
+Instructions:
+- Results must be fully model-derived from grounded search and the user profile.
+- Only make claims that can be supported by current search results.
+- Keep recommended regions to at most 6.
+- Prefer durable policy themes and structural labor-market signals over short-lived headlines.
+- Respect hard constraints such as work authorization, visa sponsorship, and remote openness.
+- Only return valid JSON.
+"""
+
+
+def _policy_result_from_payload(
+    payload: dict[str, Any],
+    *,
+    analysis_mode: str,
+) -> PolicyResult:
     visa_risk = str(payload.get("visa_risk", "")).strip().lower()
     if visa_risk not in {"low", "medium", "high"}:
-        visa_risk = fallback_result.visa_risk
+        raise ValueError("Policy response must include visa_risk as low, medium, or high.")
 
-    mobility_strategy = str(payload.get("mobility_strategy", "")).strip() or fallback_result.mobility_strategy
-    recommended_regions = _clean_string_list(payload.get("recommended_regions"), limit=6) or fallback_result.recommended_regions
-    priority_policy_themes = _clean_string_list(payload.get("priority_policy_themes"), limit=5) or fallback_result.priority_policy_themes
-    constraints = sorted(
-        set(
-            fallback_result.constraints
-            + _clean_string_list(payload.get("constraints"), limit=8)
-        )
-    )
-    opportunity_signals = _clean_string_list(payload.get("opportunity_signals"), limit=4) or fallback_result.opportunity_signals
-    explanation = str(payload.get("explanation", "")).strip() or fallback_explanation
+    mobility_strategy = str(payload.get("mobility_strategy", "")).strip()
+    recommended_regions = _clean_string_list(payload.get("recommended_regions"), limit=6)
+    priority_policy_themes = _clean_string_list(payload.get("priority_policy_themes"), limit=5)
+    opportunity_signals = _clean_string_list(payload.get("opportunity_signals"), limit=4)
+    explanation = str(payload.get("explanation", "")).strip()
+
+    if not mobility_strategy:
+        raise ValueError("Policy response must include mobility_strategy.")
+    if not recommended_regions:
+        raise ValueError("Policy response must include recommended_regions.")
+    if not priority_policy_themes:
+        raise ValueError("Policy response must include priority_policy_themes.")
+    if not opportunity_signals:
+        raise ValueError("Policy response must include opportunity_signals.")
+    if not explanation:
+        raise ValueError("Policy response must include explanation.")
+
+    grounding = payload.get("_grounding")
+    grounding_queries = []
+    grounding_sources: list[GroundingSource] = []
+    if isinstance(grounding, dict):
+        grounding_queries = _clean_string_list(grounding.get("queries"), limit=6)
+        grounding_sources = _clean_grounding_sources(grounding.get("sources"), limit=6)
 
     return PolicyResult(
         visa_risk=visa_risk,
         mobility_strategy=mobility_strategy,
         recommended_regions=recommended_regions,
         priority_policy_themes=priority_policy_themes,
-        constraints=constraints,
+        constraints=_clean_string_list(payload.get("constraints"), limit=8),
         opportunity_signals=opportunity_signals,
         explanation=explanation,
+        analysis_mode=analysis_mode,
+        grounding_queries=grounding_queries,
+        grounding_sources=grounding_sources,
     )
+
+
+def run_policy_analysis(user_profile: UserProfile | dict[str, object]) -> PolicyResult:
+    """Summarize region and policy constraints before industry selection."""
+    profile = ensure_user_profile(user_profile)
+
+    grounded_error: Exception | None = None
+    try:
+        grounded_payload = generate_grounded_json_strict(
+            _grounded_policy_prompt(profile),
+            profile="balanced",
+        )
+        return _policy_result_from_payload(
+            grounded_payload,
+            analysis_mode="gemini_grounded",
+        )
+    except Exception as exc:
+        grounded_error = exc
+
+    try:
+        payload = generate_json_strict(
+            _policy_prompt(profile),
+            profile="balanced",
+        )
+        return _policy_result_from_payload(payload, analysis_mode="llm")
+    except Exception as exc:
+        raise RuntimeError(
+            "Policy analysis failed in both grounded and non-grounded LLM modes. "
+            f"grounded_error={grounded_error}; llm_error={exc}"
+        ) from exc

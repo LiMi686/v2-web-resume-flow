@@ -5,8 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 try:
-    from .industry_engine import INDUSTRY_KB
-    from .llm_client import generate_optional_json, generate_optional_text
+    from .llm_client import generate_json_strict
     from .schemas import (
         CompanyStrategyResult,
         PolicyResult,
@@ -16,8 +15,7 @@ try:
         ensure_user_profile,
     )
 except ImportError:
-    from industry_engine import INDUSTRY_KB
-    from llm_client import generate_optional_json, generate_optional_text
+    from llm_client import generate_json_strict
     from schemas import (
         CompanyStrategyResult,
         PolicyResult,
@@ -26,17 +24,6 @@ except ImportError:
         UserProfile,
         ensure_user_profile,
     )
-
-
-def _matching_company_names(
-    industry_name: str, company_result: CompanyStrategyResult
-) -> tuple[str, list[str]]:
-    matching = [
-        company for company in company_result.shortlisted_companies if company.industry == industry_name
-    ]
-    if not matching:
-        return "Strategic operating companies", []
-    return matching[0].company_type, [company.name for company in matching[:3]]
 
 
 def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
@@ -48,78 +35,32 @@ def _clean_string_list(value: Any, limit: int | None = None) -> list[str]:
     return cleaned
 
 
-def _deterministic_role_path_result(
-    profile: UserProfile,
-    policy_result: PolicyResult,
-    industry_result,
-    company_result: CompanyStrategyResult,
-) -> RolePathResult:
-    years_experience = profile.years_experience
-    target_role_text = profile.target_role.lower()
-    role_map = {industry["name"]: industry["roles"] for industry in INDUSTRY_KB}
+def _role_path_from_payload(item: dict[str, Any]) -> RolePathOption:
+    industry = str(item.get("industry", "")).strip()
+    company_type = str(item.get("company_type", "")).strip()
+    role_title = str(item.get("role_title", "")).strip()
+    path_type = str(item.get("path_type", "")).strip().lower()
+    focus_areas = _clean_string_list(item.get("focus_areas"), limit=5)
+    why_fit = _clean_string_list(item.get("why_fit"), limit=5)
+    success_metrics = _clean_string_list(item.get("success_metrics"), limit=5)
+    example_companies = _clean_string_list(item.get("example_companies"), limit=5)
 
-    recommended_paths: list[RolePathOption] = []
-    for industry in industry_result.top_industries:
-        roles = role_map.get(industry.name, {})
-        company_type, example_companies = _matching_company_names(industry.name, company_result)
+    if path_type not in {"bridge", "direct", "stretch"}:
+        raise ValueError(f"Invalid role path_type: {path_type}")
+    if not all([industry, company_type, role_title]):
+        raise ValueError("Role path is missing required fields.")
+    if not focus_areas or not why_fit or not success_metrics:
+        raise ValueError("Role path must include focus_areas, why_fit, and success_metrics.")
 
-        if years_experience < 2:
-            role_title = roles.get("bridge") or roles.get("direct") or profile.target_role
-            path_type = "bridge"
-        elif years_experience < 5:
-            role_title = roles.get("direct") or roles.get("bridge") or profile.target_role
-            path_type = "direct"
-        else:
-            role_title = roles.get("stretch") or roles.get("direct") or profile.target_role
-            path_type = "stretch"
-
-        if target_role_text and any(target_role_text in value.lower() for value in roles.values()):
-            role_title = profile.target_role
-
-        recommended_paths.append(
-            RolePathOption(
-                industry=industry.name,
-                company_type=company_type,
-                role_title=role_title,
-                path_type=path_type,
-                focus_areas=industry.key_skills[:3],
-                why_fit=[
-                    f"Industry selected first because {industry.why_now}",
-                    f"Company strategy points toward {company_type.lower()} rather than generic employer lists.",
-                    f"Policy mobility context is currently {policy_result.visa_risk} risk.",
-                ],
-                success_metrics=[
-                    "Own a measurable business or operational metric in the first 90 days",
-                    "Demonstrate domain fluency in the chosen industry",
-                    "Translate analysis into a decision, automation, or workflow improvement",
-                ],
-                example_companies=example_companies or industry.sample_companies,
-            )
-        )
-
-    decision_principles = [
-        "Role path comes after industry and company strategy so the title reflects the market context.",
-        "Bridge roles are valid when they improve industry entry speed and future option value.",
-        "Choose roles where the first year can produce visible business impact, not just technical exposure.",
-    ]
-    explanation = generate_optional_text(
-        f"""
-You are explaining role path design inside an industry-first and company-strategy-centered system.
-
-User profile:
-{profile.to_dict()}
-
-Recommended paths:
-{recommended_paths}
-
-Return 3 concise sentences.
-""",
-        profile="creative",
-    )
-    return RolePathResult(
-        recommended_paths=recommended_paths,
-        decision_principles=decision_principles,
-        explanation=explanation,
+    return RolePathOption(
+        industry=industry,
+        company_type=company_type,
+        role_title=role_title,
+        path_type=path_type,
+        focus_areas=focus_areas,
+        why_fit=why_fit,
+        success_metrics=success_metrics,
+        example_companies=example_companies,
     )
 
 
@@ -131,12 +72,6 @@ def run_role_path(
 ) -> RolePathResult:
     """Translate industry and company choices into role path options."""
     profile = ensure_user_profile(user_profile)
-    fallback_result = _deterministic_role_path_result(
-        profile,
-        policy_result,
-        industry_result,
-        company_result,
-    )
     role_prompt = f"""
 You are the role-path strategist in a layered career planning system.
 
@@ -151,9 +86,6 @@ Industry result:
 
 Company result:
 {company_result}
-
-Deterministic fallback role paths:
-{fallback_result}
 
 Return strict JSON with this shape:
 {{
@@ -174,53 +106,37 @@ Return strict JSON with this shape:
 }}
 
 Instructions:
-- Be LLM-first: you may revise the fallback paths or create more specific titles.
+- Results must be fully model-derived from the prior stages and the user's background.
 - Keep path_type realistic given years of experience and current evidence.
-- Prefer roles that connect to measurable first-year business impact.
+- Prefer role paths that can create visible first-year business impact.
+- Return at least 3 recommended paths.
 - Only return valid JSON.
 """
-    payload = generate_optional_json(role_prompt, fallback=None, profile="balanced")
-    if not isinstance(payload, dict):
-        return fallback_result
-
+    payload = generate_json_strict(role_prompt, profile="balanced")
     raw_paths = payload.get("recommended_paths")
-    recommended_paths: list[RolePathOption] = []
-    if isinstance(raw_paths, list):
-        for item in raw_paths:
-            if not isinstance(item, dict):
-                continue
-            role_title = str(item.get("role_title", "")).strip()
-            industry_name = str(item.get("industry", "")).strip()
-            if not role_title or not industry_name:
-                continue
-            path_type = str(item.get("path_type", "")).strip().lower() or "bridge"
-            if path_type not in {"bridge", "direct", "stretch"}:
-                path_type = "bridge"
-            recommended_paths.append(
-                RolePathOption(
-                    industry=industry_name,
-                    company_type=str(item.get("company_type", "")).strip() or "Strategic operating companies",
-                    role_title=role_title,
-                    path_type=path_type,
-                    focus_areas=_clean_string_list(item.get("focus_areas"), limit=4) or ["analytics"],
-                    why_fit=_clean_string_list(item.get("why_fit"), limit=4) or [
-                        f"This path creates a plausible next step into {role_title}."
-                    ],
-                    success_metrics=_clean_string_list(item.get("success_metrics"), limit=4) or [
-                        "Own a visible metric or workflow within the first 90 days"
-                    ],
-                    example_companies=_clean_string_list(item.get("example_companies"), limit=4),
-                )
-            )
+    if not isinstance(raw_paths, list):
+        raise ValueError("Role response must include recommended_paths.")
 
-    if not recommended_paths:
-        recommended_paths = fallback_result.recommended_paths
+    recommended_paths: list[RolePathOption] = []
+    for item in raw_paths:
+        if not isinstance(item, dict):
+            continue
+        recommended_paths.append(_role_path_from_payload(item))
+
+    if len(recommended_paths) < 3:
+        raise ValueError("Role response must include at least 3 valid recommended_paths.")
+
+    decision_principles = _clean_string_list(payload.get("decision_principles"), limit=5)
+    explanation = str(payload.get("explanation", "")).strip()
+    if not decision_principles:
+        raise ValueError("Role response must include decision_principles.")
+    if not explanation:
+        raise ValueError("Role response must include explanation.")
 
     return RolePathResult(
         recommended_paths=recommended_paths,
-        decision_principles=_clean_string_list(payload.get("decision_principles"), limit=4)
-        or fallback_result.decision_principles,
-        explanation=str(payload.get("explanation", "")).strip() or fallback_result.explanation,
+        decision_principles=decision_principles,
+        explanation=explanation,
     )
 
 
@@ -234,9 +150,15 @@ def run_role_selection(
     elif len(args) == 2:
         policy_result, industry_result = args
         company_result = CompanyStrategyResult(
+            user_preference_summary="",
+            preference_alignment_summary="",
             discovery_strategy=[],
             target_company_types=[],
             company_selection_rules=[],
+            company_archetype_assessments=[],
+            primary_company_path="",
+            competitiveness_summary="",
+            development_recommendation="",
             ranking_logic=[],
             industry_analysis=[],
             market_analysis=[],

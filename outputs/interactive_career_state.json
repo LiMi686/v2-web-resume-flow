@@ -222,782 +222,851 @@
         ]
       }
     ],
-    "target_companies": []
+    "target_companies": [],
+    "company_preferences": {
+      "preferred_environments": [
+        "Series A-B startup"
+      ],
+      "risk_tolerance": "medium",
+      "stability_priority": "high",
+      "work_style_preference": "Balanced structure and ownership",
+      "brand_vs_growth_preference": "Balanced",
+      "notes": []
+    }
   },
   "job_description": "",
   "policy_result": {
     "visa_risk": "high",
-    "mobility_strategy": "Leverage your US-based Master's degree to utilize OPT/STEM OPT as a primary bridge to employment. Focus on mid-to-large enterprises in Canada or the US that have established internal mobility programs and dedicated immigration support teams.",
+    "mobility_strategy": "Maximize the 36-month STEM OPT window in the U.S. to build a high-wage profile, which is increasingly prioritized in the H-1B lottery. Simultaneously prepare a Canadian Express Entry profile to leverage the 2025 'International Talent Attraction Strategy' as a secondary contingency if U.S. sponsorship fails.",
     "recommended_regions": [
-      "United States",
-      "Canada"
+      "Phoenix-Tempe, AZ",
+      "Austin, TX",
+      "Toronto, ON",
+      "Vancouver, BC",
+      "Raleigh-Durham, NC",
+      "Seattle, WA"
     ],
     "priority_policy_themes": [
-      "STEM-designated degree utilization for extended work authorization",
-      "Cross-border digital trade and remote data talent mobility",
-      "Enterprise AI adoption and data governance infrastructure"
+      "CHIPS and Science Act Industrial Policy",
+      "Canada Tech Talent Strategy 2025",
+      "H-1B Wage-Based Prioritization",
+      "AI Executive Order 14110"
     ],
     "constraints": [
-      "Growth-oriented industry requirement",
-      "Limited to markets with favorable post-graduate work permit policies",
-      "Needs employer visa sponsorship",
-      "Needs sponsorship",
-      "Remote-friendly teams expand the opportunity set",
-      "Requires employer visa sponsorship",
-      "Wants growth-oriented industry"
+      "H-1B lottery dependency with 2025 shifts toward higher-wage applicants",
+      "Removal of 'Data Scientist' from Canada's STEM-specific Express Entry category-based draws as of February 2025",
+      "Requirement for E-Verify employers to maintain STEM OPT status"
     ],
     "opportunity_signals": [
-      "STEM OPT extension provides a 3-year runway in the US, making you highly attractive to mid-sized firms.",
-      "Canada’s Global Skills Strategy offers expedited processing for tech talent, aligning with your background.",
-      "Growth in AI-driven healthcare and infrastructure analytics matches your specific internship portfolio."
+      "Arizona leads the U.S. in CHIPS Act investment with over $14B in direct funding for TSMC and Intel facilities",
+      "Canada's Budget 2025 allocates $1.7B to recruit 1,000+ international researchers and tech professionals",
+      "High demand for analytics in healthcare and advanced manufacturing sectors supported by federal industrial grants"
     ],
-    "explanation": "Your background in both US-based research and international data science provides a strong foundation for STEM-based visa pathways. By targeting firms that prioritize AI infrastructure, you align your technical expertise with current industrial investment trends. Prioritizing the US for the immediate post-grad period maximizes your OPT benefits, while Canada serves as a viable long-term contingency for permanent residency."
+    "explanation": "Leon's strategy is heavily influenced by the U.S. shift toward wage-based H-1B selection, making entry-level data analyst roles harder to sponsor unless they are in high-growth industrial sectors like semiconductors in Arizona. While Canada remains a viable backup, the recent removal of data roles from their streamlined STEM immigration category increases the importance of securing a high-paying U.S. role first. Leveraging his current location in Arizona is optimal due to the massive local workforce expansion driven by the CHIPS Act.",
+    "analysis_mode": "gemini_grounded",
+    "grounding_queries": [
+      "Canada Tech Talent Strategy H-1B visa holders 2025 update",
+      "US STEM OPT extension rules 2025 for data science graduates",
+      "US H-1B visa sponsorship trends for data analysts 2025",
+      "Canada Express Entry for US master's graduates in data science 2025",
+      "CHIPS Act impact on data science jobs in Arizona and Texas"
+    ],
+    "grounding_sources": []
   },
   "industry_result": {
     "ranked_industries": [
       {
-        "name": "Healthcare AI",
-        "score": 7.45,
-        "recommendation": "build bridge role path",
-        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "name": "Semiconductor Manufacturing",
+        "score": 9.5,
+        "recommendation": "direct priority",
+        "why_now": "Arizona is a primary beneficiary of the CHIPS Act, creating massive demand for data analysts to optimize supply chains and yield metrics.",
         "key_skills": [
-          "analytics",
-          "healthcare",
-          "machine learning",
-          "python",
-          "sql"
+          "SQL",
+          "Python",
+          "Time Series",
+          "Data Validation"
         ],
         "policy_alignment": [
-          "Healthcare digitization budgets",
-          "AI-enabled clinical workflow adoption",
-          "Data infrastructure modernization"
+          "CHIPS and Science Act Industrial Policy",
+          "H-1B Wage-Based Prioritization"
         ],
-        "company_strategy_hint": "Clinical AI platform companies",
-        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
+        "company_strategy_hint": "Large-scale semiconductor manufacturers and their Tier-1 equipment suppliers.",
+        "market_stage": "Rapidly expanding due to federal subsidies and domestic reshoring efforts.",
         "sample_companies": [
-          "Tempus",
-          "Abridge",
-          "Flatiron Health"
+          "TSMC",
+          "Intel",
+          "ON Semiconductor"
         ],
-        "trend_summary": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Current momentum is reinforced by Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "trend_summary": "High capital expenditure is driving a need for data-driven operational efficiency and predictive maintenance.",
         "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, healthcare, machine learning.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+          "E-Verify employer requirement",
+          "Security clearance sensitivity"
         ],
-        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, machine learning, python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+        "long_term_growth": "High stability with significant potential for domain-specific analytics expertise.",
+        "personalized_reason": "Matches your Arizona location and experience with sensor data and predictive modeling."
       },
       {
-        "name": "Enterprise SaaS",
-        "score": 6.8,
-        "recommendation": "build bridge role path",
-        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "name": "Healthcare & Biomedical Research",
+        "score": 8.8,
+        "recommendation": "direct priority",
+        "why_now": "The sector is heavily investing in AI-driven diagnostics and operational analytics, which aligns with your research background.",
         "key_skills": [
-          "analytics",
-          "dashboarding",
-          "experimentation",
-          "python",
-          "sql"
+          "Machine Learning",
+          "Clustering",
+          "Statistical Analysis",
+          "Python"
         ],
         "policy_alignment": [
-          "Enterprise productivity demand",
-          "AI copilots and workflow automation",
-          "Decision intelligence in software platforms"
+          "AI Executive Order 14110"
         ],
-        "company_strategy_hint": "Product-led SaaS platforms",
-        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
+        "company_strategy_hint": "Research hospitals and health-tech firms focusing on clinical data pipelines.",
+        "market_stage": "Stable and growth-oriented with high demand for reproducible research workflows.",
         "sample_companies": [
+          "Mayo Clinic",
+          "Banner Health",
+          "UnitedHealth Group"
+        ],
+        "trend_summary": "Increasing integration of predictive analytics in patient care and operational resource allocation.",
+        "entry_barriers": [
+          "Regulatory compliance knowledge",
+          "HIPAA familiarity"
+        ],
+        "long_term_growth": "Essential industry with recession-proof demand for data professionals.",
+        "personalized_reason": "Directly leverages your experience at the Lung Cancer Research Institute and Computer Vision Lab."
+      },
+      {
+        "name": "Cloud Infrastructure & SaaS",
+        "score": 8.2,
+        "recommendation": "build bridge role path",
+        "why_now": "High-growth SaaS companies are prioritizing revenue operations and customer analytics to justify valuations.",
+        "key_skills": [
+          "Snowflake",
+          "SQL",
+          "Feature Engineering",
+          "RFM Analysis"
+        ],
+        "policy_alignment": [
+          "H-1B Wage-Based Prioritization"
+        ],
+        "company_strategy_hint": "Late-stage growth companies with established data teams.",
+        "market_stage": "Maturing market focused on profitability and customer retention metrics.",
+        "sample_companies": [
+          "Snowflake",
           "Datadog",
-          "HubSpot",
-          "Notion"
+          "Salesforce"
         ],
-        "trend_summary": "AI is reshaping product design, analytics ownership, and software buyer expectations. Current momentum is reinforced by Enterprise productivity demand, AI copilots and workflow automation.",
+        "trend_summary": "Shift from 'growth at all costs' to 'efficient growth' via customer segmentation and churn prediction.",
         "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, dashboarding, experimentation.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+          "High competition for roles",
+          "Technical interview rigor"
         ],
-        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+        "long_term_growth": "Excellent for building a versatile analytics toolkit applicable across industries.",
+        "personalized_reason": "Aligns with your project experience in cloud-based customer analytics and database design."
       },
       {
-        "name": "Fintech",
-        "score": 6.55,
-        "recommendation": "build bridge role path",
-        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
-        "key_skills": [
-          "analytics",
-          "experimentation",
-          "python",
-          "risk",
-          "sql"
-        ],
-        "policy_alignment": [
-          "Digital financial operations",
-          "Risk automation and trust infrastructure",
-          "Product analytics and growth efficiency"
-        ],
-        "company_strategy_hint": "Payments and infrastructure platforms",
-        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
-        "sample_companies": [
-          "Stripe",
-          "Plaid",
-          "Ramp"
-        ],
-        "trend_summary": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Current momentum is reinforced by Digital financial operations, Risk automation and trust infrastructure.",
-        "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, experimentation, python.",
-          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
-        ],
-        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
-      },
-      {
-        "name": "Climate and Energy Tech",
-        "score": 6.35,
+        "name": "Logistics & Supply Chain Analytics",
+        "score": 7.5,
         "recommendation": "monitor as secondary option",
-        "why_now": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles. Policy alignment comes from Energy transition and grid modernization, Industrial efficiency and optimization.",
+        "why_now": "Global supply chain volatility makes predictive demand planning a critical function for large operators.",
         "key_skills": [
-          "analytics",
-          "forecasting",
-          "optimization",
-          "python",
-          "sql"
+          "Python",
+          "SQL",
+          "Forecasting",
+          "Analytics"
         ],
         "policy_alignment": [
-          "Energy transition and grid modernization",
-          "Industrial efficiency and optimization",
-          "Public-private climate investment"
+          "Canada Tech Talent Strategy 2025"
         ],
-        "company_strategy_hint": "Grid and energy analytics companies",
-        "market_stage": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles.",
+        "company_strategy_hint": "Large logistics providers or e-commerce fulfillment centers.",
+        "market_stage": "Undergoing digital transformation to automate inventory and distribution.",
         "sample_companies": [
-          "Aurora Solar",
-          "AutoGrid",
-          "Stem"
+          "Amazon",
+          "FedEx",
+          "Shopify"
         ],
-        "trend_summary": "Policy support and infrastructure investment are expanding demand for data-heavy operations roles. Current momentum is reinforced by Energy transition and grid modernization, Industrial efficiency and optimization.",
+        "trend_summary": "Heavy reliance on real-time data to mitigate global shipping disruptions.",
         "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, forecasting, optimization.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+          "Domain knowledge requirements",
+          "Complex legacy data systems"
         ],
-        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
-      },
-      {
-        "name": "Semiconductors and Advanced Manufacturing",
-        "score": 4.8,
-        "recommendation": "monitor as secondary option",
-        "why_now": "Industrial policy and compute demand are strengthening the full semiconductor value chain. Policy alignment comes from CHIPS-style industrial policy, Supply-chain resilience.",
-        "key_skills": [
-          "automation",
-          "forecasting",
-          "python",
-          "quality",
-          "statistics"
-        ],
-        "policy_alignment": [
-          "CHIPS-style industrial policy",
-          "Supply-chain resilience",
-          "Factory automation and yield optimization"
-        ],
-        "company_strategy_hint": "Chip design and platform companies",
-        "market_stage": "Industrial policy and compute demand are strengthening the full semiconductor value chain.",
-        "sample_companies": [
-          "NVIDIA",
-          "ASML",
-          "Applied Materials"
-        ],
-        "trend_summary": "Industrial policy and compute demand are strengthening the full semiconductor value chain. Current momentum is reinforced by CHIPS-style industrial policy, Supply-chain resilience.",
-        "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in automation, forecasting, python.",
-          "Current skill overlap is still shallow, so a bridge role or stronger portfolio proof may be needed.",
-          "Entry is less forgiving because domain fluency and execution proof matter early.",
-          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup."
-        ],
-        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+        "long_term_growth": "High potential for leadership roles in operations management.",
+        "personalized_reason": "Builds upon your internship experience in forecasting models and demand planning."
       }
     ],
     "top_industries": [
       {
-        "name": "Healthcare AI",
-        "score": 7.45,
-        "recommendation": "build bridge role path",
-        "why_now": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "name": "Semiconductor Manufacturing",
+        "score": 9.5,
+        "recommendation": "direct priority",
+        "why_now": "Arizona is a primary beneficiary of the CHIPS Act, creating massive demand for data analysts to optimize supply chains and yield metrics.",
         "key_skills": [
-          "analytics",
-          "healthcare",
-          "machine learning",
-          "python",
-          "sql"
+          "SQL",
+          "Python",
+          "Time Series",
+          "Data Validation"
         ],
         "policy_alignment": [
-          "Healthcare digitization budgets",
-          "AI-enabled clinical workflow adoption",
-          "Data infrastructure modernization"
+          "CHIPS and Science Act Industrial Policy",
+          "H-1B Wage-Based Prioritization"
         ],
-        "company_strategy_hint": "Clinical AI platform companies",
-        "market_stage": "Incumbents are digitizing while AI-native specialists open new workflow wedges.",
+        "company_strategy_hint": "Large-scale semiconductor manufacturers and their Tier-1 equipment suppliers.",
+        "market_stage": "Rapidly expanding due to federal subsidies and domestic reshoring efforts.",
         "sample_companies": [
-          "Tempus",
-          "Abridge",
-          "Flatiron Health"
+          "TSMC",
+          "Intel",
+          "ON Semiconductor"
         ],
-        "trend_summary": "Incumbents are digitizing while AI-native specialists open new workflow wedges. Current momentum is reinforced by Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
+        "trend_summary": "High capital expenditure is driving a need for data-driven operational efficiency and predictive maintenance.",
         "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, healthcare, machine learning.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+          "E-Verify employer requirement",
+          "Security clearance sensitivity"
         ],
-        "long_term_growth": "Long-term upside is strong because the market has durable demand, strategic data problems, and room for role expansion.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, machine learning, python. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+        "long_term_growth": "High stability with significant potential for domain-specific analytics expertise.",
+        "personalized_reason": "Matches your Arizona location and experience with sensor data and predictive modeling."
       },
       {
-        "name": "Enterprise SaaS",
-        "score": 6.8,
-        "recommendation": "build bridge role path",
-        "why_now": "AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
+        "name": "Healthcare & Biomedical Research",
+        "score": 8.8,
+        "recommendation": "direct priority",
+        "why_now": "The sector is heavily investing in AI-driven diagnostics and operational analytics, which aligns with your research background.",
         "key_skills": [
-          "analytics",
-          "dashboarding",
-          "experimentation",
-          "python",
-          "sql"
+          "Machine Learning",
+          "Clustering",
+          "Statistical Analysis",
+          "Python"
         ],
         "policy_alignment": [
-          "Enterprise productivity demand",
-          "AI copilots and workflow automation",
-          "Decision intelligence in software platforms"
+          "AI Executive Order 14110"
         ],
-        "company_strategy_hint": "Product-led SaaS platforms",
-        "market_stage": "AI is reshaping product design, analytics ownership, and software buyer expectations.",
+        "company_strategy_hint": "Research hospitals and health-tech firms focusing on clinical data pipelines.",
+        "market_stage": "Stable and growth-oriented with high demand for reproducible research workflows.",
         "sample_companies": [
+          "Mayo Clinic",
+          "Banner Health",
+          "UnitedHealth Group"
+        ],
+        "trend_summary": "Increasing integration of predictive analytics in patient care and operational resource allocation.",
+        "entry_barriers": [
+          "Regulatory compliance knowledge",
+          "HIPAA familiarity"
+        ],
+        "long_term_growth": "Essential industry with recession-proof demand for data professionals.",
+        "personalized_reason": "Directly leverages your experience at the Lung Cancer Research Institute and Computer Vision Lab."
+      },
+      {
+        "name": "Cloud Infrastructure & SaaS",
+        "score": 8.2,
+        "recommendation": "build bridge role path",
+        "why_now": "High-growth SaaS companies are prioritizing revenue operations and customer analytics to justify valuations.",
+        "key_skills": [
+          "Snowflake",
+          "SQL",
+          "Feature Engineering",
+          "RFM Analysis"
+        ],
+        "policy_alignment": [
+          "H-1B Wage-Based Prioritization"
+        ],
+        "company_strategy_hint": "Late-stage growth companies with established data teams.",
+        "market_stage": "Maturing market focused on profitability and customer retention metrics.",
+        "sample_companies": [
+          "Snowflake",
           "Datadog",
-          "HubSpot",
-          "Notion"
+          "Salesforce"
         ],
-        "trend_summary": "AI is reshaping product design, analytics ownership, and software buyer expectations. Current momentum is reinforced by Enterprise productivity demand, AI copilots and workflow automation.",
+        "trend_summary": "Shift from 'growth at all costs' to 'efficient growth' via customer segmentation and churn prediction.",
         "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, dashboarding, experimentation.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
+          "High competition for roles",
+          "Technical interview rigor"
         ],
-        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
-      },
-      {
-        "name": "Fintech",
-        "score": 6.55,
-        "recommendation": "build bridge role path",
-        "why_now": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
-        "key_skills": [
-          "analytics",
-          "experimentation",
-          "python",
-          "risk",
-          "sql"
-        ],
-        "policy_alignment": [
-          "Digital financial operations",
-          "Risk automation and trust infrastructure",
-          "Product analytics and growth efficiency"
-        ],
-        "company_strategy_hint": "Payments and infrastructure platforms",
-        "market_stage": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work.",
-        "sample_companies": [
-          "Stripe",
-          "Plaid",
-          "Ramp"
-        ],
-        "trend_summary": "The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Current momentum is reinforced by Digital financial operations, Risk automation and trust infrastructure.",
-        "entry_barriers": [
-          "This path usually rewards candidates who already show evidence in analytics, experimentation, python.",
-          "Mobility friction may narrow employer options unless the company has a global or sponsorship-friendly setup.",
-          "Early-career candidates should emphasize internships, projects, and fast ramp potential."
-        ],
-        "long_term_growth": "Long-term growth looks healthy, especially if you build domain depth and move closer to strategic decision workflows.",
-        "personalized_reason": "Your current toolkit already overlaps with this sector through analytics, python, sql. The industry also supports a credible path into Data Analyst via company environments that value applied analytics."
+        "long_term_growth": "Excellent for building a versatile analytics toolkit applicable across industries.",
+        "personalized_reason": "Aligns with your project experience in cloud-based customer analytics and database design."
       }
     ],
     "selection_logic": [
-      "Industry is selected before role so the user can ride stronger policy and market tailwinds.",
-      "Scoring combines macro attractiveness, current skill fit, entry friendliness, and visa friction.",
-      "Top industries should feed company strategy before final role positioning."
+      "Prioritize industries with high federal funding (CHIPS Act) to maximize sponsorship probability.",
+      "Target sectors where your specific academic research (Biomedical/Computer Vision) provides a competitive edge.",
+      "Balance U.S.-based industrial roles with Canadian contingency planning for long-term visa security."
     ],
-    "explanation": "Choosing an industry first grounds your career in a sector with structural growth, ensuring your skills remain in high demand regardless of company-specific fluctuations. For someone requiring visa sponsorship like you, aligning with a high-growth industry—such as Healthcare AI or Enterprise SaaS—positions you at the center of institutional investment, where companies are most likely to prioritize hiring and retaining specialized international talent. By prioritizing the \"where\" over the \"who,\" you build domain expertise that compounds over time, making you more valuable to any future employer within that space."
+    "explanation": "The strategy focuses on high-investment industrial sectors in Arizona to secure H-1B sponsorship through wage-based prioritization. Healthcare and SaaS roles serve as secondary targets to leverage your specific research and cloud analytics project experience. This approach mitigates visa risk by aligning with federal industrial policy while maintaining mobility options."
   },
   "company_result": {
+    "user_preference_summary": "Leon prefers Series A-B startups with a medium risk tolerance, high stability priority, and a balanced work style, seeking a blend of structure and ownership.",
+    "preference_alignment_summary": "While Leon desires Series A-B startups, these environments often lack the robust visa sponsorship infrastructure (E-Verify/legal teams) required for a high-risk candidate. His profile is most competitive in established or late-stage environments that offer the stability he requires while providing the high-wage potential necessary for H-1B prioritization.",
     "discovery_strategy": [
-      "Filter for high-growth US-based companies with established data-driven product cultures.",
-      "Prioritize firms with documented sponsorship history or global operations to mitigate visa risk.",
-      "Align company selection with the user's specific internship background in AI, healthcare, and infrastructure."
+      "Prioritize companies with E-Verify status and high-wage H-1B sponsorship track records.",
+      "Target late-stage growth companies in the semiconductor and biotech sectors to leverage federal industrial policy.",
+      "Utilize academic research background to gain entry into mission-driven research organizations as a stable alternative to early-stage startups."
     ],
     "target_company_types": [
-      "AI-native workflow software companies",
-      "Healthcare analytics and data infrastructure vendors",
-      "Product-led SaaS platforms"
+      "Late-stage growth company",
+      "Established operator or mission-driven organization"
     ],
     "company_selection_rules": [
-      "Prioritize companies where data work directly influences product adoption or operational efficiency.",
-      "Favor teams where analytics sits close to decision-makers rather than isolated reporting functions.",
-      "Filter for companies with a high likelihood of sponsoring STEM OPT candidates."
+      "Must have a demonstrated history of H-1B sponsorship for data roles.",
+      "Must be operating in sectors benefiting from current US industrial policy (CHIPS Act, AI Executive Order).",
+      "Must offer enough organizational structure to support a junior analyst while providing ownership opportunities."
     ],
+    "company_archetype_assessments": [
+      {
+        "archetype": "Big Tech / platform company",
+        "recommendation_level": "secondary",
+        "competitiveness_level": "competitive",
+        "fit_rationale": [
+          "Strong alignment with project experience in cloud-based analytics and database design.",
+          "High visa sponsorship capability and internal mobility."
+        ],
+        "watchouts": [
+          "Extremely high competition for entry-level roles.",
+          "Potential for siloed work which may conflict with the desire for 'ownership'."
+        ],
+        "development_value": "Provides gold-standard training and resume prestige that facilitates future career pivots.",
+        "entry_strategy": "Target internal data analytics or business intelligence teams via referrals and specialized technical projects.",
+        "example_companies": [
+          "Snowflake",
+          "Datadog",
+          "NVIDIA"
+        ]
+      },
+      {
+        "archetype": "Series A-B startup",
+        "recommendation_level": "stretch",
+        "competitiveness_level": "developing",
+        "fit_rationale": [
+          "Matches the user's explicit preference for ownership and growth-oriented culture.",
+          "Direct application of predictive modeling and ML skills to core product features."
+        ],
+        "watchouts": [
+          "High visa risk; many startups lack the resources for H-1B sponsorship.",
+          "Instability may conflict with the user's stated high stability priority."
+        ],
+        "development_value": "Accelerated learning curve and high-impact ownership, but risky for a first role requiring sponsorship.",
+        "entry_strategy": "Focus on well-funded startups in the semiconductor or AI infrastructure space that explicitly signal visa support.",
+        "example_companies": [
+          "Atomic Semi",
+          "Oscilar"
+        ]
+      },
+      {
+        "archetype": "Late-stage growth company",
+        "recommendation_level": "primary",
+        "competitiveness_level": "strong",
+        "fit_rationale": [
+          "Sweet spot between startup ownership and corporate stability.",
+          "High demand for data analysts to drive 'efficient growth' and profitability metrics."
+        ],
+        "watchouts": [
+          "Rigorous technical interview processes.",
+          "Requires demonstrating immediate ROI to justify the cost of sponsorship."
+        ],
+        "development_value": "Ideal for scaling technical skills in a professionalized environment while maintaining a growth-oriented mindset.",
+        "entry_strategy": "Leverage research background and cloud analytics projects to target roles in AI hardware and biotech platforms.",
+        "example_companies": [
+          "Databricks",
+          "Cerebras Systems",
+          "Benchling"
+        ]
+      },
+      {
+        "archetype": "Established operator or mission-driven organization",
+        "recommendation_level": "primary",
+        "competitiveness_level": "strong",
+        "fit_rationale": [
+          "High stability and consistent visa sponsorship history.",
+          "Direct alignment with research-heavy background in healthcare and biomedical data."
+        ],
+        "watchouts": [
+          "Slower pace of innovation compared to startups.",
+          "Potential for legacy data systems that may be less exciting than modern cloud stacks."
+        ],
+        "development_value": "Provides domain-specific expertise that is highly defensible and recession-proof.",
+        "entry_strategy": "Target research-heavy roles that value academic rigor and reproducible data workflows.",
+        "example_companies": [
+          "Broad Institute",
+          "Recursion Pharmaceuticals",
+          "AbbVie"
+        ]
+      }
+    ],
+    "primary_company_path": "Late-stage growth company",
+    "competitiveness_summary": "Leon is highly competitive for late-stage and established roles due to his research-heavy background and cloud-project experience. He is currently less competitive for early-stage startups due to the mismatch between his need for stability/sponsorship and the inherent risk of Series A-B firms.",
+    "development_recommendation": "Prioritize late-stage growth companies. They offer the best balance of technical challenge, organizational structure, and the financial stability required to secure H-1B sponsorship, satisfying both the user's desire for ownership and the policy-driven need for stability.",
     "ranking_logic": [
-      "Industry alignment with user's background (Healthcare AI, Enterprise SaaS).",
-      "Company stage (Growth-stage preferred for high-leverage data projects).",
-      "Visa support potential and international operating environment."
+      "Score companies higher if they operate in CHIPS Act-aligned regions like Arizona.",
+      "Weight visa sponsorship likelihood as the primary filter for all candidates.",
+      "Prioritize firms where data analytics is a core product differentiator rather than a cost-center."
     ],
     "industry_analysis": [
-      "Healthcare AI rewards companies that connect model performance to clinical workflow adoption.",
-      "Enterprise SaaS gives broad access to product, revenue, and usage data with clear experimentation loops.",
-      "Data infrastructure modernization is a key investment area for incumbents."
+      "Semiconductor manufacturing is currently the highest-value sector for data talent due to massive capital injection.",
+      "Biotech and healthcare are shifting toward AI-driven diagnostics, creating a high demand for reproducible research workflows.",
+      "Cloud infrastructure remains a critical bridge industry for building a versatile analytics toolkit."
     ],
     "market_analysis": [
-      "B2B buyers now expect AI augmentation and measurable productivity gains.",
-      "Companies with product-led data loops often develop stronger analyst and data scientist scope.",
-      "Efficiency-focused buyers reward products that reduce manual operations."
+      "The US job market for data analysts is shifting toward wage-based prioritization, favoring companies that can pay premium salaries.",
+      "Early-stage startups (Series A-B) are high-risk for visa candidates due to limited legal resources for sponsorship.",
+      "Late-stage growth companies provide the best balance of stability and technical ownership."
     ],
     "value_chain_analysis": [
-      "High-value positions sit near clinical data infrastructure and decision support.",
-      "The best operating leverage comes from turning fragmented processes into repeatable data products.",
-      "The most strategic teams sit between product usage, monetization, and go-to-market efficiency."
+      "Semiconductor supply chain optimization is a high-visibility area for data analysts to demonstrate immediate ROI.",
+      "Biotech R&D platforms are increasingly relying on data analysts to bridge the gap between wet-lab science and computational insights."
     ],
     "competitor_map": [
-      "Clinical AI platforms: Tempus, Abridge, Flatiron Health",
-      "Collaboration and workflow: Notion, Airtable",
-      "Product-led SaaS: HubSpot, Datadog"
+      "AI Hardware/Semiconductors: NVIDIA, Cerebras Systems, Atomic Semi",
+      "Biotech/Life Sciences: Broad Institute, Recursion Pharmaceuticals, Benchling"
     ],
     "retrieved_companies": [
       {
-        "industry": "Enterprise SaaS",
-        "name": "Notion",
-        "company_type": "AI-native workflow software companies",
-        "stage": "Growth-stage",
-        "focus": "AI-enhanced collaboration software",
-        "why_now": "AI is reshaping product design and analytics ownership.",
-        "region": "US/Remote",
-        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important.",
-        "source": "local_kb",
-        "fit_score": 13.5,
-        "why_match": [
-          "Strong alignment with Enterprise SaaS",
-          "Growth-stage environment",
-          "High visa support likelihood"
-        ],
-        "international_environment": "high",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Ideal for exposure to AI-enhanced collaboration software in a growth-stage context.",
-        "candidate_explanation": "Notion's focus on product-led growth provides a perfect environment for high-impact analytics.",
-        "role_value_potential": "Connect analytics to AI product features to build a strong portfolio."
-      },
-      {
-        "industry": "Healthcare AI",
-        "name": "Abridge",
-        "company_type": "Workflow-embedded healthcare AI platforms",
-        "stage": "Growth-stage",
-        "focus": "Clinical documentation and workflow AI",
-        "why_now": "Healthcare digitization budgets are driving AI adoption.",
-        "region": "US",
-        "hiring_signal": "AI workflow teams hire analytics and product-minded operators.",
-        "source": "local_kb",
-        "fit_score": 12.8,
-        "why_match": [
-          "Matches healthcare research background",
-          "Growth-stage",
-          "Direct industry alignment"
-        ],
-        "international_environment": "medium",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium",
-        "user_fit_summary": "Strong fit for clinical documentation and workflow AI.",
-        "candidate_explanation": "Your research experience directly translates to Abridge's clinical data challenges.",
-        "role_value_potential": "Build domain expertise in high-stakes healthcare AI."
-      },
-      {
-        "industry": "Enterprise SaaS",
-        "name": "HubSpot",
-        "company_type": "Product-led SaaS platforms",
+        "industry": "Semiconductor Manufacturing",
+        "name": "NVIDIA",
+        "company_type": "Big Tech / platform company",
         "stage": "Public",
-        "focus": "Growth and customer platform analytics",
-        "why_now": "Enterprise productivity demand remains high.",
-        "region": "US/Remote",
-        "hiring_signal": "Analytics sits close to go-to-market and product decisions.",
-        "source": "local_kb",
-        "fit_score": 11.3,
-        "why_match": [
-          "Stable public company",
-          "Remote flexibility",
-          "Strong analytics culture"
-        ],
-        "international_environment": "high",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Great for growth, lifecycle, and customer platform analytics.",
-        "candidate_explanation": "HubSpot offers a structured environment to master product-led analytics.",
-        "role_value_potential": "Develop skills in large-scale experimentation and lifecycle analytics."
-      },
-      {
-        "industry": "Healthcare AI",
-        "name": "Flatiron Health",
-        "company_type": "Healthcare analytics and data infrastructure vendors",
-        "stage": "Mature",
-        "focus": "Oncology data infrastructure",
-        "why_now": "Data-heavy operating environment with healthcare domain depth.",
+        "focus": "Accelerated computing, AI infrastructure, and GPU manufacturing",
+        "why_now": "As the primary provider of AI hardware, NVIDIA's data needs are scaling exponentially to manage global supply chains and R&D.",
         "region": "US",
-        "hiring_signal": "Data and analytics work ties closely to clinical decisions.",
-        "source": "local_kb",
-        "fit_score": 10.5,
-        "why_match": [
-          "Deep healthcare domain",
-          "Strong data infrastructure focus"
-        ],
-        "international_environment": "medium",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium",
-        "user_fit_summary": "Excellent for oncology data infrastructure and clinical analytics.",
-        "candidate_explanation": "Flatiron is a leader in oncology data, ideal for a data scientist with research experience.",
-        "role_value_potential": "Gain deep expertise in complex, regulated healthcare datasets."
-      },
-      {
-        "industry": "Enterprise SaaS",
-        "name": "Datadog",
-        "company_type": "AI-native workflow software companies",
-        "stage": "Public",
-        "focus": "Instrumentation-heavy SaaS",
-        "why_now": "AI-native workflow software is a top enterprise priority.",
-        "region": "US",
-        "hiring_signal": "Strong data and experimentation opportunities.",
-        "source": "local_kb",
-        "fit_score": 10.2,
-        "why_match": [
-          "Instrumentation-heavy",
-          "High-growth public company"
-        ],
-        "international_environment": "medium",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for instrumentation and product analytics.",
-        "candidate_explanation": "Datadog's massive scale provides unique challenges in product analytics.",
-        "role_value_potential": "Master large-scale data instrumentation and product experimentation."
-      },
-      {
-        "industry": "Fintech",
-        "name": "Stripe",
-        "company_type": "Payments and financial infrastructure platforms",
-        "stage": "Mature/private",
-        "focus": "Payments infrastructure and product analytics",
-        "why_now": "Digital financial operations and risk automation are critical.",
-        "region": "Global/Remote",
-        "hiring_signal": "Large analytics footprint across payments and risk.",
-        "source": "local_kb",
-        "fit_score": 9.8,
-        "why_match": [
-          "Global scale",
-          "Strong visa support",
-          "Analytics-heavy culture"
-        ],
+        "hiring_signal": "Consistently hires Data Analysts for supply chain, product, and business intelligence teams to optimize AI chip production.",
+        "source": "www.nvidia.com",
+        "fit_score": 10.0,
+        "why_match": [],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "high",
-        "user_fit_summary": "Best for payments infrastructure and product analytics at scale.",
-        "candidate_explanation": "Stripe is the gold standard for data-driven product decisions.",
-        "role_value_potential": "Build a career on the backbone of the internet economy."
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Cloud Infrastructure & SaaS",
+        "name": "Databricks",
+        "company_type": "Late-stage growth company",
+        "stage": "Series I",
+        "focus": "Data lakehouse platform and unified analytics",
+        "why_now": "Databricks is the central hub for enterprise data work, making data analysis a core strategic function within the company.",
+        "region": "US",
+        "hiring_signal": "Actively recruiting for Data & AI Technology Consultants and Analytics Engineers to support their global customer base.",
+        "source": "www.databricks.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Broad Institute",
+        "company_type": "Established operator or mission-driven organization",
+        "stage": "Non-profit",
+        "focus": "Genomics, disease research, and biomedical data science",
+        "why_now": "The Broad is at the forefront of applying AI to massive genomic datasets, requiring high-signal data talent for mission-driven work.",
+        "region": "US",
+        "hiring_signal": "Frequent openings for Computational Associates and Data Analysts; known for cap-exempt H-1B sponsorship for specialized roles.",
+        "source": "www.broadinstitute.org",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "high",
+        "orientation": "balanced",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Semiconductor Manufacturing",
+        "name": "Cerebras Systems",
+        "company_type": "Late-stage growth company",
+        "stage": "Series F",
+        "focus": "AI hardware accelerators and the Wafer Scale Engine",
+        "why_now": "Cerebras is scaling its cloud-based AI inference services, necessitating robust data analysis to monitor hardware performance and user metrics.",
+        "region": "US",
+        "hiring_signal": "Explicitly listed as an H-1B visa sponsor in recent job boards for Senior Data Analyst roles ($150k-$200k).",
+        "source": "www.cerebras.net",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium-high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Recursion Pharmaceuticals",
+        "company_type": "Late-stage growth company",
+        "stage": "Public",
+        "focus": "AI-driven drug discovery and industrializing biology",
+        "why_now": "Recursion is transitioning from a research-heavy startup to a clinical-stage powerhouse, relying on data to accelerate drug pipelines.",
+        "region": "US",
+        "hiring_signal": "Hiring for People Analytics and Research Data roles; application process explicitly includes visa sponsorship queries.",
+        "source": "www.recursion.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium-high",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Cloud Infrastructure & SaaS",
+        "name": "Datadog",
+        "company_type": "Big Tech / platform company",
+        "stage": "Public",
+        "focus": "Cloud monitoring, observability, and security SaaS",
+        "why_now": "As cloud complexity grows, Datadog's role in monitoring infrastructure makes data analysis critical for their internal product strategy.",
+        "region": "US",
+        "hiring_signal": "Regularly hires Product Data Analysts to drive growth and optimize infrastructure monitoring features.",
+        "source": "www.datadoghq.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Semiconductor Manufacturing",
+        "name": "Groq",
+        "company_type": "Late-stage growth company",
+        "stage": "Series D",
+        "focus": "LPU Inference Engine for real-time AI compute",
+        "why_now": "Groq is experiencing rapid adoption for LLM inference, requiring analysts to optimize their 'GroqCloud' usage and performance data.",
+        "region": "US",
+        "hiring_signal": "Hiring for Talent Intelligence and Data-driven operational roles; remote-friendly culture with global talent mapping.",
+        "source": "groq.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium-high",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "AbbVie",
+        "company_type": "Established operator or mission-driven organization",
+        "stage": "Public",
+        "focus": "Biopharmaceutical research, development, and manufacturing",
+        "why_now": "Large pharmaceutical companies are increasingly digitizing clinical trials, creating high demand for data-literate operations analysts.",
+        "region": "US",
+        "hiring_signal": "Hiring for remote Analyst II roles in clinical development operations and study start-up.",
+        "source": "careers.abbvie.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "high",
+        "orientation": "business",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Cloud Infrastructure & SaaS",
+        "name": "Snowflake",
+        "company_type": "Big Tech / platform company",
+        "stage": "Public",
+        "focus": "Cloud-based data warehousing and analytics platform",
+        "why_now": "Snowflake is expanding into generative AI and data apps, making internal data analysis vital for their roadmap.",
+        "region": "US",
+        "hiring_signal": "Core business is built on data; hires analysts across sales, product, and engineering to optimize the Data Cloud.",
+        "source": "www.snowflake.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Benchling",
+        "company_type": "Late-stage growth company",
+        "stage": "Series F",
+        "focus": "R&D cloud platform for biotechnology and life sciences",
+        "why_now": "Benchling is the 'operating system' for modern biotech, placing analysts in a high-leverage position at the intersection of SaaS and science.",
+        "region": "US",
+        "hiring_signal": "Hires Product and Business Data Analysts to support their SaaS platform used by major biotech firms.",
+        "source": "www.benchling.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium-high",
+        "orientation": "balanced",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Semiconductor Manufacturing",
+        "name": "Atomic Semi",
+        "company_type": "Series A-B startup",
+        "stage": "Series A",
+        "focus": "Building small-scale, rapid-iteration semiconductor fabs",
+        "why_now": "Founded by Jim Keller and Sam Zeloof, this is a high-signal startup attempting to disrupt traditional chip manufacturing with a data-first approach.",
+        "region": "US",
+        "hiring_signal": "Explicitly lists 'Visa Sponsorship' as a benefit for Data & ML Engineer and Business Operations Analyst roles (March 2026).",
+        "source": "builtinsf.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
+      },
+      {
+        "industry": "Cloud Infrastructure & SaaS",
+        "name": "Oscilar",
+        "company_type": "Series A-B startup",
+        "stage": "Series A",
+        "focus": "AI-powered risk management and fraud detection SaaS",
+        "why_now": "Oscilar is scaling its real-time risk platform, where data analysis is the product's core value proposition for fintech and SaaS clients.",
+        "region": "US",
+        "hiring_signal": "Hiring for Fraud & AML Data Analysts; remote-first company founded by former Confluent and Google executives.",
+        "source": "www.oscilar.com",
+        "fit_score": 10.0,
+        "why_match": [],
+        "international_environment": "medium",
+        "orientation": "technical",
+        "visa_support_likelihood": "medium",
+        "user_fit_summary": "",
+        "candidate_explanation": "",
+        "role_value_potential": ""
       }
     ],
     "shortlisted_companies": [
       {
-        "industry": "Enterprise SaaS",
-        "name": "Notion",
-        "company_type": "AI-native workflow software companies",
+        "industry": "Semiconductor Manufacturing",
+        "name": "Cerebras Systems",
+        "company_type": "Late-stage growth company",
         "stage": "Growth-stage",
-        "focus": "AI-enhanced collaboration software",
-        "why_now": "AI is reshaping product design and analytics ownership.",
-        "region": "US/Remote",
-        "hiring_signal": "Product analytics and AI workflow instrumentation are strategically important.",
-        "source": "local_kb",
-        "fit_score": 13.5,
+        "focus": "AI hardware accelerators and Wafer Scale Engine",
+        "why_now": "Scaling cloud-based AI inference services requires robust data analysis for performance monitoring.",
+        "region": "US",
+        "hiring_signal": "Explicitly lists H-1B sponsorship for data roles.",
+        "source": "www.cerebras.net",
+        "fit_score": 9.5,
         "why_match": [
-          "Strong alignment with Enterprise SaaS",
-          "Growth-stage environment",
-          "High visa support likelihood"
+          "Strong alignment with sensor data experience",
+          "High-growth industry"
+        ],
+        "international_environment": "medium-high",
+        "orientation": "technical",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "High-impact role in a critical AI hardware sector.",
+        "candidate_explanation": "This role offers the technical ownership you crave with the stability required for visa sponsorship.",
+        "role_value_potential": "High visibility in the AI hardware race."
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Broad Institute",
+        "company_type": "Established operator or mission-driven organization",
+        "stage": "Growth-stage",
+        "focus": "Genomics and biomedical data science",
+        "why_now": "Leading the integration of AI into massive genomic datasets.",
+        "region": "US",
+        "hiring_signal": "Known for cap-exempt H-1B sponsorship for research-heavy roles.",
+        "source": "www.broadinstitute.org",
+        "fit_score": 9.2,
+        "why_match": [
+          "Direct use of research background",
+          "High stability"
         ],
         "international_environment": "high",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Ideal for exposure to AI-enhanced collaboration software in a growth-stage context.",
-        "candidate_explanation": "Notion's focus on product-led growth provides a perfect environment for high-impact analytics.",
-        "role_value_potential": "Connect analytics to AI product features to build a strong portfolio."
+        "orientation": "balanced",
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "Combines academic rigor with mission-driven impact.",
+        "candidate_explanation": "Ideal for leveraging your research experience while ensuring a stable visa path.",
+        "role_value_potential": "Highly defensible domain expertise."
       },
       {
-        "industry": "Healthcare AI",
-        "name": "Abridge",
-        "company_type": "Workflow-embedded healthcare AI platforms",
+        "industry": "Semiconductor Manufacturing",
+        "name": "Atomic Semi",
+        "company_type": "Series A-B startup",
         "stage": "Growth-stage",
-        "focus": "Clinical documentation and workflow AI",
-        "why_now": "Healthcare digitization budgets are driving AI adoption.",
+        "focus": "Small-scale, rapid-iteration semiconductor fabs",
+        "why_now": "Disrupting chip manufacturing with a data-first approach.",
         "region": "US",
-        "hiring_signal": "AI workflow teams hire analytics and product-minded operators.",
-        "source": "local_kb",
-        "fit_score": 12.8,
+        "hiring_signal": "Explicitly lists visa sponsorship as a benefit.",
+        "source": "builtinsf.com",
+        "fit_score": 8.8,
         "why_match": [
-          "Matches healthcare research background",
-          "Growth-stage",
-          "Direct industry alignment"
+          "Matches startup preference",
+          "High alignment with Arizona industrial policy"
         ],
         "international_environment": "medium",
         "orientation": "technical",
-        "visa_support_likelihood": "medium",
-        "user_fit_summary": "Strong fit for clinical documentation and workflow AI.",
-        "candidate_explanation": "Your research experience directly translates to Abridge's clinical data challenges.",
-        "role_value_potential": "Build domain expertise in high-stakes healthcare AI."
+        "visa_support_likelihood": "high",
+        "user_fit_summary": "High ownership in a high-signal startup.",
+        "candidate_explanation": "A rare startup that explicitly supports visas, matching your desire for early-stage impact.",
+        "role_value_potential": "Significant upside in a disruptive hardware company."
       },
       {
-        "industry": "Enterprise SaaS",
-        "name": "HubSpot",
-        "company_type": "Product-led SaaS platforms",
-        "stage": "Public",
-        "focus": "Growth and customer platform analytics",
-        "why_now": "Enterprise productivity demand remains high.",
-        "region": "US/Remote",
-        "hiring_signal": "Analytics sits close to go-to-market and product decisions.",
-        "source": "local_kb",
-        "fit_score": 11.3,
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Recursion Pharmaceuticals",
+        "company_type": "Late-stage growth company",
+        "stage": "Growth-stage",
+        "focus": "AI-driven drug discovery",
+        "why_now": "Transitioning to clinical-stage, requiring deep operational data insights.",
+        "region": "US",
+        "hiring_signal": "Application process includes visa sponsorship queries.",
+        "source": "www.recursion.com",
+        "fit_score": 8.5,
         "why_match": [
-          "Stable public company",
-          "Remote flexibility",
-          "Strong analytics culture"
+          "Alignment with biomedical research background",
+          "Growth-oriented"
         ],
-        "international_environment": "high",
+        "international_environment": "medium-high",
         "orientation": "technical",
         "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Great for growth, lifecycle, and customer platform analytics.",
-        "candidate_explanation": "HubSpot offers a structured environment to master product-led analytics.",
-        "role_value_potential": "Develop skills in large-scale experimentation and lifecycle analytics."
+        "user_fit_summary": "Perfect intersection of biology and data science.",
+        "candidate_explanation": "This role allows you to apply your research skills in a professionalized, high-growth environment.",
+        "role_value_potential": "Excellent for building a specialized analytics profile."
       },
       {
-        "industry": "Healthcare AI",
-        "name": "Flatiron Health",
-        "company_type": "Healthcare analytics and data infrastructure vendors",
-        "stage": "Mature",
-        "focus": "Oncology data infrastructure",
-        "why_now": "Data-heavy operating environment with healthcare domain depth.",
+        "industry": "Cloud Infrastructure & SaaS",
+        "name": "Databricks",
+        "company_type": "Late-stage growth company",
+        "stage": "Growth-stage",
+        "focus": "Data lakehouse platform",
+        "why_now": "Central hub for enterprise data, requiring internal analytics expertise.",
         "region": "US",
-        "hiring_signal": "Data and analytics work ties closely to clinical decisions.",
-        "source": "local_kb",
-        "fit_score": 10.5,
+        "hiring_signal": "Actively recruiting for analytics engineering and data roles.",
+        "source": "www.databricks.com",
+        "fit_score": 8.2,
         "why_match": [
-          "Deep healthcare domain",
-          "Strong data infrastructure focus"
-        ],
-        "international_environment": "medium",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium",
-        "user_fit_summary": "Excellent for oncology data infrastructure and clinical analytics.",
-        "candidate_explanation": "Flatiron is a leader in oncology data, ideal for a data scientist with research experience.",
-        "role_value_potential": "Gain deep expertise in complex, regulated healthcare datasets."
-      },
-      {
-        "industry": "Enterprise SaaS",
-        "name": "Datadog",
-        "company_type": "AI-native workflow software companies",
-        "stage": "Public",
-        "focus": "Instrumentation-heavy SaaS",
-        "why_now": "AI-native workflow software is a top enterprise priority.",
-        "region": "US",
-        "hiring_signal": "Strong data and experimentation opportunities.",
-        "source": "local_kb",
-        "fit_score": 10.2,
-        "why_match": [
-          "Instrumentation-heavy",
-          "High-growth public company"
-        ],
-        "international_environment": "medium",
-        "orientation": "technical",
-        "visa_support_likelihood": "medium-high",
-        "user_fit_summary": "Strong fit for instrumentation and product analytics.",
-        "candidate_explanation": "Datadog's massive scale provides unique challenges in product analytics.",
-        "role_value_potential": "Master large-scale data instrumentation and product experimentation."
-      },
-      {
-        "industry": "Fintech",
-        "name": "Stripe",
-        "company_type": "Payments and financial infrastructure platforms",
-        "stage": "Mature/private",
-        "focus": "Payments infrastructure and product analytics",
-        "why_now": "Digital financial operations and risk automation are critical.",
-        "region": "Global/Remote",
-        "hiring_signal": "Large analytics footprint across payments and risk.",
-        "source": "local_kb",
-        "fit_score": 9.8,
-        "why_match": [
-          "Global scale",
-          "Strong visa support",
-          "Analytics-heavy culture"
+          "Strong cloud analytics project alignment",
+          "High stability"
         ],
         "international_environment": "high",
         "orientation": "technical",
         "visa_support_likelihood": "high",
-        "user_fit_summary": "Best for payments infrastructure and product analytics at scale.",
-        "candidate_explanation": "Stripe is the gold standard for data-driven product decisions.",
-        "role_value_potential": "Build a career on the backbone of the internet economy."
+        "user_fit_summary": "Gold-standard environment for data professionals.",
+        "candidate_explanation": "Provides the technical prestige and stability needed to secure your long-term career path.",
+        "role_value_potential": "High marketability for future roles."
+      },
+      {
+        "industry": "Healthcare & Biomedical Research",
+        "name": "Benchling",
+        "company_type": "Late-stage growth company",
+        "stage": "Growth-stage",
+        "focus": "R&D cloud platform for biotechnology",
+        "why_now": "Operating system for modern biotech, requiring high-leverage analytics.",
+        "region": "US",
+        "hiring_signal": "Hires analysts to support their SaaS platform.",
+        "source": "www.benchling.com",
+        "fit_score": 8.0,
+        "why_match": [
+          "Intersection of SaaS and science",
+          "Balanced structure"
+        ],
+        "international_environment": "medium-high",
+        "orientation": "balanced",
+        "visa_support_likelihood": "medium-high",
+        "user_fit_summary": "High-leverage role in the biotech ecosystem.",
+        "candidate_explanation": "Offers a balanced work environment that respects your research background.",
+        "role_value_potential": "Strong industry networking potential."
       }
     ],
     "why_these_companies": [
-      "These companies sit at the intersection of high-growth industries and strong analytics demand.",
-      "Each firm has a proven track record of integrating data into core product and business decisions.",
-      "The selection balances high-growth potential with the stability and visa support necessary for your career stage."
+      "They align with federal industrial policy (CHIPS Act/AI) to maximize H-1B sponsorship success.",
+      "They balance the user's desire for startup ownership with the necessity of corporate stability.",
+      "They directly leverage the user's specific research and cloud analytics project experiences."
     ],
     "candidate_facing_takeaways": [
-      "Focus on companies where your data work can be directly tied to product metrics or operational revenue.",
-      "Leverage your research background in healthcare and AI to stand out in specialized firms like Abridge or Flatiron.",
-      "Prioritize roles that emphasize experimentation and product instrumentation to build a high-leverage portfolio."
+      "Prioritize late-stage growth companies to secure your visa while maintaining an ownership-oriented culture.",
+      "Focus your applications on the semiconductor and biotech sectors where your research background is a competitive advantage.",
+      "Leverage your Arizona location to target local semiconductor expansion, which is currently a high-priority hiring area."
     ],
-    "explanation": "Strategic company selection acts as a force multiplier by aligning your technical skills with high-leverage data problems. By targeting firms where analytics is central to product strategy, you build domain expertise that is highly valued in the US market. This approach ensures your daily work serves as a portfolio that justifies the investment in visa sponsorship."
+    "explanation": "The strategy prioritizes late-stage growth companies in high-investment sectors like semiconductors and biotech to maximize H-1B sponsorship probability. This approach balances your preference for ownership with the structural stability required for visa security. By focusing on these industries, you leverage your specific research background to gain a competitive edge in high-demand markets."
   },
   "role_result": {
     "recommended_paths": [
       {
-        "industry": "Healthcare AI",
-        "company_type": "Workflow-embedded healthcare AI platforms",
-        "role_title": "Data Analyst",
-        "path_type": "bridge",
+        "industry": "Semiconductor Manufacturing",
+        "company_type": "Late-stage growth company",
+        "role_title": "Operations Data Analyst",
+        "path_type": "direct",
         "focus_areas": [
-          "analytics",
-          "healthcare",
-          "machine learning"
+          "Supply chain optimization",
+          "Yield metric analysis"
         ],
         "why_fit": [
-          "Industry selected first because Incumbents are digitizing while AI-native specialists open new workflow wedges. Policy alignment comes from Healthcare digitization budgets, AI-enabled clinical workflow adoption.",
-          "Company strategy points toward workflow-embedded healthcare ai platforms rather than generic employer lists.",
-          "Policy mobility context is currently high risk."
+          "Leverages Arizona location and CHIPS Act industrial momentum",
+          "Directly utilizes SQL and time-series forecasting skills"
         ],
         "success_metrics": [
-          "Own a measurable business or operational metric in the first 90 days",
-          "Demonstrate domain fluency in the chosen industry",
-          "Translate analysis into a decision, automation, or workflow improvement"
+          "Reduction in manual reporting latency",
+          "Accuracy of demand planning models"
         ],
         "example_companies": [
-          "Abridge",
-          "Flatiron Health"
+          "Cerebras Systems",
+          "Groq"
         ]
       },
       {
-        "industry": "Enterprise SaaS",
-        "company_type": "AI-native workflow software companies",
-        "role_title": "Data Analyst",
-        "path_type": "bridge",
+        "industry": "Healthcare & Biomedical Research",
+        "company_type": "Established operator",
+        "role_title": "Computational Data Analyst",
+        "path_type": "direct",
         "focus_areas": [
-          "analytics",
-          "dashboarding",
-          "experimentation"
+          "Reproducible research workflows",
+          "Clinical data pipelines"
         ],
         "why_fit": [
-          "Industry selected first because AI is reshaping product design, analytics ownership, and software buyer expectations. Policy alignment comes from Enterprise productivity demand, AI copilots and workflow automation.",
-          "Company strategy points toward ai-native workflow software companies rather than generic employer lists.",
-          "Policy mobility context is currently high risk."
+          "Direct alignment with Lung Cancer Research Institute experience",
+          "High visa sponsorship stability in mission-driven non-profits"
         ],
         "success_metrics": [
-          "Own a measurable business or operational metric in the first 90 days",
-          "Demonstrate domain fluency in the chosen industry",
-          "Translate analysis into a decision, automation, or workflow improvement"
+          "Pipeline automation efficiency",
+          "Data integrity score improvement"
         ],
         "example_companies": [
-          "Notion",
-          "HubSpot",
-          "Datadog"
+          "Broad Institute",
+          "AbbVie"
         ]
       },
       {
-        "industry": "Fintech",
-        "company_type": "Payments and financial infrastructure platforms",
-        "role_title": "Business Intelligence Analyst",
+        "industry": "Cloud Infrastructure & SaaS",
+        "company_type": "Late-stage growth company",
+        "role_title": "Product Data Analyst",
         "path_type": "bridge",
         "focus_areas": [
-          "analytics",
-          "experimentation",
-          "python"
+          "Customer segmentation",
+          "Feature adoption metrics"
         ],
         "why_fit": [
-          "Industry selected first because The sector keeps rewarding companies that reduce friction, fraud, and manual finance work. Policy alignment comes from Digital financial operations, Risk automation and trust infrastructure.",
-          "Company strategy points toward payments and financial infrastructure platforms rather than generic employer lists.",
-          "Policy mobility context is currently high risk."
+          "Matches project experience with Snowflake and RFM analysis",
+          "Provides versatile toolkit for future career pivots"
         ],
         "success_metrics": [
-          "Own a measurable business or operational metric in the first 90 days",
-          "Demonstrate domain fluency in the chosen industry",
-          "Translate analysis into a decision, automation, or workflow improvement"
+          "Customer churn prediction accuracy",
+          "Feature engagement uplift"
         ],
         "example_companies": [
-          "Stripe"
+          "Databricks",
+          "Benchling"
         ]
       }
     ],
     "decision_principles": [
-      "Role path comes after industry and company strategy so the title reflects the market context.",
-      "Bridge roles are valid when they improve industry entry speed and future option value.",
-      "Choose roles where the first year can produce visible business impact, not just technical exposure."
+      "Prioritize E-Verify employers to ensure long-term visa security and STEM OPT compliance.",
+      "Target industries benefiting from federal industrial policy to maximize H-1B wage-based selection probability.",
+      "Balance the desire for startup-style ownership with the structural stability of late-stage growth companies."
     ],
-    "explanation": "To navigate the high-risk visa landscape, your strategy shifts from generic job hunting to joining \"growth-oriented\" firms where your data expertise directly scales their core infrastructure or clinical workflows. By positioning yourself as a \"bridge\" candidate, you translate your diverse background in healthcare, AI, and SQL-driven reporting into immediate, measurable impact on these companies' operational bottlenecks. Your path success depends on demonstrating \"domain fluency\" within the first 90 days, effectively proving that your technical skills aren't just academic but are essential drivers of the company's specific strategic goals."
+    "explanation": "The strategy focuses on high-investment sectors like semiconductors and biotech to secure H-1B sponsorship through wage-based prioritization. By leveraging your specific research background and cloud analytics projects, you gain a competitive edge in roles that offer both technical ownership and organizational stability. This path mitigates visa risk while positioning you for high-impact growth in mission-critical industries."
   },
   "job_targeting_result": null,
-  "growth_result": {
-    "first_month_plan": [
-      "Map the operating context of Healthcare AI and learn its core metrics.",
-      "Build stakeholder understanding around clinical documentation and workflow ai.",
-      "Translate job requirements into a 30-day proof-of-value checklist.",
-      "Ship one small but visible analysis, dashboard, or workflow improvement that proves execution speed.",
-      "Package your strongest matched requirements into interview-ready examples."
-    ],
-    "month_2_3_plan": [
-      "Own a recurring analysis or decision-support workflow instead of one-off reporting.",
-      "Develop domain fluency so recommendations reflect industry economics, not just data outputs.",
-      "Turn one technical capability into a reusable artifact such as a dashboard, model, template, or playbook.",
-      "Strengthen cross-functional trust by connecting analysis to a business decision or operational win."
-    ],
-    "one_year_plan": [
-      "Become the go-to operator for data analyst problems.",
-      "Build a portfolio of impact stories that compound into promotion or stronger external positioning.",
-      "Expand from execution into prioritization by influencing what should be measured, automated, or changed.",
-      "Create option value for the next move across stronger roles, better companies, or deeper domain specialization."
-    ],
-    "daily_skill_accumulation": [
-      "Spend 30-45 minutes strengthening one role-critical skill with a concrete artifact every day.",
-      "Maintain a running evidence log of business impact, stakeholder wins, and domain insights.",
-      "Refine one resume or narrative bullet each week using fresh evidence from projects.",
-      "Read one company, industry, or market note daily to stay macro-aware instead of tool-focused."
-    ],
-    "value_creation_plan": [
-      "Target value creation inside Healthcare AI.",
-      "Focus on problems close to clinical documentation and workflow ai.",
-      "Prefer work that reduces decision latency, improves forecast quality, or creates reusable operational leverage.",
-      "Document outcomes in a way that can later power interviews, resumes, and promotion cases."
-    ],
-    "cover_letter_growth_narrative": [
-      "I am targeting Healthcare AI because the macro and policy context supports durable demand.",
-      "I am especially interested in Abridge because the role appears close to strategic operating problems.",
-      "My role path centers on becoming a high-leverage Data Analyst who can translate analysis into decisions.",
-      "I want my first year to compound into both immediate contribution and long-term industry positioning."
-    ],
-    "priority_gaps": [
-      "Strengthen domain evidence in the chosen industry.",
-      "Build one visible project that links analysis to business decisions."
-    ],
-    "prioritized_skills": [
-      "healthcare",
-      "clinical data analysis",
-      "SQL",
-      "Python",
-      "dashboarding"
-    ],
-    "project_recommendations": [
-      "Build a scoped project that produces one reusable artifact and one quantified business story related to clinical documentation or healthcare workflow efficiency."
-    ],
-    "job_search_strategy": [
-      "Bias toward bridge roles such as DA, BI, or analytics-heavy operations paths before stretching too early.",
-      "Use the next 4-8 weeks to build one portfolio project and one clearer narrative around business impact.",
-      "Treat applications and skill-building as one loop: every gap should inform what you build next."
-    ],
-    "explanation": "To align your growth plan with your target, map your past forecasting and clustering achievements directly to the specific clinical or operational bottlenecks highlighted in your target JD, such as patient outcome prediction or workflow optimization. Identify the \"evidence gap\" by highlighting where your academic research projects—like the Computer Vision lab work—can be framed as proof of your ability to handle complex, unstructured healthcare data. Finally, prioritize near-term execution by building a portfolio piece that solves a simulated version of the company’s core business problem, effectively demonstrating you can deliver immediate value despite your need for visa sponsorship."
-  },
+  "growth_result": null,
   "application_assets_result": null
 }

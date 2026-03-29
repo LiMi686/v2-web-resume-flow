@@ -63,7 +63,7 @@ Unlike traditional tools, this system focuses on:
 
 - **Policy Engine** → Macro signals, visa constraints, regional opportunities  
 - **Industry Engine** → Industry scoring (growth, fit, entry feasibility)  
-- **Company Strategy Engine** → Market, stage, value chain, competitors  
+- **Company Strategy Engine** → Market, company archetype, competitiveness, stage, value chain, competitors  
 - **Role Path Engine** → Ideal / bridge / stretch roles  
 - **Job Targeting Engine** → JD analysis, alignment, gap, positioning  
 - **Growth Engine** → 30-60-90 days plan, value creation, narrative  
@@ -84,4 +84,4 @@ To evolve into a **career decision intelligence system** that:
 
 ## ▶️ Local Usage
 
-After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, and run the project with `python -m src.main`; the CLI will let you review the default profile, choose whether to enable Gemini, and optionally paste a job description. If you want AI-enhanced explanations or grounded /联网 company discovery, you must add **your own** `GEMINI_API_KEY` to `.env`; otherwise, the system will still run in local deterministic mode and save the session output to `outputs/interactive_career_state.json`.
+After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, and run the project with `python -m src.main`. This project now runs as an LLM-only pipeline: Gemini is required, policy and company discovery use grounded search by default, and the system no longer falls back to local deterministic baselines. After the Industry step, the CLI will also collect explicit company-environment preferences so the Company Strategy stage can balance user intent with competitiveness analysis. Add **your own** `GEMINI_API_KEY` to `.env`; successful runs will save the session output to `outputs/interactive_career_state.json`.

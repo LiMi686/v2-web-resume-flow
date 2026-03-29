@@ -1,4 +1,4 @@
-"""Optional LLM integration layer with graceful fallback."""
+"""LLM integration layer for the career strategy pipeline."""
 
 from __future__ import annotations
 
@@ -210,6 +210,17 @@ def generate_text(prompt: str) -> str:
     return get_llm_client().generate(prompt, **_generation_kwargs(None, "text"))
 
 
+def require_llm_client() -> BaseLLMClient:
+    client = get_llm_client()
+    if not client.is_available():
+        config = get_llm_config()
+        raise LLMUnavailableError(
+            "LLM-powered pipeline requires a working provider. "
+            f"provider={config.provider}, mode={config.mode}, model={config.model}"
+        )
+    return client
+
+
 def _resolve_profile(profile: str | None) -> str:
     if profile:
         return _normalize_result_mode(profile)
@@ -240,12 +251,27 @@ def generate_optional_text(
         return fallback
 
 
-def _extract_json_block(text: str) -> str:
-    start = text.find("{")
-    end = text.rfind("}")
-    if start == -1 or end == -1 or end < start:
-        raise ValueError("No JSON object found in model response.")
-    return text[start : end + 1]
+def generate_text_strict(
+    prompt: str,
+    *,
+    profile: str | None = None,
+) -> str:
+    client = require_llm_client()
+    return client.generate(prompt, **_generation_kwargs(profile, "text"))
+
+
+def _parse_first_json_object(text: str) -> dict[str, Any]:
+    decoder = json.JSONDecoder()
+    for start_index, char in enumerate(text):
+        if char != "{":
+            continue
+        try:
+            payload, _ = decoder.raw_decode(text[start_index:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, dict):
+            return payload
+    raise ValueError("No JSON object found in model response.")
 
 
 def generate_optional_json(
@@ -259,9 +285,22 @@ def generate_optional_json(
             prompt,
             **_generation_kwargs(profile, "json"),
         )
-        return json.loads(_extract_json_block(raw_text))
+        return _parse_first_json_object(raw_text)
     except Exception:
         return fallback
+
+
+def generate_json_strict(
+    prompt: str,
+    *,
+    profile: str | None = None,
+) -> dict[str, Any]:
+    client = require_llm_client()
+    raw_text = client.generate(
+        prompt,
+        **_generation_kwargs(profile, "json"),
+    )
+    return _parse_first_json_object(raw_text)
 
 
 def _get_grounded_model() -> str:
@@ -283,7 +322,8 @@ def generate_optional_grounded_json(
         from google.genai import types
 
         generation_kwargs = _generation_kwargs(profile, "json")
-        response = genai.Client(api_key=client._api_key).models.generate_content(
+        grounded_client = genai.Client(api_key=client._api_key)
+        response = grounded_client.models.generate_content(
             model=_get_grounded_model(),
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -293,7 +333,7 @@ def generate_optional_grounded_json(
                 tools=[types.Tool(google_search=types.GoogleSearch())],
             ),
         )
-        payload = json.loads(_extract_json_block(getattr(response, "text", "") or ""))
+        payload = _parse_first_json_object(getattr(response, "text", "") or "")
 
         candidate = response.candidates[0] if getattr(response, "candidates", None) else None
         grounding_metadata = getattr(candidate, "grounding_metadata", None)
@@ -321,6 +361,56 @@ def generate_optional_grounded_json(
         return fallback
     except Exception:
         return fallback
+
+
+def generate_grounded_json_strict(
+    prompt: str,
+    *,
+    profile: str | None = None,
+) -> dict[str, Any]:
+    client = require_llm_client()
+    if not isinstance(client, GeminiLLMClient):
+        raise LLMUnavailableError("Grounded search requires the Gemini provider.")
+
+    from google import genai
+    from google.genai import types
+
+    generation_kwargs = _generation_kwargs(profile, "json")
+    grounded_client = genai.Client(api_key=client._api_key)
+    response = grounded_client.models.generate_content(
+        model=_get_grounded_model(),
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            temperature=float(generation_kwargs["temperature"]),
+            top_p=float(generation_kwargs["top_p"]),
+            response_mime_type=str(generation_kwargs["response_mime_type"]),
+            tools=[types.Tool(google_search=types.GoogleSearch())],
+        ),
+    )
+    payload = _parse_first_json_object(getattr(response, "text", "") or "")
+
+    candidate = response.candidates[0] if getattr(response, "candidates", None) else None
+    grounding_metadata = getattr(candidate, "grounding_metadata", None)
+    web_search_queries = list(getattr(grounding_metadata, "web_search_queries", []) or [])
+    grounding_chunks = list(getattr(grounding_metadata, "grounding_chunks", []) or [])
+
+    grounding_sources: list[dict[str, str]] = []
+    seen_uris: set[str] = set()
+    for chunk in grounding_chunks:
+        web = getattr(chunk, "web", None)
+        uri = str(getattr(web, "uri", "") or "").strip()
+        title = str(getattr(web, "title", "") or "").strip()
+        if not uri or uri in seen_uris:
+            continue
+        seen_uris.add(uri)
+        grounding_sources.append({"title": title, "uri": uri})
+
+    payload["_grounding"] = {
+        "model": _get_grounded_model(),
+        "queries": [str(item).strip() for item in web_search_queries if str(item).strip()],
+        "sources": grounding_sources,
+    }
+    return payload
 
 
 def llm_status() -> dict[str, Any]:
