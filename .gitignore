@@ -1,2 +1,10 @@
 .env
 .env.*
+__pycache__/
+*.py[cod]
+Data/profiles/*.json
+outputs/interactive_career_state.json
+outputs/scanned_profiles/
+outputs/uploaded_resumes/
+outputs/web_runs/
+outputs/web_sessions/

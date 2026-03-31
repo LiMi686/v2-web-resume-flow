@@ -1,0 +1,1538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Career Strategy Web Studio</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --panel: rgba(255, 252, 246, 0.92);
+      --ink: #1c1b1a;
+      --muted: #655c55;
+      --accent: #0d6b6b;
+      --accent-2: #b25c2f;
+      --border: rgba(28, 27, 26, 0.12);
+      --shadow: 0 18px 45px rgba(54, 41, 28, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(13, 107, 107, 0.18), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(178, 92, 47, 0.16), transparent 30%),
+        linear-gradient(180deg, #f7f0e6 0%, #efe5d7 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .hero {
+      padding: 24px 26px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,248,238,0.94));
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 400px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .section-stack {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .card h2,
+    .card h3 {
+      margin: 0 0 14px;
+      line-height: 1.1;
+    }
+
+    .subtle,
+    .result-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .result-copy {
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.88);
+      font: inherit;
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 118px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .textarea-short {
+      min-height: 92px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .button-row form {
+      margin: 0;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .secondary {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: rgba(13, 107, 107, 0.1);
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .status.off {
+      background: rgba(178, 92, 47, 0.12);
+      color: var(--accent-2);
+    }
+
+    .notice,
+    .error {
+      padding: 14px 16px;
+      border-radius: 16px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .notice {
+      border: 1px solid rgba(13, 107, 107, 0.18);
+      background: rgba(13, 107, 107, 0.08);
+      color: #0c5757;
+    }
+
+    .error {
+      border: 1px solid rgba(178, 47, 47, 0.22);
+      background: rgba(178, 47, 47, 0.08);
+      color: #7a2323;
+    }
+
+    .meta,
+    .entry-list,
+    .checkbox-grid,
+    .inline-checks {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta div,
+    .mini-card,
+    .action-card {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+    }
+
+    .meta strong,
+    .mini-card strong,
+    .action-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .field-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .checkbox-grid label,
+    .inline-checks label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.7);
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .checkbox-grid input,
+    .inline-checks input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(13, 107, 107, 0.09);
+      border: 1px solid rgba(13, 107, 107, 0.18);
+      font-size: 0.88rem;
+    }
+
+    .pill.warning {
+      background: rgba(178, 92, 47, 0.09);
+      border-color: rgba(178, 92, 47, 0.22);
+    }
+
+    .section-tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.6;
+    }
+
+    .list li + li {
+      margin-top: 4px;
+    }
+
+    .text-block {
+      margin: 0;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.72);
+      line-height: 1.65;
+      white-space: pre-wrap;
+    }
+
+    .artifact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    a,
+    .artifact-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover,
+    .artifact-links a:hover {
+      text-decoration: underline;
+    }
+
+    .placeholder {
+      border: 1px dashed rgba(28, 27, 26, 0.18);
+      background: rgba(255,255,255,0.45);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% set profile = profile_dict or {} %}
+  {% set company_prefs = profile.company_preferences if profile and profile.company_preferences else {} %}
+  {% set state = state_dict or {} %}
+  {% set policy = state.policy_result if state else none %}
+  {% set industry = state.industry_result if state else none %}
+  {% set company = state.company_result if state else none %}
+  {% set role = state.role_result if state else none %}
+  {% set job = state.job_targeting_result if state else none %}
+  {% set growth = state.growth_result if state else none %}
+  {% set assets = state.application_assets_result if state else none %}
+  {% set show_final = current_result_view == 'final' %}
+  {% set show_scan = current_result_view == 'scan' or show_final %}
+  {% set show_policy = current_result_view == 'policy' or show_final %}
+  {% set show_industry = current_result_view == 'industry' or show_final %}
+  {% set show_preferences = current_result_view == 'preferences' or show_final %}
+  {% set show_company = current_result_view == 'company' or show_final %}
+  {% set show_role = current_result_view == 'role' or show_final %}
+  {% set show_job = current_result_view == 'job' or show_final %}
+  {% set show_growth = current_result_view == 'growth' or show_final %}
+
+  <div class="page">
+    <section class="hero">
+      <h1>Career Strategy Web Studio</h1>
+      <p>The web flow now follows the same staged rhythm as the CLI: scan first, then move through policy, industry, company preference, company strategy, role path, job alignment, growth plan, and application assets one step at a time. Each section stays readable for users, while the underlying artifacts are still saved under <code>outputs/</code>.</p>
+    </section>
+
+    <div class="grid">
+      <section class="section-stack">
+        <section class="card">
+          <div class="status {% if not llm_status.available %}off{% endif %}">
+            {% if llm_status.available %}Gemini Ready{% else %}Gemini Not Ready{% endif %}
+          </div>
+
+          <div class="meta" style="margin-bottom: 16px;">
+            <div>
+              <strong>Model</strong>
+              <span>{{ llm_status.model }}</span>
+            </div>
+            <div>
+              <strong>Mode</strong>
+              <span>{{ llm_status.mode }}</span>
+            </div>
+            <div>
+              <strong>Provider</strong>
+              <span>{{ llm_status.provider }}</span>
+            </div>
+          </div>
+
+          {% if status_message %}
+            <div class="notice">{{ status_message }}</div>
+          {% endif %}
+
+          {% if error_message %}
+            <div class="error">{{ error_message }}</div>
+          {% endif %}
+
+          <h2>Step 1. Scan Resume</h2>
+          <p class="subtle">Upload a PDF, Word file, image, or text resume. This creates a staged web workflow without overwriting your default saved profile.</p>
+
+          <form method="post" enctype="multipart/form-data" style="margin-top: 16px;">
+            <input type="hidden" name="action" value="scan_resume">
+            <label class="label" for="resume_file">Resume File</label>
+            <input id="resume_file" type="file" name="resume_file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.bmp,.gif,.tif,.tiff,.webp,.heic,.txt,.md" required>
+            <div class="button-row">
+              <button class="primary" type="submit">Scan Resume</button>
+            </div>
+          </form>
+        </section>
+
+        {% if scan_result and workflow_stage == 'scanned' %}
+          <section class="card" id="focus-question">
+            <h2>Step 2. Review Profile And Run Policy</h2>
+            <p class="subtle">This is the same decision point the CLI reaches after profile setup. Review the extracted profile first, then launch Policy / Region only when you want to move forward.</p>
+
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="action" value="run_policy">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path or '' }}">
+
+              <div class="field-grid">
+                <div>
+                  <label class="label" for="name">Name</label>
+                  <input id="name" type="text" name="name" value="{{ profile.name or '' }}">
+                </div>
+                <div>
+                  <label class="label" for="target_role">Target Role</label>
+                  <input id="target_role" type="text" name="target_role" value="{{ profile.target_role or '' }}">
+                </div>
+                <div>
+                  <label class="label" for="degree">Highest Degree</label>
+                  <input id="degree" type="text" name="degree" value="{{ profile.degree or '' }}">
+                </div>
+                <div>
+                  <label class="label" for="years_experience">Years Of Experience</label>
+                  <input id="years_experience" type="number" step="0.1" name="years_experience" value="{{ profile.years_experience or 0 }}">
+                </div>
+                <div class="full">
+                  <label class="label" for="schools">Schools</label>
+                  <input id="schools" type="text" name="schools" value="{{ profile.schools|join(', ') }}" placeholder="Comma-separated">
+                </div>
+                <div class="full">
+                  <label class="label" for="skills">Skills</label>
+                  <input id="skills" type="text" name="skills" value="{{ profile.skills|join(', ') }}" placeholder="Comma-separated">
+                </div>
+                <div class="full">
+                  <label class="label" for="preferred_regions">Preferred Regions</label>
+                  <input id="preferred_regions" type="text" name="preferred_regions" value="{{ profile.preferred_regions|join(', ') }}" placeholder="Comma-separated">
+                </div>
+                <div class="full">
+                  <label class="label" for="constraints">Constraints Or Real-World Limits</label>
+                  <textarea id="constraints" name="constraints" class="textarea-short" placeholder="One item per line">{{ profile.constraints|join('\n') }}</textarea>
+                </div>
+                <div class="full">
+                  <label class="label" for="experience_highlights">Experience Highlights</label>
+                  <textarea id="experience_highlights" name="experience_highlights" placeholder="One highlight per line">{{ profile.experience_highlights|join('\n') }}</textarea>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 18px;">Work Preferences</h3>
+              <div class="inline-checks">
+                <label>
+                  <input type="checkbox" name="needs_visa_sponsorship" {% if profile.needs_visa_sponsorship %}checked{% endif %}>
+                  <span>This candidate needs visa sponsorship.</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="has_work_authorization" {% if profile.has_work_authorization %}checked{% endif %}>
+                  <span>This candidate already has work authorization.</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="open_to_remote" {% if profile.open_to_remote %}checked{% endif %}>
+                  <span>This candidate is open to remote work.</span>
+                </label>
+              </div>
+
+              <div class="button-row">
+                <button class="primary" type="submit">Run Policy / Region</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'policy_complete' %}
+          <section class="card" id="focus-question">
+            <h2>Continue To Industry?</h2>
+            <p class="subtle">Policy / Region is complete. This matches the CLI pause point before industry prioritization.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_industry">Continue To Industry</button>
+                <button class="secondary" type="submit" name="action" value="stay_stage">Stay On This Step</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'industry_complete' %}
+          <section class="card" id="focus-question">
+            <h2>Company Preference</h2>
+            <p class="subtle">This stage mirrors the CLI preference checkpoint. Save these inputs first, then decide when to move on to Company Strategy.</p>
+
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="action" value="save_preferences">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+
+              <label class="label">Preferred Environments</label>
+              <div class="checkbox-grid">
+                {% for option in company_environment_options %}
+                  <label>
+                    <input type="checkbox" name="preferred_environments" value="{{ option }}" {% if option in (company_prefs.preferred_environments or []) %}checked{% endif %}>
+                    <span>{{ option }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+
+              <div class="field-grid" style="margin-top: 14px;">
+                <div>
+                  <label class="label" for="risk_tolerance">Risk Tolerance</label>
+                  <select id="risk_tolerance" name="risk_tolerance">
+                    <option value="">Select one</option>
+                    {% for option in risk_tolerance_options %}
+                      <option value="{{ option }}" {% if company_prefs.risk_tolerance == option %}selected{% endif %}>{{ option|capitalize }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label class="label" for="stability_priority">Stability Priority</label>
+                  <select id="stability_priority" name="stability_priority">
+                    <option value="">Select one</option>
+                    {% for option in stability_priority_options %}
+                      <option value="{{ option }}" {% if company_prefs.stability_priority == option %}selected{% endif %}>{{ option|capitalize }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label class="label" for="work_style_preference">Work Style Preference</label>
+                  <select id="work_style_preference" name="work_style_preference">
+                    <option value="">Select one</option>
+                    {% for option in work_style_options %}
+                      <option value="{{ option }}" {% if company_prefs.work_style_preference == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label class="label" for="brand_vs_growth_preference">Brand Vs Growth</label>
+                  <select id="brand_vs_growth_preference" name="brand_vs_growth_preference">
+                    <option value="">Select one</option>
+                    {% for option in brand_vs_growth_options %}
+                      <option value="{{ option }}" {% if company_prefs.brand_vs_growth_preference == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="full">
+                  <label class="label" for="company_notes">Extra Context</label>
+                  <textarea id="company_notes" name="company_notes" class="textarea-short" placeholder="One note per line">{{ company_prefs.notes|join('\n') }}</textarea>
+                </div>
+              </div>
+
+              <div class="button-row">
+                <button class="primary" type="submit">Save Company Preference</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'preferences_complete' %}
+          <section class="card" id="focus-question">
+            <h2>Continue To Company Strategy?</h2>
+            <p class="subtle">Your explicit company preferences are saved. The next stage combines them with competitiveness, policy, and industry logic.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_company">Continue To Company Strategy</button>
+                <button class="secondary" type="submit" name="action" value="stay_stage">Stay On This Step</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'company_complete' %}
+          <section class="card" id="focus-question">
+            <h2>Continue To Role Path?</h2>
+            <p class="subtle">Company Strategy is complete. The next stage turns those decisions into realistic role paths.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_role">Continue To Role Path</button>
+                <button class="secondary" type="submit" name="action" value="stay_stage">Stay On This Step</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'role_complete' %}
+          <section class="card" id="focus-question">
+            <h2>Do You Want To Add A Target Job Description Now?</h2>
+            <p class="subtle">This matches the CLI decision point after Role Path. You can either paste a JD and run Job Alignment or skip directly to Growth Plan.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <label class="label" for="job_description">Target Job Description</label>
+              <textarea id="job_description" name="job_description" placeholder="Paste the target JD here.">{{ job_description }}</textarea>
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_job_targeting">Run Job Alignment</button>
+                <button class="secondary" type="submit" name="action" value="skip_job_targeting">Skip To Growth Plan</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and (workflow_stage == 'job_complete' or workflow_stage == 'job_skipped') %}
+          <section class="card" id="focus-question">
+            <h2>Continue To Growth Plan?</h2>
+            <p class="subtle">Growth Plan uses everything above as execution context. If you skipped the job description, it will anchor on the broader role path instead.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_growth">Continue To Growth Plan</button>
+                <button class="secondary" type="submit" name="action" value="stay_stage">Stay On This Step</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and workflow_stage == 'growth_complete' and job %}
+          <section class="card" id="focus-question">
+            <h2>Continue To Application Assets?</h2>
+            <p class="subtle">Because Job Alignment exists, the workflow can now generate the candidate-facing materials from the CLI sample output.</p>
+            <form method="post" style="margin-top: 16px;">
+              <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+              <div class="button-row">
+                <button class="primary" type="submit" name="action" value="run_application_assets">Continue To Application Assets</button>
+                <button class="secondary" type="submit" name="action" value="stay_stage">Stay On This Step</button>
+              </div>
+            </form>
+          </section>
+        {% endif %}
+
+        {% if workflow_path and ((workflow_stage == 'growth_complete' and not job) or workflow_stage == 'complete') %}
+          <section class="card" id="focus-question">
+            <h2>Workflow Status</h2>
+            <p class="subtle">
+              {% if workflow_stage == 'complete' %}
+                The staged workflow is complete. You can review every section on the right and open the saved checkpoint artifacts below.
+              {% else %}
+                The workflow is complete through Growth Plan. Because no Job Alignment was created, Application Assets were intentionally skipped.
+              {% endif %}
+            </p>
+            {% if state_output_relative or workflow_path %}
+              <div class="artifact-links">
+                {% if state_output_relative %}
+                  <a href="{{ url_for('serve_output_file', relative_path=state_output_relative) }}" target="_blank">Open saved state checkpoint</a>
+                {% endif %}
+                {% if workflow_path %}
+                  <a href="{{ url_for('serve_output_file', relative_path=workflow_path) }}" target="_blank">Open workflow session file</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          </section>
+        {% endif %}
+      </section>
+
+      <section class="section-stack">
+        {% if current_result_view %}
+          <section class="card" id="focus-result">
+            <span class="section-tag">Current View</span>
+            <h2>{{ current_result_label }}</h2>
+            <p class="subtle">
+              {% if show_final %}
+                You are looking at the final combined view with a small summary plus every completed section.
+              {% else %}
+                The right panel is currently focused on this step only, so new output stays centered instead of piling up below.
+              {% endif %}
+            </p>
+            <div class="button-row">
+              {% if previous_result_view %}
+                <form method="post">
+                  <input type="hidden" name="action" value="view_stage">
+                  <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+                  <input type="hidden" name="target_view" value="{{ previous_result_view }}">
+                  <button class="secondary" type="submit">Back To {{ previous_result_label }}</button>
+                </form>
+              {% endif %}
+
+              {% if current_result_view != latest_result_view and latest_result_view %}
+                <form method="post">
+                  <input type="hidden" name="action" value="view_latest">
+                  <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+                  <button class="primary" type="submit">Return To Latest Result</button>
+                </form>
+              {% endif %}
+
+              {% if 'final' in available_result_views and current_result_view != 'final' %}
+                <form method="post">
+                  <input type="hidden" name="action" value="view_stage">
+                  <input type="hidden" name="workflow_path" value="{{ workflow_path }}">
+                  <input type="hidden" name="target_view" value="final">
+                  <button class="primary" type="submit">Show Full Results</button>
+                </form>
+              {% endif %}
+            </div>
+          </section>
+        {% endif %}
+
+        {% if not scan_result %}
+          <section class="card placeholder">
+            <span class="section-tag">Ready</span>
+            <h2>Start With A Resume Scan</h2>
+            <p class="result-copy">Once you upload a resume, the page will keep the same staged progression as the CLI: profile review, policy, industry, company preference, company strategy, role path, optional job alignment, growth plan, and optional application assets.</p>
+          </section>
+        {% endif %}
+
+        {% if final_summary %}
+          <section class="card">
+            <span class="section-tag">Final Summary</span>
+            <h2>{{ final_summary.headline }}</h2>
+            {% if final_summary.points %}
+              <ul class="list">
+                {% for item in final_summary.points %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if scan_result and show_scan %}
+          <section class="card">
+            <span class="section-tag">Profile</span>
+            <h2>Scanned Profile Summary</h2>
+            <p class="result-copy">
+              {% if profile.name %}
+                The workflow is currently using a scanned draft for <strong>{{ profile.name }}</strong>.
+              {% else %}
+                The workflow is currently using a scanned draft profile from the uploaded resume.
+              {% endif %}
+              {% if profile.target_role %}
+                The current target role is <strong>{{ profile.target_role }}</strong>.
+              {% endif %}
+            </p>
+
+            <div class="meta">
+              <div>
+                <strong>Source File</strong>
+                <span>{{ scan_result.source_path }}</span>
+              </div>
+              <div>
+                <strong>Extraction Mode</strong>
+                <span>{{ scan_result.extraction_mode }}</span>
+              </div>
+              <div>
+                <strong>Highest Degree</strong>
+                <span>{{ profile.degree or 'Not identified yet' }}</span>
+              </div>
+              <div>
+                <strong>Schools</strong>
+                <span>{{ profile.schools|join(', ') if profile.schools else 'Not identified yet' }}</span>
+              </div>
+              <div>
+                <strong>Skills</strong>
+                <span>{{ profile.skills|join(', ') if profile.skills else 'Not identified yet' }}</span>
+              </div>
+              <div>
+                <strong>Experience Records</strong>
+                <span>{{ profile.internship_experiences|length }} work/internship entries | {{ profile.project_experiences|length }} project entries</span>
+              </div>
+            </div>
+
+            <div class="artifact-links">
+              {% if scan_output_relative %}
+                <a href="{{ url_for('serve_output_file', relative_path=scan_output_relative) }}" target="_blank">Open scanned profile artifact</a>
+              {% endif %}
+              {% if scan_text_relative %}
+                <a href="{{ url_for('serve_output_file', relative_path=scan_text_relative) }}" target="_blank">Open extracted text</a>
+              {% endif %}
+              {% if workflow_path %}
+                <a href="{{ url_for('serve_output_file', relative_path=workflow_path) }}" target="_blank">Open workflow session</a>
+              {% endif %}
+            </div>
+
+            {% if scan_result.missing_fields %}
+              <h3 style="margin-top: 20px;">Missing Or Unresolved Fields</h3>
+              <div>
+                {% for item in scan_result.missing_fields %}
+                  <span class="pill warning">{{ item }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if scan_result.confidence_notes %}
+              <h3 style="margin-top: 20px;">Confidence Notes</h3>
+              <ul class="list">
+                {% for item in scan_result.confidence_notes %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </section>
+
+          {% if profile.education_history or profile.internship_experiences or profile.project_experiences %}
+            <section class="card">
+              <span class="section-tag">Resume Details</span>
+              <h2>Experience Inventory</h2>
+
+              {% if profile.education_history %}
+                <h3>Education History</h3>
+                <div class="entry-list">
+                  {% for education in profile.education_history %}
+                    <div class="mini-card">
+                      <strong>{{ education.school or 'School not identified' }}</strong>
+                      <div>{{ education.degree or 'Degree not identified' }}</div>
+                      {% if education.start_year or education.end_year %}
+                        <div>{{ education.start_year or '?' }} - {{ education.end_year or '?' }}</div>
+                      {% endif %}
+                      {% if education.location %}
+                        <div>{{ education.location }}</div>
+                      {% endif %}
+                      {% if education.notes %}
+                        <div>{{ education.notes }}</div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if profile.internship_experiences %}
+                <h3 style="margin-top: 18px;">Work And Internship Records</h3>
+                <div class="entry-list">
+                  {% for item in profile.internship_experiences %}
+                    <div class="mini-card">
+                      <strong>
+                        {% if item.title and item.company %}
+                          {{ item.title }} | {{ item.company }}
+                        {% elif item.title %}
+                          {{ item.title }}
+                        {% elif item.company %}
+                          {{ item.company }}
+                        {% else %}
+                          Experience entry
+                        {% endif %}
+                      </strong>
+                      {% if item.summary %}
+                        <div>{{ item.summary }}</div>
+                      {% endif %}
+                      {% if item.skills_used %}
+                        <div style="margin-top: 8px;"><strong>Skills:</strong> {{ item.skills_used|join(', ') }}</div>
+                      {% endif %}
+                      {% if item.impact_points %}
+                        <ul class="list" style="margin-top: 8px;">
+                          {% for point in item.impact_points %}
+                            <li>{{ point }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if profile.project_experiences %}
+                <h3 style="margin-top: 18px;">Project Records</h3>
+                <div class="entry-list">
+                  {% for item in profile.project_experiences %}
+                    <div class="mini-card">
+                      <strong>{{ item.name or 'Project entry' }}{% if item.role %} | {{ item.role }}{% endif %}</strong>
+                      {% if item.summary %}
+                        <div>{{ item.summary }}</div>
+                      {% endif %}
+                      {% if item.skills_used %}
+                        <div style="margin-top: 8px;"><strong>Skills:</strong> {{ item.skills_used|join(', ') }}</div>
+                      {% endif %}
+                      {% if item.impact_points %}
+                        <ul class="list" style="margin-top: 8px;">
+                          {% for point in item.impact_points %}
+                            <li>{{ point }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </section>
+          {% endif %}
+        {% endif %}
+
+        {% if policy and show_policy %}
+          <section class="card">
+            <span class="section-tag">Policy / Region</span>
+            <h2>Policy Analysis</h2>
+            <div class="meta">
+              <div>
+                <strong>Analysis Mode</strong>
+                <span>{{ policy.analysis_mode }}</span>
+              </div>
+              <div>
+                <strong>Visa Risk</strong>
+                <span>{{ policy.visa_risk }}</span>
+              </div>
+              <div>
+                <strong>Mobility Strategy</strong>
+                <span>{{ policy.mobility_strategy }}</span>
+              </div>
+            </div>
+
+            {% if policy.recommended_regions %}
+              <h3 style="margin-top: 18px;">Recommended Regions</h3>
+              <ul class="list">
+                {% for item in policy.recommended_regions %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.priority_policy_themes %}
+              <h3 style="margin-top: 18px;">Priority Policy Themes</h3>
+              <ul class="list">
+                {% for item in policy.priority_policy_themes %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.constraints %}
+              <h3 style="margin-top: 18px;">Constraints</h3>
+              <ul class="list">
+                {% for item in policy.constraints %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.opportunity_signals %}
+              <h3 style="margin-top: 18px;">Opportunity Signals</h3>
+              <ul class="list">
+                {% for item in policy.opportunity_signals %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.grounding_queries %}
+              <h3 style="margin-top: 18px;">Grounded Search Queries</h3>
+              <ul class="list">
+                {% for item in policy.grounding_queries %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.grounding_sources %}
+              <h3 style="margin-top: 18px;">Grounded Sources</h3>
+              <ul class="list">
+                {% for item in policy.grounding_sources %}
+                  <li>
+                    {% if item.uri %}
+                      <a href="{{ item.uri }}" target="_blank">{{ item.title or item.uri }}</a>
+                    {% else %}
+                      {{ item.title }}
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if policy.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ policy.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if industry and show_industry %}
+          <section class="card">
+            <span class="section-tag">Industry</span>
+            <h2>Industry Prioritization</h2>
+            {% for item in industry.top_industries %}
+              <div class="mini-card" style="margin-top: {% if loop.first %}0{% else %}12px{% endif %};">
+                <strong>{{ loop.index }}. {{ item.name }} | score={{ item.score }} | {{ item.recommendation }}</strong>
+                <div style="margin-top: 8px;"><strong>Why now:</strong> {{ item.why_now }}</div>
+                <div style="margin-top: 8px;"><strong>Trend summary:</strong> {{ item.trend_summary }}</div>
+                <div style="margin-top: 8px;"><strong>Long-term growth:</strong> {{ item.long_term_growth }}</div>
+                <div style="margin-top: 8px;"><strong>Why you:</strong> {{ item.personalized_reason }}</div>
+                <div style="margin-top: 8px;"><strong>Company hint:</strong> {{ item.company_strategy_hint }}</div>
+                {% if item.key_skills %}
+                  <div style="margin-top: 8px;"><strong>Key skills:</strong> {{ item.key_skills|join(', ') }}</div>
+                {% endif %}
+                {% if item.policy_alignment %}
+                  <div style="margin-top: 8px;"><strong>Policy alignment:</strong> {{ item.policy_alignment|join(', ') }}</div>
+                {% endif %}
+                {% if item.market_stage %}
+                  <div style="margin-top: 8px;"><strong>Market stage:</strong> {{ item.market_stage }}</div>
+                {% endif %}
+                {% if item.sample_companies %}
+                  <div style="margin-top: 8px;"><strong>Sample companies:</strong> {{ item.sample_companies|join(', ') }}</div>
+                {% endif %}
+                {% if item.entry_barriers %}
+                  <div style="margin-top: 8px;"><strong>Entry barriers:</strong> {{ item.entry_barriers|join(', ') }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            {% if industry.selection_logic %}
+              <h3 style="margin-top: 18px;">Selection Logic</h3>
+              <ul class="list">
+                {% for item in industry.selection_logic %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if industry.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ industry.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if workflow_stage_rank >= 3 and profile and show_preferences %}
+          <section class="card">
+            <span class="section-tag">Company Preference</span>
+            <h2>Saved Company Preference Summary</h2>
+            <div class="meta">
+              <div>
+                <strong>Preferred Environments</strong>
+                <span>{{ company_prefs.preferred_environments|join(', ') if company_prefs.preferred_environments else 'None selected' }}</span>
+              </div>
+              <div>
+                <strong>Risk Tolerance</strong>
+                <span>{{ company_prefs.risk_tolerance or 'Not set' }}</span>
+              </div>
+              <div>
+                <strong>Stability Priority</strong>
+                <span>{{ company_prefs.stability_priority or 'Not set' }}</span>
+              </div>
+              <div>
+                <strong>Work Style</strong>
+                <span>{{ company_prefs.work_style_preference or 'Not set' }}</span>
+              </div>
+              <div>
+                <strong>Brand Vs Growth</strong>
+                <span>{{ company_prefs.brand_vs_growth_preference or 'Not set' }}</span>
+              </div>
+            </div>
+            {% if company_prefs.notes %}
+              <h3 style="margin-top: 18px;">Extra Context</h3>
+              <ul class="list">
+                {% for item in company_prefs.notes %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if company and show_company %}
+          <section class="card">
+            <span class="section-tag">Company Strategy</span>
+            <h2>Company Strategy</h2>
+            <p class="result-copy"><strong>Your stated preference:</strong> {{ company.user_preference_summary }}</p>
+            <p class="result-copy"><strong>Preference alignment:</strong> {{ company.preference_alignment_summary }}</p>
+            <p class="result-copy"><strong>Recommended company path:</strong> {{ company.primary_company_path }}</p>
+            <p class="result-copy"><strong>Competitiveness summary:</strong> {{ company.competitiveness_summary }}</p>
+            <p class="result-copy"><strong>Development recommendation:</strong> {{ company.development_recommendation }}</p>
+
+            {% if company.discovery_strategy %}
+              <h3>Discovery Strategy</h3>
+              <ul class="list">
+                {% for item in company.discovery_strategy %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.target_company_types %}
+              <h3 style="margin-top: 18px;">Target Company Types</h3>
+              <ul class="list">
+                {% for item in company.target_company_types %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.company_selection_rules %}
+              <h3 style="margin-top: 18px;">Company Selection Rules</h3>
+              <ul class="list">
+                {% for item in company.company_selection_rules %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.company_archetype_assessments %}
+              <h3 style="margin-top: 18px;">Company Archetype Assessment</h3>
+              <div class="entry-list">
+                {% for item in company.company_archetype_assessments %}
+                  <div class="mini-card">
+                    <strong>{{ item.archetype }} | {{ item.recommendation_level }} | competitiveness={{ item.competitiveness_level }}</strong>
+                    <div style="margin-top: 8px;"><strong>Development value:</strong> {{ item.development_value }}</div>
+                    <div style="margin-top: 8px;"><strong>Entry strategy:</strong> {{ item.entry_strategy }}</div>
+                    {% if item.fit_rationale %}
+                      <div style="margin-top: 8px;"><strong>Why fit:</strong> {{ item.fit_rationale|join(' ') }}</div>
+                    {% endif %}
+                    {% if item.watchouts %}
+                      <div style="margin-top: 8px;"><strong>Watchouts:</strong> {{ item.watchouts|join(' ') }}</div>
+                    {% endif %}
+                    {% if item.example_companies %}
+                      <div style="margin-top: 8px;"><strong>Example companies:</strong> {{ item.example_companies|join(', ') }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if company.ranking_logic %}
+              <h3 style="margin-top: 18px;">Ranking Logic</h3>
+              <ul class="list">
+                {% for item in company.ranking_logic %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.industry_analysis %}
+              <h3 style="margin-top: 18px;">Industry Analysis</h3>
+              <ul class="list">
+                {% for item in company.industry_analysis %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.market_analysis %}
+              <h3 style="margin-top: 18px;">Market Analysis</h3>
+              <ul class="list">
+                {% for item in company.market_analysis %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.value_chain_analysis %}
+              <h3 style="margin-top: 18px;">Value Chain Analysis</h3>
+              <ul class="list">
+                {% for item in company.value_chain_analysis %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.competitor_map %}
+              <h3 style="margin-top: 18px;">Competitor Map</h3>
+              <ul class="list">
+                {% for item in company.competitor_map %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            <h3 style="margin-top: 18px;">Retrieved Company Candidates: {{ company.retrieved_companies|length }}</h3>
+
+            {% if company.shortlisted_companies %}
+              <h3 style="margin-top: 18px;">Shortlisted Companies</h3>
+              <div class="entry-list">
+                {% for item in company.shortlisted_companies %}
+                  <div class="mini-card">
+                    <strong>{{ item.name }} | {{ item.industry }} | {{ item.company_type }} | score={{ item.fit_score }}</strong>
+                    <div style="margin-top: 8px;"><strong>Focus:</strong> {{ item.focus }}</div>
+                    <div style="margin-top: 8px;"><strong>Region:</strong> {{ item.region or 'Not specified' }} | <strong>Intl:</strong> {{ item.international_environment }} | <strong>Orientation:</strong> {{ item.orientation }} | <strong>Stage:</strong> {{ item.stage }} | <strong>Visa:</strong> {{ item.visa_support_likelihood }}</div>
+                    {% if item.hiring_signal %}
+                      <div style="margin-top: 8px;"><strong>Hiring signal:</strong> {{ item.hiring_signal }}</div>
+                    {% endif %}
+                    {% if item.source %}
+                      <div style="margin-top: 8px;"><strong>Source:</strong> {{ item.source }}</div>
+                    {% endif %}
+                    {% if item.why_match %}
+                      <div style="margin-top: 8px;"><strong>Why match:</strong> {{ item.why_match|join(' ') }}</div>
+                    {% endif %}
+                    {% if item.user_fit_summary %}
+                      <div style="margin-top: 8px;"><strong>Fit summary:</strong> {{ item.user_fit_summary }}</div>
+                    {% endif %}
+                    {% if item.candidate_explanation %}
+                      <div style="margin-top: 8px;"><strong>Candidate explanation:</strong> {{ item.candidate_explanation }}</div>
+                    {% endif %}
+                    {% if item.role_value_potential %}
+                      <div style="margin-top: 8px;"><strong>Role value potential:</strong> {{ item.role_value_potential }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if company.why_these_companies %}
+              <h3 style="margin-top: 18px;">Why These Companies</h3>
+              <ul class="list">
+                {% for item in company.why_these_companies %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.candidate_facing_takeaways %}
+              <h3 style="margin-top: 18px;">Candidate-Facing Takeaways</h3>
+              <ul class="list">
+                {% for item in company.candidate_facing_takeaways %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if company.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ company.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if role and show_role %}
+          <section class="card">
+            <span class="section-tag">Role Path</span>
+            <h2>Role Path</h2>
+            {% for item in role.recommended_paths %}
+              <div class="mini-card" style="margin-top: {% if loop.first %}0{% else %}12px{% endif %};">
+                <strong>{{ loop.index }}. {{ item.role_title }} | {{ item.path_type }} path | {{ item.industry }}</strong>
+                <div style="margin-top: 8px;"><strong>Company context:</strong> {{ item.company_type }}</div>
+                <div style="margin-top: 8px;"><strong>Focus areas:</strong> {{ item.focus_areas|join(', ') }}</div>
+                {% if item.why_fit %}
+                  <div style="margin-top: 8px;"><strong>Why fit:</strong> {{ item.why_fit|join(' ') }}</div>
+                {% endif %}
+                {% if item.success_metrics %}
+                  <div style="margin-top: 8px;"><strong>Success metrics:</strong> {{ item.success_metrics|join(', ') }}</div>
+                {% endif %}
+                {% if item.example_companies %}
+                  <div style="margin-top: 8px;"><strong>Example companies:</strong> {{ item.example_companies|join(', ') }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            {% if role.decision_principles %}
+              <h3 style="margin-top: 18px;">Decision Principles</h3>
+              <ul class="list">
+                {% for item in role.decision_principles %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if role.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ role.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if job and show_job %}
+          <section class="card">
+            <span class="section-tag">Job Alignment</span>
+            <h2>Job Alignment</h2>
+            <p class="result-copy"><strong>Job title:</strong> {{ job.job_title }}</p>
+            <p class="result-copy"><strong>Match confidence:</strong> {{ job.match_confidence }}</p>
+            <p class="result-copy"><strong>Summary:</strong> {{ job.jd_summary }}</p>
+
+            {% if job.key_requirements %}
+              <h3>Key Requirements</h3>
+              <ul class="list">
+                {% for item in job.key_requirements %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.requirement_matches %}
+              <h3 style="margin-top: 18px;">Requirement Matches</h3>
+              <div class="entry-list">
+                {% for item in job.requirement_matches %}
+                  <div class="mini-card">
+                    <strong>{{ item.requirement }} ({{ item.importance }}) -> {% if item.matched %}matched{% else %}gap{% endif %}</strong>
+                    {% if item.evidence %}
+                      <ul class="list" style="margin-top: 8px;">
+                        {% for evidence in item.evidence %}
+                          <li>Evidence: {{ evidence }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                    {% if item.gap_notes %}
+                      <ul class="list" style="margin-top: 8px;">
+                        {% for note in item.gap_notes %}
+                          <li>Gap note: {{ note }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if job.experience_alignment %}
+              <h3 style="margin-top: 18px;">Experience Alignment</h3>
+              <ul class="list">
+                {% for item in job.experience_alignment %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.gap_analysis %}
+              <h3 style="margin-top: 18px;">Gap Analysis</h3>
+              <ul class="list">
+                {% for item in job.gap_analysis %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.positioning_strategy %}
+              <h3 style="margin-top: 18px;">Positioning Strategy</h3>
+              <ul class="list">
+                {% for item in job.positioning_strategy %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.resume_rewrite_points %}
+              <h3 style="margin-top: 18px;">Resume Rewrite Points</h3>
+              <ul class="list">
+                {% for item in job.resume_rewrite_points %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.cover_letter_inputs %}
+              <h3 style="margin-top: 18px;">Cover Letter Inputs</h3>
+              <ul class="list">
+                {% for item in job.cover_letter_inputs %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.tailored_resume_bullets %}
+              <h3 style="margin-top: 18px;">Tailored Resume Bullets</h3>
+              <ul class="list">
+                {% for item in job.tailored_resume_bullets %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if job.why_this_role_answer %}
+              <h3 style="margin-top: 18px;">Why This Role</h3>
+              <p class="text-block">{{ job.why_this_role_answer }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if growth and show_growth %}
+          <section class="card">
+            <span class="section-tag">Growth Plan</span>
+            <h2>Growth Plan</h2>
+
+            {% if growth.first_month_plan %}
+              <h3>First Month Plan</h3>
+              <ul class="list">
+                {% for item in growth.first_month_plan %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.month_2_3_plan %}
+              <h3 style="margin-top: 18px;">Month 2-3 Plan</h3>
+              <ul class="list">
+                {% for item in growth.month_2_3_plan %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.one_year_plan %}
+              <h3 style="margin-top: 18px;">One Year Plan</h3>
+              <ul class="list">
+                {% for item in growth.one_year_plan %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.priority_gaps %}
+              <h3 style="margin-top: 18px;">Priority Gaps</h3>
+              <ul class="list">
+                {% for item in growth.priority_gaps %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.prioritized_skills %}
+              <h3 style="margin-top: 18px;">Prioritized Skills</h3>
+              <ul class="list">
+                {% for item in growth.prioritized_skills %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.project_recommendations %}
+              <h3 style="margin-top: 18px;">Project Recommendations</h3>
+              <ul class="list">
+                {% for item in growth.project_recommendations %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.job_search_strategy %}
+              <h3 style="margin-top: 18px;">Job Search Strategy</h3>
+              <ul class="list">
+                {% for item in growth.job_search_strategy %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.daily_skill_accumulation %}
+              <h3 style="margin-top: 18px;">Daily Skill Accumulation</h3>
+              <ul class="list">
+                {% for item in growth.daily_skill_accumulation %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.value_creation_plan %}
+              <h3 style="margin-top: 18px;">Value Creation Plan</h3>
+              <ul class="list">
+                {% for item in growth.value_creation_plan %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.cover_letter_growth_narrative %}
+              <h3 style="margin-top: 18px;">Cover Letter Narrative Inputs</h3>
+              <ul class="list">
+                {% for item in growth.cover_letter_growth_narrative %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if growth.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ growth.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if assets and show_final %}
+          <section class="card">
+            <span class="section-tag">Application Assets</span>
+            <h2>Application Assets</h2>
+
+            {% if assets.tailored_resume_bullets %}
+              <h3>Tailored Resume Bullets</h3>
+              <ul class="list">
+                {% for item in assets.tailored_resume_bullets %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if assets.cover_letter_draft %}
+              <h3 style="margin-top: 18px;">Cover Letter Draft</h3>
+              <p class="text-block">{{ assets.cover_letter_draft }}</p>
+            {% endif %}
+
+            {% if assets.cold_email_message %}
+              <h3 style="margin-top: 18px;">Cold Email</h3>
+              <p class="text-block">{{ assets.cold_email_message }}</p>
+            {% endif %}
+
+            {% if assets.networking_message %}
+              <h3 style="margin-top: 18px;">Networking Message</h3>
+              <p class="text-block">{{ assets.networking_message }}</p>
+            {% endif %}
+
+            {% if assets.why_this_role_answer %}
+              <h3 style="margin-top: 18px;">Why This Role</h3>
+              <p class="text-block">{{ assets.why_this_role_answer }}</p>
+            {% endif %}
+
+            {% if assets.linkedin_summary %}
+              <h3 style="margin-top: 18px;">LinkedIn Summary</h3>
+              <p class="text-block">{{ assets.linkedin_summary }}</p>
+            {% endif %}
+
+            {% if assets.explanation %}
+              <h3 style="margin-top: 18px;">LLM Explanation</h3>
+              <p class="text-block">{{ assets.explanation }}</p>
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if state_output_relative and (show_final or current_result_view) %}
+          <section class="card">
+            <span class="section-tag">Artifacts</span>
+            <h2>Saved Checkpoints</h2>
+            <div class="artifact-links">
+              <a href="{{ url_for('serve_output_file', relative_path=state_output_relative) }}" target="_blank">Open current state checkpoint</a>
+              {% if workflow_path %}
+                <a href="{{ url_for('serve_output_file', relative_path=workflow_path) }}" target="_blank">Open workflow session</a>
+              {% endif %}
+            </div>
+          </section>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+  <script>
+    window.addEventListener("load", () => {
+      const question = document.getElementById("focus-question");
+      const result = document.getElementById("focus-result");
+      const targets = [question, result].filter(Boolean);
+      if (!targets.length) return;
+
+      const absoluteTops = targets.map((node) => node.getBoundingClientRect().top + window.scrollY);
+      const averageTop = absoluteTops.reduce((sum, value) => sum + value, 0) / absoluteTops.length;
+      const desiredTop = Math.max(0, averageTop - window.innerHeight * 0.28);
+      window.scrollTo({ top: desiredTop, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>

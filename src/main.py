@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,7 @@ try:
     from .job_targeting_engine import run_job_targeting
     from .llm_client import llm_status, refresh_llm_environment
     from .policy_engine import run_policy_analysis
+    from .resume_scan import ResumeScanResult, scan_resume_to_profile
     from .role_engine import run_role_path
     from .schemas import (
         CareerState,
@@ -30,6 +32,7 @@ except ImportError:
     from job_targeting_engine import run_job_targeting
     from llm_client import llm_status, refresh_llm_environment
     from policy_engine import run_policy_analysis
+    from resume_scan import ResumeScanResult, scan_resume_to_profile
     from role_engine import run_role_path
     from schemas import (
         CareerState,
@@ -39,52 +42,6 @@ except ImportError:
         create_initial_state,
     )
 
-
-DEGREE_OPTIONS = [
-    "Bachelor of Science in Data Science",
-    "Master of Science in Data Science",
-    "Bachelor's",
-    "Master's",
-]
-
-SCHOOL_OPTIONS = [
-    "Mapua University",
-    "Arizona State University",
-    "University of Arizona",
-]
-
-SKILL_OPTIONS = [
-    "MySQL",
-    "Snowflake",
-    "Python",
-    "R",
-    "SQL",
-    "Analytics",
-    "Machine Learning",
-    "Data Analysis",
-    "Data Visualization",
-    "Statistics",
-    "Data Cleaning",
-    "Dashboarding",
-    "KPI Reporting",
-    "ETL",
-    "Excel",
-    "Tableau",
-    "Power BI",
-    "Pandas",
-    "Scikit-learn",
-    "K-Means Clustering",
-    "RFM Analysis",
-    "Feature Engineering",
-    "Customer Segmentation",
-    "ggplot2",
-    "Shiny",
-    "Web Scraping",
-    "rvest",
-    "Apriori",
-    "Association Rule Mining",
-    "Market Basket Analysis",
-]
 
 COMPANY_ENVIRONMENT_OPTIONS = [
     "Big Tech / platform company",
@@ -105,6 +62,52 @@ BRAND_VS_GROWTH_OPTIONS = [
     "Balanced",
     "Rapid ownership and growth speed",
 ]
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROFILE_PRESET_PATHS = {
+    "leon": PROJECT_ROOT / "Data" / "profiles" / "leon_default.json",
+    "leon_default": PROJECT_ROOT / "Data" / "profiles" / "leon_default.json",
+    "tanmay": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
+    "tanmay_test": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
+    "tanmay_nalawade_test": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
+}
+DEFAULT_PROFILE_KEY = "leon_default"
+
+
+def _load_profile_from_json(profile_path: Path) -> UserProfile:
+    payload = json.loads(profile_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Profile file must contain a JSON object: {profile_path}")
+    return UserProfile.from_dict(payload)
+
+
+def _resolve_profile_path() -> tuple[Path | None, str]:
+    profile_path_raw = os.getenv("CAREER_PROFILE_PATH", "").strip()
+    if profile_path_raw:
+        profile_path = Path(profile_path_raw).expanduser()
+        if not profile_path.is_absolute():
+            profile_path = PROJECT_ROOT / profile_path
+        return profile_path, f"CAREER_PROFILE_PATH={profile_path_raw}"
+
+    profile_key = os.getenv("CAREER_PROFILE", DEFAULT_PROFILE_KEY).strip().lower()
+    preset_path = PROFILE_PRESET_PATHS.get(profile_key)
+    if preset_path is not None:
+        return preset_path, f"CAREER_PROFILE={profile_key}"
+    return None, f"CAREER_PROFILE={profile_key}"
+
+
+def _load_seed_profile() -> tuple[UserProfile, str]:
+    profile_path, source_label = _resolve_profile_path()
+    if profile_path is not None:
+        try:
+            return _load_profile_from_json(profile_path), f"{source_label} -> {profile_path}"
+        except Exception as exc:
+            print(
+                "Warning: failed to load configured profile "
+                f"from {profile_path} ({exc}). Falling back to the embedded sample profile."
+            )
+
+    return _sample_user_profile(), "embedded sample profile in src/main.py"
 
 
 def _sample_user_profile() -> UserProfile:
@@ -337,6 +340,12 @@ def _split_csv_values(raw: str) -> list[str]:
     return _deduplicate([item.strip() for item in raw.split(",") if item.strip()])
 
 
+def _prompt_csv_values(prompt: str, default: list[str] | None = None) -> list[str]:
+    default = default or []
+    raw = _prompt_text(prompt, default=", ".join(default))
+    return _split_csv_values(raw)
+
+
 def _print_options(options: list[str], selected: list[str] | None = None) -> None:
     selected = selected or []
     selected_lookup = {item.lower() for item in selected}
@@ -426,9 +435,8 @@ def _configure_projects_interactively(user_profile: UserProfile) -> UserProfile:
 
         role = _prompt_text("Your role in the project", default="")
         summary = _prompt_text("One-line project summary", default="")
-        skills_used = _prompt_multi_choice(
-            "Select or type the skills used in this project:",
-            SKILL_OPTIONS,
+        skills_used = _prompt_csv_values(
+            "List the skills used in this project, separated by commas",
             default=[],
         )
         impact_points = _collect_multiline_items(
@@ -562,35 +570,47 @@ def _collect_job_description() -> str:
     return "\n".join(lines).strip()
 
 
-def _configure_profile_interactively(user_profile: UserProfile) -> UserProfile:
+def _configure_profile_interactively(
+    user_profile: UserProfile,
+    *,
+    scanned_resume: ResumeScanResult | None = None,
+) -> UserProfile:
     _print_section("Profile Setup")
+    review_prompt = "Review or update the scanned profile before running the pipeline?"
+    default_review = False
+    if scanned_resume is None:
+        review_prompt = "Review or update your education, skills, and projects before running the pipeline?"
+        default_review = True
+    elif scanned_resume.missing_fields:
+        default_review = True
     if not _prompt_yes_no(
-        "Review or update your education, skills, and projects before running the pipeline?",
-        default=True,
+        review_prompt,
+        default=default_review,
     ):
         return user_profile
 
-    user_profile.degree = _prompt_single_choice(
-        "Select your highest degree:",
-        DEGREE_OPTIONS,
+    user_profile.target_role = _prompt_text(
+        "Target role",
+        default=user_profile.target_role,
+    )
+    user_profile.degree = _prompt_text(
+        "Highest degree",
         default=user_profile.degree,
     )
-    user_profile.schools = _prompt_multi_choice(
-        "Select the schools you attended:",
-        SCHOOL_OPTIONS,
+    user_profile.schools = _prompt_csv_values(
+        "Schools attended, separated by commas",
         default=user_profile.schools,
     )
-    user_profile.skills = _prompt_multi_choice(
-        "Select the skills you want the pipeline to use:",
-        SKILL_OPTIONS,
+    user_profile.skills = _prompt_csv_values(
+        "Skills the pipeline should use, separated by commas",
         default=user_profile.skills,
     )
     return _configure_projects_interactively(user_profile)
 
 
-def _print_profile_summary(user_profile: UserProfile) -> None:
+def _print_profile_summary(user_profile: UserProfile, profile_source: str) -> None:
     _print_section("Profile")
-    print("Using the current profile from src/main.py.")
+    print(f"Using profile source: {profile_source}")
     print(f"Target role: {user_profile.target_role}")
     print(f"Degree: {user_profile.degree or 'Not set'}")
     print(f"Schools: {', '.join(user_profile.schools) if user_profile.schools else 'Not set'}")
@@ -623,6 +643,18 @@ def _print_profile_summary(user_profile: UserProfile) -> None:
                 print(f"  Summary: {project.summary}")
             if project.skills_used:
                 print(f"  Skills: {', '.join(project.skills_used)}")
+
+
+def _print_resume_scan_summary(scan_result: ResumeScanResult) -> None:
+    _print_section("Resume Scan")
+    print(f"Source file: {scan_result.source_path}")
+    print(f"Extraction mode: {scan_result.extraction_mode}")
+    if scan_result.saved_profile_path:
+        print(f"Saved scanned profile: {scan_result.saved_profile_path}")
+    if scan_result.saved_text_path:
+        print(f"Saved extracted text: {scan_result.saved_text_path}")
+    _print_list("Missing or unresolved fields", scan_result.missing_fields)
+    _print_list("Confidence notes", scan_result.confidence_notes)
 
 
 def _show_company_preference_summary(user_profile: UserProfile) -> None:
@@ -803,15 +835,49 @@ def _save_state_snapshot(state: CareerState) -> None:
     print(f"\nSaved session snapshot to {output_path}")
 
 
-def main() -> None:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run the layered career strategy pipeline.")
+    parser.add_argument(
+        "--resume",
+        dest="resume_path",
+        default="",
+        help="Optional path to a resume file to scan before running the pipeline.",
+    )
+    return parser.parse_args(argv)
+
+
+def _resolve_resume_path(raw_path: str) -> Path | None:
+    candidate = raw_path.strip() or os.getenv("CAREER_RESUME_PATH", "").strip()
+    if not candidate:
+        return None
+    return Path(candidate).expanduser()
+
+
+def main(argv: list[str] | None = None) -> None:
     """Run the strategy flow one stage at a time."""
-    user_profile = _sample_user_profile()
-    user_profile = _configure_profile_interactively(user_profile)
+    args = _parse_args(argv)
+    resume_path = _resolve_resume_path(args.resume_path)
+
+    scan_result: ResumeScanResult | None = None
+    if resume_path is not None:
+        _configure_llm_interactively()
+        scan_result = scan_resume_to_profile(resume_path)
+        user_profile = scan_result.profile
+        profile_source = f"resume scan -> {scan_result.source_path}"
+        _print_resume_scan_summary(scan_result)
+    else:
+        user_profile, profile_source = _load_seed_profile()
+
+    user_profile = _configure_profile_interactively(
+        user_profile,
+        scanned_resume=scan_result,
+    )
     state = create_initial_state(user_profile)
 
-    _print_profile_summary(state.user_profile)
+    _print_profile_summary(state.user_profile, profile_source)
 
-    _configure_llm_interactively()
+    if scan_result is None:
+        _configure_llm_interactively()
     _configure_policy_search_interactively()
 
     state.policy_result = run_policy_analysis(state.user_profile)

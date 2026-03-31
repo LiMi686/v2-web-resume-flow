@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -161,19 +162,41 @@ class GeminiLLMClient(BaseLLMClient):
                 top_p=top_p,
                 response_mime_type=response_mime_type,
             )
-        try:
-            response = client.models.generate_content(
-                model=self.config.model,
-                contents=prompt,
-                config=request_config,
-            )
-        except Exception as exc:
-            error_name = exc.__class__.__name__
+        max_attempts = 3
+        response = None
+        last_error: Exception | None = None
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = client.models.generate_content(
+                    model=self.config.model,
+                    contents=prompt,
+                    config=request_config,
+                )
+                break
+            except Exception as exc:
+                last_error = exc
+                status_code = getattr(exc, "status_code", None)
+                message = str(exc).lower()
+                retryable = status_code in {429, 500, 502, 503, 504} or any(
+                    token in message for token in {"429", "500", "502", "503", "504", "rate limit", "unavailable"}
+                )
+                if retryable and attempt < max_attempts:
+                    time.sleep(2 * attempt)
+                    continue
+                error_name = exc.__class__.__name__
+                raise RuntimeError(
+                    f"Gemini request failed. model={self.config.model}, "
+                    f"timeout={self.config.timeout_seconds}s, "
+                    f"error_type={error_name}, error={exc}"
+                ) from exc
+
+        if response is None:
+            error_name = last_error.__class__.__name__ if last_error else "UnknownError"
             raise RuntimeError(
                 f"Gemini request failed. model={self.config.model}, "
                 f"timeout={self.config.timeout_seconds}s, "
-                f"error_type={error_name}, error={exc}"
-            ) from exc
+                f"error_type={error_name}, error={last_error}"
+            )
 
         text = getattr(response, "text", None)
         if not text:
@@ -301,6 +324,38 @@ def generate_json_strict(
         **_generation_kwargs(profile, "json"),
     )
     return _parse_first_json_object(raw_text)
+
+
+def generate_multimodal_json_strict(
+    prompt: str,
+    *,
+    parts: list[Any],
+    profile: str | None = None,
+) -> dict[str, Any]:
+    client = require_llm_client()
+    if not isinstance(client, GeminiLLMClient):
+        raise LLMUnavailableError("Multimodal scanning requires the Gemini provider.")
+
+    from google import genai
+    from google.genai import types
+
+    generation_kwargs = _generation_kwargs(profile, "json")
+    multimodal_client = genai.Client(api_key=client._api_key)
+    response = multimodal_client.models.generate_content(
+        model=client.config.model,
+        contents=types.UserContent(
+            parts=[
+                types.Part.from_text(text=prompt),
+                *parts,
+            ]
+        ),
+        config=types.GenerateContentConfig(
+            temperature=float(generation_kwargs["temperature"]),
+            top_p=float(generation_kwargs["top_p"]),
+            response_mime_type=str(generation_kwargs["response_mime_type"]),
+        ),
+    )
+    return _parse_first_json_object(getattr(response, "text", "") or "")
 
 
 def _get_grounded_model() -> str:
