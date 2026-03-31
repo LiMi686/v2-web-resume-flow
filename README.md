@@ -22,20 +22,20 @@ This project is a Layered Progressive Career Strategy System, built to feel like
 
 ## Local Usage
 
-After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, and run the project with `python -m src.main`. This project now runs as an LLM-only pipeline: Gemini is required, policy and company discovery use grounded search by default, and the system no longer falls back to local deterministic baselines. After the Industry step, the CLI will also collect explicit company-environment preferences so the Company Strategy stage can balance user intent with competitiveness analysis. Add **your own** `GEMINI_API_KEY` to `.env`; successful runs will save the session output to `outputs/interactive_career_state.json`.
+After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, add **your own** `GEMINI_API_KEY` to `.env`, and then run either the CLI or the local web app.
 
-You can also start from a resume file instead of a prebuilt profile:
+The project is now resume-scanning-first. Instead of relying on a hard-coded local profile, the system scans a resume, lets you review the extracted fields, and then walks through the layered strategy flow stage by stage.
+
+CLI:
 
 `python -m src.main --resume /path/to/resume.pdf`
 
-Supported resume import paths currently prioritize `pdf`, image files, and `doc/docx` files in the local macOS environment. Scanned profiles are saved under `outputs/scanned_profiles/`.
+If you omit `--resume`, the CLI will prompt for a file path. You can also prefill it with `CAREER_RESUME_PATH`.
+
+Supported resume import paths currently prioritize `pdf`, image files, and `doc/docx` files in the local macOS environment. Runtime artifacts are written under `outputs/`, which is intentionally kept out of version control.
 
 To run the local web upload portal instead of the CLI:
 
 `python -m src.web_app`
 
 Then open `http://127.0.0.1:5000` in your browser, upload a resume, and move through the strategy funnel stage by stage in the browser: Policy, Industry, Company Preference, Company Strategy, Role Path, optional Job Alignment, Growth Plan, and optional Application Assets. The web flow presents each stage in natural language instead of raw JSON while still saving workflow checkpoints and analysis artifacts under `outputs/`.
-
-
-## What' the Next? 
-Next, I plan to add a resume scanning feature that automatically populates the required information into the form based on the scanned resume.

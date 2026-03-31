@@ -19,7 +19,6 @@ try:
     from .role_engine import run_role_path
     from .schemas import (
         CareerState,
-        CompanyPreferenceProfile,
         ProjectExperience,
         UserProfile,
         create_initial_state,
@@ -36,7 +35,6 @@ except ImportError:
     from role_engine import run_role_path
     from schemas import (
         CareerState,
-        CompanyPreferenceProfile,
         ProjectExperience,
         UserProfile,
         create_initial_state,
@@ -64,228 +62,37 @@ BRAND_VS_GROWTH_OPTIONS = [
 ]
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-PROFILE_PRESET_PATHS = {
-    "leon": PROJECT_ROOT / "Data" / "profiles" / "leon_default.json",
-    "leon_default": PROJECT_ROOT / "Data" / "profiles" / "leon_default.json",
-    "tanmay": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
-    "tanmay_test": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
-    "tanmay_nalawade_test": PROJECT_ROOT / "Data" / "profiles" / "tanmay_nalawade_test.json",
-}
-DEFAULT_PROFILE_KEY = "leon_default"
 
 
-def _load_profile_from_json(profile_path: Path) -> UserProfile:
-    payload = json.loads(profile_path.read_text(encoding="utf-8"))
-    if not isinstance(payload, dict):
-        raise ValueError(f"Profile file must contain a JSON object: {profile_path}")
-    return UserProfile.from_dict(payload)
+def _normalize_project_path(path_str: str) -> Path:
+    candidate = Path(path_str).expanduser()
+    if not candidate.is_absolute():
+        candidate = PROJECT_ROOT / candidate
+    return candidate
 
 
-def _resolve_profile_path() -> tuple[Path | None, str]:
-    profile_path_raw = os.getenv("CAREER_PROFILE_PATH", "").strip()
-    if profile_path_raw:
-        profile_path = Path(profile_path_raw).expanduser()
-        if not profile_path.is_absolute():
-            profile_path = PROJECT_ROOT / profile_path
-        return profile_path, f"CAREER_PROFILE_PATH={profile_path_raw}"
-
-    profile_key = os.getenv("CAREER_PROFILE", DEFAULT_PROFILE_KEY).strip().lower()
-    preset_path = PROFILE_PRESET_PATHS.get(profile_key)
-    if preset_path is not None:
-        return preset_path, f"CAREER_PROFILE={profile_key}"
-    return None, f"CAREER_PROFILE={profile_key}"
+def _resolve_resume_path(raw_path: str) -> Path | None:
+    candidate = raw_path.strip() or os.getenv("CAREER_RESUME_PATH", "").strip()
+    if not candidate:
+        return None
+    return _normalize_project_path(candidate)
 
 
-def _load_seed_profile() -> tuple[UserProfile, str]:
-    profile_path, source_label = _resolve_profile_path()
-    if profile_path is not None:
-        try:
-            return _load_profile_from_json(profile_path), f"{source_label} -> {profile_path}"
-        except Exception as exc:
-            print(
-                "Warning: failed to load configured profile "
-                f"from {profile_path} ({exc}). Falling back to the embedded sample profile."
+def _require_resume_path(initial_path: Path | None) -> Path:
+    if initial_path is None:
+        prompted_path = _prompt_text(
+            "Resume path",
+            default=os.getenv("CAREER_RESUME_PATH", "").strip(),
+        )
+        if not prompted_path:
+            raise ValueError(
+                "A resume file is required. Pass --resume /path/to/resume.pdf or set CAREER_RESUME_PATH."
             )
+        initial_path = _normalize_project_path(prompted_path)
 
-    return _sample_user_profile(), "embedded sample profile in src/main.py"
-
-
-def _sample_user_profile() -> UserProfile:
-    return UserProfile(
-        name="Leon",
-        target_role="Data Analyst",
-        degree="Master of Science in Data Science",
-        schools=["Mapua University", "Arizona State University", "University of Arizona"],
-        education_history=[
-            {
-                "school": "Mapua University",
-                "degree": "Bachelor of Science in Data Science",
-                "start_year": "2019",
-                "end_year": "2023",
-                "location": "Manila, Philippines",
-                "notes": "Joint program with Arizona State University.",
-            },
-            {
-                "school": "University of Arizona",
-                "degree": "Master of Science in Data Science",
-                "start_year": "2024",
-                "end_year": "2026",
-                "notes": "",
-            },
-        ],
-        skills=["Python", "SQL", "Analytics", "Machine Learning"],
-        years_experience=0,
-        preferred_regions=["US", "Canada"],
-        needs_visa_sponsorship=True,
-        open_to_remote=True,
-        constraints=["Needs sponsorship", "Wants growth-oriented industry"],
-        experience_highlights=[
-            "Built SQL dashboards for business reviews",
-            "Shipped a forecasting model for demand planning",
-            "Partnered with stakeholders on analytics roadmaps",
-        ],
-        internship_experiences=[
-            {
-                "company": "Arizona List Organization",
-                "title": "Data Analyst Intern",
-                "industry": "Political Data / Nonprofit Analytics",
-                "summary": "Improved voter outreach data quality and built KPI reporting to support campaign decision-making.",
-                "skills_used": ["SQL", "Python", "Data Cleaning", "KPI Reporting", "Data Validation"],
-                "impact_points": [
-                    "Cleaned and standardized weekly voter-contact data to improve data integrity and reporting accuracy.",
-                    "Built reusable SQL query templates and KPI dashboards for leadership reporting.",
-                    "Delivered structured insights to support outreach strategy and campaign operations decisions.",
-                ],
-            },
-            {
-                "company": "University of Arizona - Lung Cancer Research Institute",
-                "title": "Student Researcher",
-                "industry": "Healthcare / Biomedical Data Science",
-                "summary": "Developed reproducible data analysis workflows to identify effective cancer cell reversal patterns.",
-                "skills_used": ["Python", "Clustering", "Data Visualization", "Outlier Detection", "Statistical Analysis"],
-                "impact_points": [
-                    "Built end-to-end analysis pipeline (cleaning, clustering, visualization) for multi-dataset research.",
-                    "Applied K-means clustering to identify stable vs. significant biological response patterns.",
-                    "Improved classification efficiency by 10% through optimized workflow design.",
-                ],
-            },
-            {
-                "company": "USHER Technologies Inc.",
-                "title": "Data Analyst Intern",
-                "industry": "AI / Infrastructure / Disaster Analytics",
-                "summary": "Developed predictive models for earthquake damage assessment using sensor data.",
-                "skills_used": ["Machine Learning", "Python", "Time Series", "Data Validation"],
-                "impact_points": [
-                    "Built ML model to predict post-earthquake sensor readings and detect anomalies.",
-                    "Reduced manual inspection workload by 15% through automated damage assessment.",
-                    "Validated model predictions against real-world inspection data for reliability.",
-                ],
-            },
-            {
-                "company": "University of Arizona, James E. Rogers College of Law",
-                "title": "Law Library Assistant",
-                "industry": "Legal / Library Science",
-                "summary": "Assisted with legal research and data management for library resources.",
-                "skills_used": ["Data Management", "Research", "Python", "Data Visualization"],
-                "impact_points": [
-                    "Addressing direct questions at circulation desk from phone call or in-person.",
-                    "Applied classification and organization principles (Library of Congress System) to manage large-scale collections.",
-                    "Conducted targeted information retrieval in Nexis Uni, improving efficiency in sourcing case law and academic materials.",
-                    "Maintained structured information management using ALMA, ensuring accurate cataloging and resource organization.",
-                    "Tracked and logged service inquiries in LibAnswers, reinforcing structured problem-solving and data entry precision.",
-                ],
-            },
-            {
-                "company": "University of Arizona, Computer Vision Lab",
-                "title": "Graduate Research Assistant",
-                "industry": "Research / Computer Vision",
-                "summary": "Assisted with research projects focused on computer vision and machine learning.",
-                "skills_used": ["Computer Vision", "Python", "Research Assistance"],
-                "impact_points": [
-                    "Created an image dataset for AI medical model recognition, generating 300+ laparoscopic surgery images.",
-                    "Designed and implemented a contamination pipeline that overlays surgical artifacts such as blood, smoke, and lens blur onto clean endoscopy images.",
-                    "Using both coding based method and AI image generators (e.g., Sora, Gemini).",
-                ],
-            },
-        ],
-        project_experiences=[
-            {
-                "name": "Airbnb Relational Database Design - MySQL",
-                "role": "Group Project",
-                "summary": "Designed and implemented a normalized relational database modeling Airbnb's marketplace operations.",
-                "skills_used": ["MySQL", "SQL", "Database Design", "ER Modeling", "Relational Databases"],
-                "impact_points": [
-                    "Built an ER model and translated it into 20 SQL tables with primary and foreign keys to ensure data integrity.",
-                    "Defined 10 real-world business problems and developed SQL queries to generate revenue, risk, and performance insights.",
-                    "Collaborated on a group project to model Airbnb marketplace operations through a normalized relational database.",
-                ],
-            },
-            {
-                "name": "Cloud-Based E-Commerce Customer Analytics",
-                "role": "Project Team Member",
-                "summary": "Developed a cloud-based customer analytics pipeline using Snowflake and Python to analyze e-commerce behavioral data.",
-                "skills_used": [
-                    "Snowflake",
-                    "Python",
-                    "Feature Engineering",
-                    "RFM Analysis",
-                    "K-Means Clustering",
-                    "Customer Segmentation",
-                ],
-                "impact_points": [
-                    "Performed feature engineering and aggregated customer-level metrics from e-commerce behavioral data.",
-                    "Applied RFM analysis and K-Means clustering to identify distinct customer segments.",
-                    "Generated insights into spending patterns, satisfaction levels, and delivery performance through the resulting clusters.",
-                ],
-            },
-            {
-                "name": "Pandemic Visualization & Analysis by R",
-                "role": "Project",
-                "summary": "Processed and analyzed global WHO datasets across 200+ countries to examine infection and mortality trends.",
-                "skills_used": [
-                    "R",
-                    "Data Analysis",
-                    "Data Visualization",
-                    "ggplot2",
-                    "Shiny",
-                    "Web Scraping",
-                    "rvest",
-                ],
-                "impact_points": [
-                    "Built interactive geographic heatmaps using ggplot2 and Shiny for spatiotemporal analysis.",
-                    "Applied web scraping with rvest to study correlations between media coverage and case growth.",
-                    "Analyzed WHO data across 200+ countries to surface global infection and mortality patterns.",
-                ],
-            },
-            {
-                "name": "Online Retail Association Rule",
-                "role": "Project",
-                "summary": "Implemented association rule mining with the Apriori algorithm to identify frequent itemsets and co-purchasing patterns in transactional retail data.",
-                "skills_used": [
-                    "Python",
-                    "Apriori",
-                    "Association Rule Mining",
-                    "Market Basket Analysis",
-                    "Data Analysis",
-                ],
-                "impact_points": [
-                    "Identified frequent itemsets and co-purchasing patterns from transactional retail data using the Apriori algorithm.",
-                    "Computed Support, Confidence, and Lift to quantify product relationships.",
-                    "Generated data-driven insights to inform bundling and cross-selling strategies.",
-                ],
-            },
-        ],
-        company_preferences=CompanyPreferenceProfile(
-            preferred_environments=[
-                "Late-stage growth company",
-                "Established operator or mission-driven organization",
-            ],
-            risk_tolerance="medium",
-            stability_priority="high",
-            work_style_preference="Balanced structure and ownership",
-            brand_vs_growth_preference="Balanced",
-        ),
-    )
+    if not initial_path.exists() or not initial_path.is_file():
+        raise FileNotFoundError(f"Resume file not found: {initial_path}")
+    return initial_path
 
 
 def _print_section(title: str) -> None:
@@ -841,32 +648,20 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--resume",
         dest="resume_path",
         default="",
-        help="Optional path to a resume file to scan before running the pipeline.",
+        help="Path to a resume file to scan before running the pipeline. If omitted, the CLI prompts for one.",
     )
     return parser.parse_args(argv)
-
-
-def _resolve_resume_path(raw_path: str) -> Path | None:
-    candidate = raw_path.strip() or os.getenv("CAREER_RESUME_PATH", "").strip()
-    if not candidate:
-        return None
-    return Path(candidate).expanduser()
-
 
 def main(argv: list[str] | None = None) -> None:
     """Run the strategy flow one stage at a time."""
     args = _parse_args(argv)
-    resume_path = _resolve_resume_path(args.resume_path)
+    resume_path = _require_resume_path(_resolve_resume_path(args.resume_path))
 
-    scan_result: ResumeScanResult | None = None
-    if resume_path is not None:
-        _configure_llm_interactively()
-        scan_result = scan_resume_to_profile(resume_path)
-        user_profile = scan_result.profile
-        profile_source = f"resume scan -> {scan_result.source_path}"
-        _print_resume_scan_summary(scan_result)
-    else:
-        user_profile, profile_source = _load_seed_profile()
+    _configure_llm_interactively()
+    scan_result = scan_resume_to_profile(resume_path)
+    user_profile = scan_result.profile
+    profile_source = f"resume scan -> {scan_result.source_path}"
+    _print_resume_scan_summary(scan_result)
 
     user_profile = _configure_profile_interactively(
         user_profile,
@@ -876,8 +671,6 @@ def main(argv: list[str] | None = None) -> None:
 
     _print_profile_summary(state.user_profile, profile_source)
 
-    if scan_result is None:
-        _configure_llm_interactively()
     _configure_policy_search_interactively()
 
     state.policy_result = run_policy_analysis(state.user_profile)
