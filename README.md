@@ -20,28 +20,6 @@ This project is a Layered Progressive Career Strategy System, built to feel like
 
 ---
 
-## Local Usage
-
-After pulling this repo locally, create and activate a virtual environment, install dependencies with `pip install -r requirements.txt`, add **your own** `GEMINI_API_KEY` to `.env`, and then run either the CLI or the local web app.
-
-The project is now resume-scanning-first. Instead of relying on a hard-coded local profile, the system scans a resume, lets you review the extracted fields, and then walks through the layered strategy flow stage by stage.
-
-CLI:
-
-`python -m src.main --resume /path/to/resume.pdf`
-
-If you omit `--resume`, the CLI will prompt for a file path. You can also prefill it with `CAREER_RESUME_PATH`.
-
-Supported resume import paths currently prioritize `pdf`, image files, and `doc/docx` files in the local macOS environment. Runtime artifacts are written under `outputs/`, which is intentionally kept out of version control.
-
-To run the local web upload portal instead of the CLI:
-
-`python -m src.web_app`
-
-Then open `http://127.0.0.1:5000` in your browser, upload a resume, and move through the strategy funnel stage by stage in the browser: Policy, Industry, Company Preference, Company Strategy, Role Path, optional Job Alignment, Growth Plan, and optional Application Assets. The web flow presents each stage in natural language instead of raw JSON while still saving workflow checkpoints and analysis artifacts under `outputs/`.
-
----
-
 ## Output Sample
 
 ### 1. Resume Scan
