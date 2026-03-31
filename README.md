@@ -39,3 +39,31 @@ To run the local web upload portal instead of the CLI:
 `python -m src.web_app`
 
 Then open `http://127.0.0.1:5000` in your browser, upload a resume, and move through the strategy funnel stage by stage in the browser: Policy, Industry, Company Preference, Company Strategy, Role Path, optional Job Alignment, Growth Plan, and optional Application Assets. The web flow presents each stage in natural language instead of raw JSON while still saving workflow checkpoints and analysis artifacts under `outputs/`.
+
+---
+
+## Output Sample
+
+### 1. Resume Scan
+
+![Resume Scan](docs/output-samples/01-scan-resume.png)
+
+### 2. Policy Analysis
+
+![Policy Analysis](docs/output-samples/02-policy-analysis.png)
+
+### 3. Industry Prioritization
+
+![Industry Prioritization](docs/output-samples/03-industry-prioritization.png)
+
+### 4. Company Strategy
+
+![Company Strategy](docs/output-samples/04-company-strategy.png)
+
+### 5. Role Path And Job Step
+
+![Role Path And Job Step](docs/output-samples/05-role-path-and-job-step.png)
+
+### 6. Full Results
+
+![Full Results](docs/output-samples/06-full-results.png)
