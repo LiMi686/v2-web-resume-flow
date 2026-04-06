@@ -40,7 +40,20 @@ except ImportError:
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_ROOT = PROJECT_ROOT / "src" / "templates"
-OUTPUT_ROOT = PROJECT_ROOT / "outputs"
+
+
+def _resolve_output_root() -> Path:
+    raw_root = os.getenv("CAREER_OUTPUT_ROOT", "").strip()
+    if not raw_root:
+        return PROJECT_ROOT / "outputs"
+
+    output_root = Path(raw_root).expanduser()
+    if not output_root.is_absolute():
+        output_root = PROJECT_ROOT / output_root
+    return output_root.resolve()
+
+
+OUTPUT_ROOT = _resolve_output_root()
 UPLOAD_ROOT = OUTPUT_ROOT / "uploaded_resumes"
 WEB_RUN_ROOT = OUTPUT_ROOT / "web_runs"
 WEB_SESSION_ROOT = OUTPUT_ROOT / "web_sessions"
@@ -112,6 +125,88 @@ RESULT_VIEW_LABELS = {
     "growth": "Growth Plan",
     "final": "Full Results",
 }
+LANDING_SAMPLE_PREVIEWS = [
+    {
+        "eyebrow": "Profile Intake",
+        "title": "Resume Scan",
+        "caption": "Turn a resume into a structured candidate profile before any strategy decisions begin.",
+        "image": "images/sample-scan.png",
+    },
+    {
+        "eyebrow": "Decision Layer",
+        "title": "Policy Analysis",
+        "caption": "Ground career choices in visa, region, and mobility realities instead of guessing.",
+        "image": "images/sample-policy.png",
+    },
+    {
+        "eyebrow": "Execution Layer",
+        "title": "Company Strategy",
+        "caption": "Move from industry fit into the actual company archetypes and targets worth pursuing.",
+        "image": "images/sample-company.png",
+    },
+    {
+        "eyebrow": "Complete View",
+        "title": "Full Results",
+        "caption": "Review the end-to-end strategy in one place, then use it to guide applications and growth.",
+        "image": "images/sample-full-results.png",
+    },
+]
+JOURNEY_BLUEPRINT = [
+    {
+        "stage": "scanned",
+        "rank": WORKFLOW_STAGE_RANK["scanned"],
+        "label": "Resume Scan",
+        "summary": "Extract the draft profile and identify missing information.",
+    },
+    {
+        "stage": "policy_complete",
+        "rank": WORKFLOW_STAGE_RANK["policy_complete"],
+        "label": "Policy / Region",
+        "summary": "Anchor the search in immigration, mobility, and market reality.",
+    },
+    {
+        "stage": "industry_complete",
+        "rank": WORKFLOW_STAGE_RANK["industry_complete"],
+        "label": "Industry",
+        "summary": "Prioritize sectors with strong timing, fit, and demand signals.",
+    },
+    {
+        "stage": "preferences_complete",
+        "rank": WORKFLOW_STAGE_RANK["preferences_complete"],
+        "label": "Company Preference",
+        "summary": "Capture risk appetite, work style, and brand-vs-growth tradeoffs.",
+    },
+    {
+        "stage": "company_complete",
+        "rank": WORKFLOW_STAGE_RANK["company_complete"],
+        "label": "Company Strategy",
+        "summary": "Translate fit into company types, shortlists, and selection rules.",
+    },
+    {
+        "stage": "role_complete",
+        "rank": WORKFLOW_STAGE_RANK["role_complete"],
+        "label": "Role Path",
+        "summary": "Map realistic role paths that fit the candidate and the market.",
+    },
+    {
+        "stage": "job_complete",
+        "rank": WORKFLOW_STAGE_RANK["job_complete"],
+        "label": "Job Alignment",
+        "summary": "Optionally tailor the strategy against a specific job description.",
+    },
+    {
+        "stage": "growth_complete",
+        "rank": WORKFLOW_STAGE_RANK["growth_complete"],
+        "label": "Growth Plan",
+        "summary": "Turn the strategy into concrete development and search actions.",
+    },
+    {
+        "stage": "complete",
+        "rank": WORKFLOW_STAGE_RANK["complete"],
+        "label": "Application Assets",
+        "summary": "Generate candidate-facing materials when a job target exists.",
+    },
+]
 
 app = Flask(__name__, template_folder=str(TEMPLATE_ROOT))
 app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
@@ -492,6 +587,31 @@ def _previous_result_view(current_view: str, available_views: list[str]) -> str 
     return available_views[current_index - 1]
 
 
+def _build_journey_steps(workflow_stage: str) -> list[dict[str, Any]]:
+    stage_rank = WORKFLOW_STAGE_RANK.get(workflow_stage, -1)
+    if workflow_stage == "job_skipped":
+        current_stage = "growth_complete"
+    elif workflow_stage == "new":
+        current_stage = "scanned"
+    else:
+        current_stage = workflow_stage
+
+    items: list[dict[str, Any]] = []
+    current_found = False
+    for item in JOURNEY_BLUEPRINT:
+        state = "upcoming"
+        if item["stage"] == current_stage:
+            state = "current"
+            current_found = True
+        elif stage_rank >= item["rank"]:
+            state = "complete"
+        items.append({**item, "state": state})
+
+    if not current_found and items:
+        items[0]["state"] = "current"
+    return items
+
+
 def _build_final_summary(state_dict: dict[str, Any] | None) -> dict[str, Any]:
     state_dict = state_dict or {}
     summary_points: list[str] = []
@@ -686,8 +806,18 @@ def _run_application_assets_step(workflow_payload: dict[str, Any]) -> None:
     workflow_payload["stage"] = "complete"
 
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route("/", methods=["GET"])
+def landing():
+    return render_template(
+        "landing.html",
+        sample_previews=LANDING_SAMPLE_PREVIEWS,
+        journey_blueprint=JOURNEY_BLUEPRINT,
+    )
+
+
+@app.route("/app", methods=["GET", "POST"])
+@app.route("/studio", methods=["GET", "POST"])
+def app_studio():
     refresh_llm_environment()
     status = llm_status()
     error_message = ""
@@ -849,6 +979,7 @@ def index():
         previous_result_label=RESULT_VIEW_LABELS.get(previous_result_view or "", ""),
         available_result_views=available_result_views,
         final_summary=final_summary,
+        journey_steps=_build_journey_steps(workflow_stage),
         company_environment_options=COMPANY_ENVIRONMENT_OPTIONS,
         risk_tolerance_options=RISK_TOLERANCE_OPTIONS,
         stability_priority_options=STABILITY_PRIORITY_OPTIONS,
@@ -859,8 +990,9 @@ def index():
 
 
 def main() -> None:
-    host = os.getenv("CAREER_WEB_HOST", "127.0.0.1")
-    port = int(os.getenv("CAREER_WEB_PORT", "5000"))
+    default_host = "0.0.0.0" if os.getenv("PORT") else "127.0.0.1"
+    host = os.getenv("CAREER_WEB_HOST", default_host)
+    port = int(os.getenv("CAREER_WEB_PORT", os.getenv("PORT", "5000")))
     app.run(host=host, port=port, debug=False)
 
 

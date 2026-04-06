@@ -36,6 +36,7 @@ SUPPORTED_WORD_SUFFIXES = {".doc", ".docx"}
 SUPPORTED_PDF_SUFFIXES = {".pdf"}
 
 BOOL_FIELDS = {"needs_visa_sponsorship", "has_work_authorization", "open_to_remote"}
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 @dataclass(slots=True)
@@ -390,8 +391,18 @@ def _derive_missing_fields(payload: dict[str, Any], profile: UserProfile) -> lis
 
 def _save_scan_artifacts(
     result: ResumeScanResult,
-    output_root: Path = Path("outputs/scanned_profiles"),
+    output_root: Path | None = None,
 ) -> ResumeScanResult:
+    if output_root is None:
+        configured_root = os.getenv("CAREER_OUTPUT_ROOT", "").strip()
+        if configured_root:
+            output_root = Path(configured_root).expanduser()
+            if not output_root.is_absolute():
+                output_root = PROJECT_ROOT / output_root
+            output_root = output_root / "scanned_profiles"
+        else:
+            output_root = PROJECT_ROOT / "outputs" / "scanned_profiles"
+
     output_root.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     stem = result.source_path.stem.replace(" ", "_")

@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layered Progressive Career Strategy System</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0e1b30;
+      --panel: rgba(11, 24, 42, 0.72);
+      --panel-strong: rgba(10, 20, 35, 0.9);
+      --line: rgba(167, 198, 255, 0.16);
+      --text: #f5f7fb;
+      --muted: #adc0da;
+      --accent: #64e1cf;
+      --accent-2: #ffb36b;
+      --shadow: 0 24px 70px rgba(1, 6, 15, 0.45);
+      --display: "Baskerville", "Iowan Old Style", "Palatino Linotype", serif;
+      --body: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(100, 225, 207, 0.18), transparent 26%),
+        radial-gradient(circle at 85% 12%, rgba(255, 179, 107, 0.16), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #0a1528 48%, #09101d 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.5), transparent 85%);
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 22px 80px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(8, 18, 31, 0.68);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 18px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, rgba(100, 225, 207, 0.95), rgba(255, 179, 107, 0.92));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong,
+    .brand-copy span {
+      display: block;
+    }
+
+    .brand-copy strong {
+      font-size: 0.94rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      border: 1px solid transparent;
+    }
+
+    .nav-link:hover,
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, var(--accent), #87ffe0);
+      color: #031019;
+      box-shadow: 0 16px 40px rgba(100, 225, 207, 0.24);
+    }
+
+    .button.ghost {
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 42px 0 22px;
+    }
+
+    .hero-copy,
+    .hero-visual,
+    .section-panel {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: var(--panel);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(100, 225, 207, 0.18), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 58%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.8;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: var(--display);
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      max-width: 13ch;
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      line-height: 0.94;
+      margin-bottom: 22px;
+    }
+
+    .hero-copy p {
+      max-width: 60ch;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .metric {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .metric strong,
+    .metric span {
+      display: block;
+    }
+
+    .metric strong {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .metric span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .hero-visual {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+      background:
+        linear-gradient(180deg, rgba(13, 24, 42, 0.94), rgba(9, 18, 31, 0.85)),
+        var(--panel-strong);
+    }
+
+    .visual-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .visual-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .visual-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(6, 13, 24, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .visual-caption strong,
+    .visual-caption span {
+      display: block;
+    }
+
+    .visual-caption strong {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .visual-caption span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .mini-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .mini-card strong,
+    .mini-card span {
+      display: block;
+    }
+
+    .mini-card strong {
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.92rem;
+    }
+
+    .section {
+      margin-top: 26px;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .section-header p {
+      max-width: 56ch;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .journey-grid,
+    .value-grid,
+    .sample-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .journey-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .value-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sample-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .journey-step,
+    .value-card,
+    .sample-card,
+    .cta-panel {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+
+    .journey-step,
+    .value-card {
+      padding: 22px;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 16px;
+      border-radius: 999px;
+      background: rgba(100, 225, 207, 0.12);
+      border: 1px solid rgba(100, 225, 207, 0.24);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .journey-step p,
+    .value-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .value-card strong {
+      display: block;
+      color: var(--accent-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+    }
+
+    .sample-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #0d1727;
+    }
+
+    .sample-copy {
+      padding: 20px;
+    }
+
+    .sample-copy strong,
+    .sample-copy span {
+      display: block;
+    }
+
+    .sample-copy strong {
+      color: var(--accent-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+
+    .sample-copy h3 {
+      font-size: 1.75rem;
+      margin-bottom: 10px;
+    }
+
+    .sample-copy span {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .cta-panel {
+      margin-top: 26px;
+      padding: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      background:
+        linear-gradient(135deg, rgba(100, 225, 207, 0.12), transparent 42%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+
+    .cta-panel p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 52ch;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .journey-grid,
+      .value-grid,
+      .sample-grid,
+      .hero-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-panel,
+      .section-header,
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 18px 16px 58px;
+      }
+
+      .nav {
+        border-radius: 28px;
+        padding: 14px;
+      }
+
+      .hero-copy,
+      .hero-visual,
+      .section-panel,
+      .cta-panel {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 15vw, 4rem);
+      }
+
+      .mini-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="brand" href="{{ url_for('landing') }}">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <strong>Career Strategy System</strong>
+          <span>AI-powered planning for Data and AI careers</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#journey">How It Works</a>
+        <a class="nav-link" href="#samples">Output Samples</a>
+        <a class="button primary" href="{{ url_for('app_studio') }}">Open The Studio</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">From Career Noise To Strategic Clarity</span>
+        <h1>Build a career plan layer by layer, not job by job.</h1>
+        <p>
+          This system guides candidates through the bigger career decisions first: policy and region, industry timing, company strategy, role path, job alignment, and long-term growth. Instead of random job applications, the user gets a connected strategy that explains why each step matters.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="{{ url_for('app_studio') }}">Launch The Workflow</a>
+          <a class="button ghost" href="#samples">See Real Outputs</a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric">
+            <strong>8</strong>
+            <span>connected decision layers from resume scan to application assets</span>
+          </div>
+          <div class="metric">
+            <strong>Policy-Aware</strong>
+            <span>career strategy shaped by region, visa, and mobility realities</span>
+          </div>
+          <div class="metric">
+            <strong>Studio Flow</strong>
+            <span>a guided product experience instead of a generic one-shot chatbot</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-card">
+          <img src="{{ url_for('static', filename='images/career-funnel-diagram.png') }}" alt="Career strategy funnel diagram">
+          <div class="visual-caption">
+            <strong>Layered Career Funnel</strong>
+            <span>Policy, industry, company, role, growth, and application assets are connected into one decision journey.</span>
+          </div>
+        </div>
+        <div class="mini-gallery">
+          <div class="mini-card">
+            <strong>Readable Stage Design</strong>
+            <span>Each layer stays digestible so the user never feels dumped into a wall of output.</span>
+          </div>
+          <div class="mini-card">
+            <strong>Built On Your Existing Logic</strong>
+            <span>The current project workflow stays intact, while the site now presents it like a polished product.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="section-panel">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">How It Works</span>
+            <h2>The career journey unfolds in deliberate layers.</h2>
+          </div>
+          <p>
+            The value of the system is not just each individual analysis. It is the way one decision informs the next, so the final recommendations feel consistent, explainable, and more actionable.
+          </p>
+        </div>
+        <div class="journey-grid">
+          {% for item in journey_blueprint %}
+            <article class="journey-step">
+              <span class="step-number">{{ loop.index }}</span>
+              <h3>{{ item.label }}</h3>
+              <p>{{ item.summary }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-panel">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Why It Feels Different</span>
+            <h2>More strategy system than job board.</h2>
+          </div>
+          <p>
+            A strong first impression comes from clear positioning. This site should feel thoughtful, credible, and directional, not like a back-office dashboard.
+          </p>
+        </div>
+        <div class="value-grid">
+          <article class="value-card">
+            <strong>Decision Framing</strong>
+            <h3>Macro to micro</h3>
+            <p>The user starts with big career constraints and market realities before narrowing into company and role choices.</p>
+          </article>
+          <article class="value-card">
+            <strong>Candidate Narrative</strong>
+            <h3>Advice that compounds</h3>
+            <p>Each stage inherits context from the previous one, so the final positioning feels coherent instead of stitched together.</p>
+          </article>
+          <article class="value-card">
+            <strong>Product Feeling</strong>
+            <h3>Guided, not overwhelming</h3>
+            <p>The site should help candidates feel more focused and more capable after every stage, even when the process is deep.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="samples">
+      <div class="section-panel">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Output Samples</span>
+            <h2>Visual proof that the workflow produces real strategy artifacts.</h2>
+          </div>
+          <p>
+            These previews make the site feel tangible. Instead of describing the value in abstract terms, the homepage shows what the candidate will actually receive.
+          </p>
+        </div>
+        <div class="sample-grid">
+          {% for sample in sample_previews %}
+            <article class="sample-card">
+              <img src="{{ url_for('static', filename=sample.image) }}" alt="{{ sample.title }} preview">
+              <div class="sample-copy">
+                <strong>{{ sample.eyebrow }}</strong>
+                <h3>{{ sample.title }}</h3>
+                <span>{{ sample.caption }}</span>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-panel">
+      <div>
+        <span class="eyebrow">Start The Product Experience</span>
+        <h2>Keep the workflow, upgrade the first impression.</h2>
+        <p>
+          The current analysis engine stays exactly where it is strongest. The site now frames it with a landing page, a clearer visual identity, and a more intentional studio-style workspace.
+        </p>
+      </div>
+      <a class="button primary" href="{{ url_for('app_studio') }}">Enter The Career Studio</a>
+    </section>
+
+    <footer class="footer">
+      <span>Layered Progressive Career Strategy System</span>
+      <span>Designed as a product-style front door around your existing Flask workflow.</span>
+    </footer>
+  </div>
+</body>
+</html>

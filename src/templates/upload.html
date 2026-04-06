@@ -6,64 +6,400 @@
   <title>Career Strategy Web Studio</title>
   <style>
     :root {
-      --bg: #f5efe4;
-      --panel: rgba(255, 252, 246, 0.92);
-      --ink: #1c1b1a;
-      --muted: #655c55;
-      --accent: #0d6b6b;
-      --accent-2: #b25c2f;
-      --border: rgba(28, 27, 26, 0.12);
-      --shadow: 0 18px 45px rgba(54, 41, 28, 0.12);
+      --bg: #07111f;
+      --bg-soft: #0d182a;
+      --panel: rgba(12, 24, 42, 0.78);
+      --panel-strong: rgba(9, 19, 33, 0.92);
+      --panel-soft: rgba(255, 255, 255, 0.04);
+      --ink: #f4f6fb;
+      --muted: #aebfd7;
+      --accent: #62e2d0;
+      --accent-2: #ffb36b;
+      --accent-3: #7bc3ff;
+      --border: rgba(165, 195, 255, 0.16);
+      --shadow: 0 26px 70px rgba(1, 8, 18, 0.44);
+      --display: "Baskerville", "Iowan Old Style", "Palatino Linotype", serif;
+      --body: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+      font-family: var(--body);
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(13, 107, 107, 0.18), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(178, 92, 47, 0.16), transparent 30%),
-        linear-gradient(180deg, #f7f0e6 0%, #efe5d7 100%);
+        radial-gradient(circle at top left, rgba(98, 226, 208, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(255, 179, 107, 0.12), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #0a1424 50%, #09101d 100%);
       min-height: 100vh;
     }
 
-    .page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 32px 20px 56px;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.42), transparent 86%);
+      pointer-events: none;
     }
 
-    .hero {
-      padding: 24px 26px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,248,238,0.94));
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
     }
 
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 3vw, 3rem);
-      line-height: 1;
-      letter-spacing: -0.03em;
+    a:hover {
+      text-decoration: underline;
     }
 
-    .hero p {
+    h1,
+    h2,
+    h3 {
       margin: 0;
-      font-size: 1rem;
-      line-height: 1.65;
+      font-family: var(--display);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .page {
+      position: relative;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 26px 22px 64px;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(8, 17, 30, 0.72);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 18px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.34);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      font-size: 0.94rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-copy span {
       color: var(--muted);
-      max-width: 900px;
+      font-size: 0.9rem;
+    }
+
+    .header-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .header-link,
+    .hero-link,
+    .artifact-links a,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      transition: transform 160ms ease, opacity 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .header-link {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--ink);
+    }
+
+    .header-link:hover,
+    .hero-link:hover,
+    .artifact-links a:hover,
+    button:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .studio-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .hero-copy,
+    .hero-side,
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--panel);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(98, 226, 208, 0.12), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), transparent 58%);
+      pointer-events: none;
+    }
+
+    .hero-copy > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow,
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .eyebrow::before,
+    .section-tag::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.8;
+    }
+
+    .hero-copy h1 {
+      max-width: 12ch;
+      margin-bottom: 18px;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 0.94;
+    }
+
+    .hero-copy p,
+    .subtle,
+    .result-copy,
+    .journey-item span,
+    .meta span,
+    .mini-card div,
+    .text-block,
+    .artifact-links,
+    .list,
+    .notice,
+    .error {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .hero-link {
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--ink);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero-link.primary-link,
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #95ffe3);
+      color: #031019;
+      border: 0;
+      box-shadow: 0 18px 42px rgba(98, 226, 208, 0.22);
+    }
+
+    .hero-link.ghost-link,
+    .secondary {
+      background: linear-gradient(135deg, rgba(255, 179, 107, 0.22), rgba(255, 179, 107, 0.1));
+      color: var(--ink);
+      border: 1px solid rgba(255, 179, 107, 0.22);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .hero-metric {
+      padding: 16px 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero-metric strong,
+    .meta strong,
+    .mini-card strong,
+    .journey-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+      background:
+        linear-gradient(180deg, rgba(10, 19, 33, 0.94), rgba(7, 14, 25, 0.84)),
+        var(--panel-strong);
+    }
+
+    .journey-card,
+    .hero-preview {
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .journey-card h2 {
+      margin-bottom: 14px;
+      font-size: 1.8rem;
+    }
+
+    .journey-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .journey-item {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .journey-item.current {
+      border-color: rgba(100, 225, 207, 0.34);
+      background: rgba(100, 225, 207, 0.08);
+    }
+
+    .journey-item.complete {
+      border-color: rgba(123, 195, 255, 0.24);
+      background: rgba(123, 195, 255, 0.06);
+    }
+
+    .journey-item.upcoming {
+      opacity: 0.88;
+    }
+
+    .journey-marker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .journey-item.current .journey-marker {
+      background: rgba(100, 225, 207, 0.2);
+      border-color: rgba(100, 225, 207, 0.3);
+      color: var(--accent);
+    }
+
+    .journey-item.complete .journey-marker {
+      background: rgba(123, 195, 255, 0.16);
+      border-color: rgba(123, 195, 255, 0.24);
+      color: var(--accent-3);
+    }
+
+    .hero-preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero-preview-copy {
+      margin-top: 14px;
+    }
+
+    .hero-preview-copy h3 {
+      margin-bottom: 8px;
+      font-size: 1.5rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 400px minmax(0, 1fr);
+      grid-template-columns: 390px minmax(0, 1fr);
       gap: 20px;
       align-items: start;
     }
@@ -74,25 +410,21 @@
     }
 
     .card {
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      padding: 22px;
     }
 
     .card h2,
     .card h3 {
-      margin: 0 0 14px;
-      line-height: 1.1;
+      margin-bottom: 14px;
+      line-height: 1.08;
     }
 
-    .subtle,
-    .result-copy {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
+    .card h2 {
+      font-size: 1.95rem;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
     }
 
     .result-copy {
@@ -105,6 +437,7 @@
       margin-bottom: 8px;
       font-weight: 700;
       font-size: 0.95rem;
+      color: var(--ink);
     }
 
     input[type="file"],
@@ -113,18 +446,32 @@
     select,
     textarea {
       width: 100%;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      background: rgba(255,255,255,0.88);
-      font: inherit;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.05);
       color: var(--ink);
+      font: inherit;
+      outline: none;
+      transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(100, 225, 207, 0.4);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 0 3px rgba(100, 225, 207, 0.08);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(174, 191, 215, 0.72);
     }
 
     textarea {
       min-height: 118px;
       resize: vertical;
-      line-height: 1.5;
     }
 
     .textarea-short {
@@ -144,27 +491,9 @@
 
     button {
       border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
       font: inherit;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      transition: transform 120ms ease, opacity 120ms ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
-    }
-
-    .primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .secondary {
-      background: var(--accent-2);
-      color: white;
     }
 
     .status {
@@ -173,36 +502,38 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      background: rgba(13, 107, 107, 0.1);
+      font-size: 0.88rem;
+      font-weight: 800;
       color: var(--accent);
-      margin-bottom: 14px;
+      background: rgba(98, 226, 208, 0.1);
+      border: 1px solid rgba(98, 226, 208, 0.16);
+      margin-bottom: 16px;
     }
 
     .status.off {
-      background: rgba(178, 92, 47, 0.12);
       color: var(--accent-2);
+      background: rgba(255, 179, 107, 0.12);
+      border-color: rgba(255, 179, 107, 0.16);
     }
 
     .notice,
     .error {
       padding: 14px 16px;
-      border-radius: 16px;
-      line-height: 1.5;
+      border-radius: 18px;
       margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.07);
     }
 
     .notice {
-      border: 1px solid rgba(13, 107, 107, 0.18);
-      background: rgba(13, 107, 107, 0.08);
-      color: #0c5757;
+      background: rgba(98, 226, 208, 0.08);
+      color: #b9f8ee;
+      border-color: rgba(98, 226, 208, 0.14);
     }
 
     .error {
-      border: 1px solid rgba(178, 47, 47, 0.22);
-      background: rgba(178, 47, 47, 0.08);
-      color: #7a2323;
+      background: rgba(255, 123, 123, 0.1);
+      color: #ffd2d2;
+      border-color: rgba(255, 123, 123, 0.16);
     }
 
     .meta,
@@ -213,21 +544,20 @@
       gap: 10px;
     }
 
-    .meta div,
-    .mini-card,
-    .action-card {
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--border);
+    .meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .meta strong,
-    .mini-card strong,
-    .action-card strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 0.9rem;
+    .meta div,
+    .mini-card,
+    .action-card,
+    .checkbox-grid label,
+    .inline-checks label,
+    .text-block {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--panel-soft);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .field-grid {
@@ -246,11 +576,6 @@
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.7);
-      line-height: 1.45;
       cursor: pointer;
     }
 
@@ -258,38 +583,34 @@
     .inline-checks input {
       width: auto;
       margin-top: 4px;
+      accent-color: var(--accent);
     }
 
     .pill {
       display: inline-block;
       margin-right: 8px;
       margin-bottom: 8px;
-      padding: 6px 10px;
+      padding: 7px 11px;
       border-radius: 999px;
-      background: rgba(13, 107, 107, 0.09);
-      border: 1px solid rgba(13, 107, 107, 0.18);
+      background: rgba(98, 226, 208, 0.08);
+      border: 1px solid rgba(98, 226, 208, 0.16);
       font-size: 0.88rem;
+      color: var(--ink);
     }
 
     .pill.warning {
-      background: rgba(178, 92, 47, 0.09);
-      border-color: rgba(178, 92, 47, 0.22);
+      background: rgba(255, 179, 107, 0.09);
+      border-color: rgba(255, 179, 107, 0.18);
     }
 
     .section-tag {
-      display: inline-block;
-      margin-bottom: 10px;
       color: var(--accent-2);
-      font-weight: 700;
-      font-size: 0.88rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      margin-bottom: 12px;
     }
 
     .list {
       margin: 0;
       padding-left: 18px;
-      line-height: 1.6;
     }
 
     .list li + li {
@@ -297,12 +618,6 @@
     }
 
     .text-block {
-      margin: 0;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.72);
-      line-height: 1.65;
       white-space: pre-wrap;
     }
 
@@ -313,31 +628,48 @@
       margin-top: 14px;
     }
 
-    a,
     .artifact-links a {
-      color: var(--accent);
-      text-decoration: none;
+      padding: 10px 14px;
+      border: 1px solid rgba(98, 226, 208, 0.16);
+      background: rgba(98, 226, 208, 0.08);
+      color: var(--ink);
       font-weight: 700;
     }
 
-    a:hover,
-    .artifact-links a:hover {
-      text-decoration: underline;
-    }
-
     .placeholder {
-      border: 1px dashed rgba(28, 27, 26, 0.18);
-      background: rgba(255,255,255,0.45);
+      border-style: dashed;
+      background: rgba(255,255,255,0.025);
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) {
+      .studio-hero,
       .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-metrics {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 720px) {
-      .field-grid {
+    @media (max-width: 760px) {
+      .page {
+        padding: 18px 14px 52px;
+      }
+
+      .app-header {
+        border-radius: 28px;
+        padding: 14px;
+      }
+
+      .hero-copy,
+      .hero-side,
+      .card {
+        padding: 20px;
+      }
+
+      .field-grid,
+      .meta {
         grid-template-columns: 1fr;
       }
     }
@@ -365,12 +697,77 @@
   {% set show_growth = current_result_view == 'growth' or show_final %}
 
   <div class="page">
-    <section class="hero">
-      <h1>Career Strategy Web Studio</h1>
-      <p>The web flow now follows the same staged rhythm as the CLI: scan first, then move through policy, industry, company preference, company strategy, role path, job alignment, growth plan, and application assets one step at a time. Each section stays readable for users, while the underlying artifacts are still saved under <code>outputs/</code>.</p>
+    <header class="app-header">
+      <a class="brand" href="{{ url_for('landing') }}">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <strong>Career Strategy Studio</strong>
+          <span>Preserving the workflow, upgrading the product feel</span>
+        </span>
+      </a>
+      <div class="header-links">
+        <a class="header-link" href="{{ url_for('landing') }}">View Landing Page</a>
+        <a class="header-link" href="#workspace">Jump To Workflow</a>
+      </div>
+    </header>
+
+    <section class="studio-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Layered Career Decision Engine</span>
+        <h1>Guide a candidate from resume scan to career strategy.</h1>
+        <p>
+          The workflow keeps the same staged rhythm as your CLI and existing Flask app, but the page now presents it like a studio product: clear framing, stronger hierarchy, and a better first impression before the deeper analysis begins.
+        </p>
+        <div class="hero-actions">
+          <a class="hero-link primary-link" href="#workspace">Open Workflow</a>
+          <a class="hero-link ghost-link" href="{{ url_for('landing') }}">See Product Home</a>
+        </div>
+        <div class="hero-metrics">
+          <div class="hero-metric">
+            <strong>{{ workflow_stage.replace('_', ' ')|title }}</strong>
+            <span>Current workflow stage</span>
+          </div>
+          <div class="hero-metric">
+            <strong>{{ current_result_label or 'Resume Scan' }}</strong>
+            <span>Focused result view</span>
+          </div>
+          <div class="hero-metric">
+            <strong>{{ available_result_views|length if available_result_views else 0 }}</strong>
+            <span>saved result views available inside this session</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <section class="journey-card">
+          <span class="section-tag">Workflow Journey</span>
+          <h2>Studio progression</h2>
+          <div class="journey-list">
+            {% for item in journey_steps %}
+              <div class="journey-item {{ item.state }}">
+                <span class="journey-marker">{{ loop.index }}</span>
+                <div>
+                  <strong>{{ item.label }}</strong>
+                  <span>{{ item.summary }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <section class="hero-preview">
+          <img src="{{ url_for('static', filename='images/career-funnel-diagram.png') }}" alt="Career strategy funnel diagram">
+          <div class="hero-preview-copy">
+            <h3>Macro to micro, then into execution.</h3>
+            <p class="subtle">
+              This visual becomes the anchor for the website style: strategic, structured, and product-like instead of feeling like a plain upload form.
+            </p>
+          </div>
+        </section>
+      </div>
     </section>
 
-    <div class="grid">
+    <div class="grid" id="workspace">
       <section class="section-stack">
         <section class="card">
           <div class="status {% if not llm_status.available %}off{% endif %}">
