@@ -9,6 +9,7 @@ try:
     from .company_search_provider import get_company_search_provider
     from .llm_client import generate_json_strict
     from .schemas import (
+        COMPANY_ENVIRONMENT_OPTIONS,
         CompanyArchetypeAssessment,
         CompanySearchQuery,
         CompanyStrategyResult,
@@ -22,6 +23,7 @@ except ImportError:
     from company_search_provider import get_company_search_provider
     from llm_client import generate_json_strict
     from schemas import (
+        COMPANY_ENVIRONMENT_OPTIONS,
         CompanyArchetypeAssessment,
         CompanySearchQuery,
         CompanyStrategyResult,
@@ -48,19 +50,9 @@ def _build_search_query(
 ) -> CompanySearchQuery:
     preferred_stages = list(profile.company_preferences.preferred_environments)
     if not preferred_stages:
-        preferred_stages = [
-            "Big Tech / platform company",
-            "Series A-B startup",
-            "Late-stage growth company",
-            "Established operator or mission-driven organization",
-        ]
+        preferred_stages = list(COMPANY_ENVIRONMENT_OPTIONS)
     else:
-        fallback_stages = [
-            "Big Tech / platform company",
-            "Series A-B startup",
-            "Late-stage growth company",
-            "Established operator or mission-driven organization",
-        ]
+        fallback_stages = list(COMPANY_ENVIRONMENT_OPTIONS)
         seen = {item.lower() for item in preferred_stages}
         preferred_stages.extend(
             stage for stage in fallback_stages if stage.lower() not in seen
@@ -226,6 +218,10 @@ def run_company_strategy(
     provider = get_company_search_provider()
     retrieved_companies = provider.search(search_query)
     retrieved_map = {company.name.lower(): company for company in retrieved_companies}
+    ordered_archetypes = "\n".join(
+        f"  {index}. {option}"
+        for index, option in enumerate(COMPANY_ENVIRONMENT_OPTIONS, start=1)
+    )
 
     archetype_prompt = f"""
 You are the company-archetype strategist in a layered career planning system.
@@ -269,11 +265,8 @@ Return strict JSON with this shape:
 Instructions:
 - Results must be fully model-derived from the profile, policy result, industry result, and grounded retrieval context.
 - Take the explicit company preferences seriously, but do not follow them blindly when they conflict with competitiveness, sponsorship reality, or development logic.
-- Return exactly 4 company_archetype_assessments covering these four options in order:
-  1. Big Tech / platform company
-  2. Series A-B startup
-  3. Late-stage growth company
-  4. Established operator or mission-driven organization
+- Return exactly {len(COMPANY_ENVIRONMENT_OPTIONS)} company_archetype_assessments covering these options in order:
+{ordered_archetypes}
 - Use `deprioritize` when an archetype is a poor current bet for this candidate.
 - Choose `primary_company_path` based on both near-term competitiveness and long-term development value, not prestige alone.
 - Only return valid JSON.

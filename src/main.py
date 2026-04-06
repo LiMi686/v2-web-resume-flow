@@ -18,6 +18,7 @@ try:
     from .resume_scan import ResumeScanResult, scan_resume_to_profile
     from .role_engine import run_role_path
     from .schemas import (
+        COMPANY_ENVIRONMENT_OPTIONS,
         CareerState,
         ProjectExperience,
         UserProfile,
@@ -34,19 +35,13 @@ except ImportError:
     from resume_scan import ResumeScanResult, scan_resume_to_profile
     from role_engine import run_role_path
     from schemas import (
+        COMPANY_ENVIRONMENT_OPTIONS,
         CareerState,
         ProjectExperience,
         UserProfile,
         create_initial_state,
     )
 
-
-COMPANY_ENVIRONMENT_OPTIONS = [
-    "Big Tech / platform company",
-    "Series A-B startup",
-    "Late-stage growth company",
-    "Established operator or mission-driven organization",
-]
 
 RISK_TOLERANCE_OPTIONS = ["low", "medium", "high"]
 STABILITY_PRIORITY_OPTIONS = ["highest", "high", "balanced", "lower"]

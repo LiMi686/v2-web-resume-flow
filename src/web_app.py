@@ -16,6 +16,7 @@ from werkzeug.utils import secure_filename
 
 try:
     from .application_assets_engine import run_application_assets
+    from .company_engine import run_company_strategy
     from .growth_engine import run_growth_plan
     from .industry_engine import run_industry_selection
     from .job_targeting_engine import run_job_targeting
@@ -23,10 +24,10 @@ try:
     from .policy_engine import run_policy_analysis
     from .resume_scan import ResumeScanResult, scan_resume_to_profile
     from .role_engine import run_role_path
-    from .company_engine import run_company_strategy
-    from .schemas import UserProfile, create_initial_state
+    from .schemas import COMPANY_ENVIRONMENT_OPTIONS, UserProfile, create_initial_state
 except ImportError:
     from application_assets_engine import run_application_assets
+    from company_engine import run_company_strategy
     from growth_engine import run_growth_plan
     from industry_engine import run_industry_selection
     from job_targeting_engine import run_job_targeting
@@ -34,8 +35,7 @@ except ImportError:
     from policy_engine import run_policy_analysis
     from resume_scan import ResumeScanResult, scan_resume_to_profile
     from role_engine import run_role_path
-    from company_engine import run_company_strategy
-    from schemas import UserProfile, create_initial_state
+    from schemas import COMPANY_ENVIRONMENT_OPTIONS, UserProfile, create_initial_state
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -73,12 +73,6 @@ ALLOWED_SUFFIXES = {
     ".txt",
     ".md",
 }
-COMPANY_ENVIRONMENT_OPTIONS = [
-    "Big Tech / platform company",
-    "Series A-B startup",
-    "Late-stage growth company",
-    "Established operator or mission-driven organization",
-]
 RISK_TOLERANCE_OPTIONS = ["low", "medium", "high"]
 STABILITY_PRIORITY_OPTIONS = ["highest", "high", "balanced", "lower"]
 WORK_STYLE_OPTIONS = [
@@ -351,7 +345,7 @@ def _apply_profile_form(form, base_profile: UserProfile) -> UserProfile:
     )
 
     company_preferences = dict(profile_data.get("company_preferences") or {})
-    if "preferred_environments" in form:
+    if form.get("action") == "save_preferences" or "preferred_environments" in form:
         company_preferences["preferred_environments"] = form.getlist("preferred_environments")
     company_preferences["risk_tolerance"] = _form_text(
         form,

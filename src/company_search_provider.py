@@ -7,10 +7,10 @@ from typing import Protocol
 
 try:
     from .llm_client import generate_grounded_json_strict, generate_json_strict
-    from .schemas import CompanySearchQuery, CompanyTarget
+    from .schemas import COMPANY_ENVIRONMENT_OPTIONS, CompanySearchQuery, CompanyTarget
 except ImportError:
     from llm_client import generate_grounded_json_strict, generate_json_strict
-    from schemas import CompanySearchQuery, CompanyTarget
+    from schemas import COMPANY_ENVIRONMENT_OPTIONS, CompanySearchQuery, CompanyTarget
 
 
 class CompanySearchProvider(Protocol):
@@ -39,7 +39,7 @@ Search goal:
 - Stay inside these industries: {query.industries}
 - Prefer these regions: {query.preferred_regions or ['no strict region preference']}
 - Target roles: {query.target_roles or ['analytics / data / AI roles']}
-- Treat these company archetypes or stages as the user's stated preference order: {query.preferred_stages or ['Big Tech / platform', 'Series A-B startup', 'Late-stage growth', 'Established or mission-driven operator']}
+- Treat these company archetypes or stages as the user's stated preference order: {query.preferred_stages or COMPANY_ENVIRONMENT_OPTIONS}
 - Needs visa sponsorship: {query.needs_visa_sponsorship}
 - Open to remote: {query.open_to_remote}
 - Prioritize companies where data work is strategically important
@@ -82,7 +82,7 @@ Return strict JSON with this shape:
 Instructions:
 - Results must be fully model-derived.
 - {grounding_instruction}
-- If no single archetype is mandated, intentionally return a stage-diverse candidate set so downstream analysis can compare big tech, startup, growth-stage, and established environments.
+- If no single archetype is mandated, intentionally return a diverse candidate set across the listed environments so downstream analysis can compare them.
 - Only return valid JSON.
 """
 

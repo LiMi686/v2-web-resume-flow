@@ -36,6 +36,33 @@ def _as_float(value: Any) -> float:
         return 0.0
 
 
+COMPANY_ENVIRONMENT_OPTIONS = [
+    "Big Tech / platform company",
+    "Series A/B company",
+    "Startup",
+    "Late-stage growth company",
+    "Established operator or mission-driven organization",
+]
+
+_LEGACY_COMPANY_ENVIRONMENT_MAP = {
+    "series a-b startup": ["Series A/B company", "Startup"],
+    "series a/b startup": ["Series A/B company", "Startup"],
+}
+
+
+def _normalize_company_environment_preferences(value: Any) -> list[str]:
+    normalized: list[str] = []
+    for item in _as_list(value):
+        expanded = _LEGACY_COMPANY_ENVIRONMENT_MAP.get(
+            item.strip().lower(),
+            [item.strip()],
+        )
+        for option in expanded:
+            if option and option not in normalized:
+                normalized.append(option)
+    return normalized
+
+
 @dataclass(slots=True)
 class InternshipExperience:
     company: str = ""
@@ -174,7 +201,9 @@ class CompanyPreferenceProfile:
     notes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        self.preferred_environments = _as_list(self.preferred_environments)
+        self.preferred_environments = _normalize_company_environment_preferences(
+            self.preferred_environments
+        )
         self.risk_tolerance = str(self.risk_tolerance).strip()
         self.stability_priority = str(self.stability_priority).strip()
         self.work_style_preference = str(self.work_style_preference).strip()
