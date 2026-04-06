@@ -3,7 +3,7 @@
 An AI-powered career decision system for Data & AI roles —  
 designed to guide users from **macro opportunity → industry → company strategy → job → growth**, instead of starting directly from job applications.
 
-This project has been deployed to the cloud, and you can access it directly through the website： https://v2-web-resume-flow-1.onrender.com/ 
+You can use it right here： https://v2-web-resume-flow-1.onrender.com/ 
 
 ---
 
